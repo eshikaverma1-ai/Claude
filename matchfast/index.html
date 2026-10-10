@@ -44,6 +44,9 @@
 
   --page:1200px;
   --gut:clamp(20px,5vw,48px);
+  /* one vertical scale. every section gap is a step on it, nothing between. */
+  --s-3:24px; --s-4:32px; --s-5:48px;
+  --sect-sm:clamp(40px,5vw,64px);
   --sect:clamp(64px,8vw,112px);
   --ease:cubic-bezier(.22,.61,.36,1);
   --rise:1000ms;
@@ -92,11 +95,13 @@ a{color:inherit;text-decoration:none}
 }
 
 /* ---------------- buttons: pill geometry, matched pair ---------------- */
-.pill{display:inline-flex;align-items:center;gap:9px;border-radius:var(--r-pill);
-  padding:13px 24px;font-family:var(--ui);font-size:16px;font-weight:500;
-  border:1px solid transparent;cursor:pointer;transition:background .2s,color .2s,border-color .2s,transform .2s var(--ease)}
+.pill{display:inline-flex;align-items:center;justify-content:center;gap:9px;border-radius:var(--r-pill);
+  padding:0 24px;cursor:pointer;font-family:var(--ui);font-size:16px;font-weight:500;
+  border:1px solid transparent;cursor:pointer;transition:background .15s,color .15s,border-color .15s,transform .12s var(--ease),box-shadow .15s;
+  min-height:48px;line-height:1;text-decoration:none;-webkit-tap-highlight-color:transparent}
+.pill:active{transform:translateY(1px) scale(.985)}
 .pill-fill{background:var(--royal);color:#fff;border-color:var(--royal)}
-.pill-fill:hover{background:var(--indigo);border-color:var(--indigo);transform:translateY(-1px)}
+.pill-fill:hover{background:var(--indigo);border-color:var(--indigo);transform:translateY(-1px);box-shadow:0 6px 16px -6px rgba(65,54,195,.55)}
 .pill-ghost{background:transparent;color:var(--royal);border-color:var(--royal)}
 .pill-ghost:hover{background:var(--blush);transform:translateY(-1px)}
 .arrowlink{font-size:16px;color:var(--royal);border-bottom:1px solid transparent;padding-bottom:1px}
@@ -115,26 +120,38 @@ a{color:inherit;text-decoration:none}
 @media (max-width:900px){.nav-links{display:none}}
 
 /* ---------------- hero ---------------- */
-.hero{padding:clamp(44px,6vw,80px) 0 var(--sect)}
+.hero{padding:var(--sect-sm) 0 var(--sect)}
 .hero h1{max-width:20ch;line-height:1.12}
 .hero .lede{margin-top:24px;max-width:52ch}
 
 /* brief composer: Steep's input artifact, hairline not shadow */
 .brief{margin-top:clamp(28px,3.4vw,42px);background:var(--canvas);border:1px solid var(--ash);
-  border-radius:var(--r-input);padding:20px;max-width:760px;box-shadow:var(--lift)}
+  border-radius:var(--r-input);padding:var(--s-3);max-width:760px;box-shadow:var(--lift)}
 .brief-field{width:100%;border:0;outline:0;resize:none;background:transparent;display:block;
   font-family:var(--ui);font-size:17px;line-height:1.45;color:var(--ink);min-height:56px;padding:0;overflow:hidden}
 .brief-field::placeholder{color:var(--smoke)}
 .brief-foot{display:flex;align-items:center;gap:16px;margin-top:12px}
 .brief-hint{font-size:15px;color:var(--slate);flex:1;min-width:0}
 .brief-go{flex:none;width:40px;height:40px;border-radius:var(--r-pill);border:0;cursor:pointer;
-  background:var(--royal);color:#fff;display:grid;place-items:center;transition:background .2s,transform .2s var(--ease)}
-.brief-go:hover{background:var(--indigo);transform:translateX(2px)}
+  background:var(--royal);color:#fff;display:grid;place-items:center;font-size:16px;font-weight:500;
+  transition:background .15s,transform .12s var(--ease),box-shadow .15s}
+.brief-go:hover{background:var(--indigo);box-shadow:0 6px 16px -6px rgba(65,54,195,.55)}
+.brief-go:active{transform:scale(.94)}
+.brief-go[disabled]{background:var(--ash);color:var(--smoke);cursor:not-allowed;box-shadow:none}
+.brief.loading .brief-go[disabled]{background:var(--royal);color:#fff;cursor:progress}
 .brief-go svg{width:17px;height:17px}
 .brief-done{display:none;align-items:flex-start;gap:11px;font-size:16px;color:var(--ink)}
 .brief.sent .brief-field,.brief.sent .brief-foot{display:none}
 .brief.sent .brief-done{display:flex}
 .brief-done b{font-family:var(--serif);font-weight:400;display:block;font-size:19px;margin-bottom:2px}
+.brief.err{border-color:#B3261E}
+.brief-err{display:none;align-items:center;gap:8px;margin-top:10px;font-size:15px;color:#B3261E}
+.brief.err .brief-err{display:flex}
+.brief-spin{width:16px;height:16px;border:2px solid rgba(255,255,255,.45);border-top-color:#fff;
+  border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.brief.loading .brief-hint{color:var(--royal)}
+@media (prefers-reduced-motion:reduce){.brief-spin{animation:none;border-top-color:rgba(255,255,255,.45)}}
 .hero-fine{margin-top:16px;font-size:15px;color:var(--smoke)}
 
 /* floating stat artifacts */
@@ -169,7 +186,7 @@ a{color:inherit;text-decoration:none}
 /* proof: weighting artifact */
 .proof{display:grid;grid-template-columns:.92fr 1.08fr;gap:clamp(28px,4.4vw,64px);align-items:center}
 @media (max-width:940px){.proof{grid-template-columns:1fr;gap:32px}}
-.weigh{background:var(--canvas);border-radius:var(--r-art);box-shadow:var(--lift);padding:24px}
+.weigh{background:var(--canvas);border-radius:var(--r-art);box-shadow:var(--lift);padding:var(--s-3)}
 .weigh-top{display:flex;align-items:baseline;justify-content:space-between;gap:14px}
 .weigh-top h3{font-size:22px}
 .weigh-read{font-size:14px;color:var(--smoke)}
@@ -188,13 +205,15 @@ a{color:inherit;text-decoration:none}
 .bar i{display:block;height:100%;width:0;border-radius:var(--r-pill);background:var(--indigo);transition:width 1100ms var(--ease)}
 .weigh-toggle{display:flex;gap:4px;margin-top:18px;padding:4px;border:1px solid var(--ash);border-radius:var(--r-pill)}
 .weigh-toggle button{flex:1;border:0;background:none;color:var(--slate);cursor:pointer;border-radius:var(--r-pill);
-  padding:9px 12px;font-family:var(--ui);font-size:15px;font-weight:400;transition:.2s}
+  min-height:40px;padding:0 14px;font-family:var(--ui);font-size:15px;font-weight:500;transition:.15s}
+.weigh-toggle button:hover[aria-pressed=false]{color:var(--royal);background:var(--blush)}
+.weigh-toggle button:active{transform:scale(.98)}
 .weigh-toggle button[aria-pressed=true]{background:var(--royal);color:#fff;font-weight:500}
 
 /* four checks: neutral cards, flat and quiet, no shadow */
 .checks{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
 @media (max-width:760px){.checks{grid-template-columns:1fr}}
-.check{background:var(--mist);border-radius:var(--r-card);padding:32px 28px}
+.check{background:var(--mist);border-radius:var(--r-card);padding:var(--s-4) var(--s-4)}
 .check h3{margin:12px 0 10px}
 
 /* matcher: feature card, hairline, 40px radius */
@@ -204,7 +223,8 @@ a{color:inherit;text-decoration:none}
 .matcher h2{font-size:clamp(27px,3.2vw,44px);margin-top:14px}
 .slider-lab{display:flex;justify-content:space-between;align-items:baseline;margin:26px 0 12px}
 .slider-val{font-family:var(--serif);font-size:30px;color:var(--ink);letter-spacing:-.015em}
-input[type=range]{width:100%;-webkit-appearance:none;appearance:none;background:transparent;cursor:pointer}
+input[type=range]{width:100%;-webkit-appearance:none;appearance:none;background:transparent;
+  cursor:pointer;color:var(--ink);border-color:var(--ash)}
 input[type=range]::-webkit-slider-runnable-track{height:4px;border-radius:var(--r-pill);background:var(--ash)}
 input[type=range]::-moz-range-track{height:4px;border-radius:var(--r-pill);background:var(--ash)}
 input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:20px;height:20px;margin-top:-8px;
@@ -222,7 +242,7 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border:2px solid #fff
   color:var(--smoke);font-size:16px;text-align:center}
 
 /* category pill nodes */
-.marq{padding:clamp(44px,5.5vw,76px) 0;overflow:hidden}
+.marq{padding:var(--sect-sm) 0;overflow:hidden}
 .marq-row{display:flex;gap:10px;width:max-content;animation:slide 46s linear infinite}
 .marq:hover .marq-row{animation-play-state:paused}
 @keyframes slide{to{transform:translateX(-50%)}}
@@ -230,6 +250,10 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border:2px solid #fff
 .node{border:1px solid var(--ash);border-radius:var(--r-pill);padding:11px 20px;font-size:15px;
   color:var(--slate);white-space:nowrap;background:var(--canvas);transition:.2s}
 .node:hover{color:var(--royal);border-color:var(--royal);background:var(--blush)}
+.node:active{transform:scale(.97)}
+.slot{transition:border-color .15s,box-shadow .15s}
+.slot:hover{border-color:var(--royal);box-shadow:0 4px 14px -6px rgba(65,54,195,.3)}
+.q summary:hover{color:var(--royal)}
 
 /* faq: Monad accordion, serif questions, hairline rule only */
 .faq{border-top:1px solid var(--ash)}
@@ -289,16 +313,16 @@ footer{border-top:1px solid var(--ash);padding:44px 0 56px;color:var(--smoke);fo
 <!-- ===================== HERO ===================== -->
 <section class="hero">
   <div class="wrap">
-    <p class="tag rise">Find · Match · Grow faster</p>
-    <h1 class="rise" style="margin-top:18px">
+    <p class="tag">Find · Match · Grow faster</p>
+    <h1 style="margin-top:18px">
       The right agency is just a <span class="it">smarter</span> search away.
     </h1>
-    <p class="lede rise">
+    <p class="lede">
       An AI-powered agency matchmaking platform that connects businesses with the right
       agencies, faster and more transparently.
     </p>
 
-    <form class="brief rise" id="brief" autocomplete="off">
+    <form class="brief" id="brief" autocomplete="off">
       <label for="brief-field" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">
         Search companies or describe your project
       </label>
@@ -311,6 +335,12 @@ footer{border-top:1px solid var(--ash);padding:44px 0 56px;color:var(--smoke);fo
                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M12 5l7 7-7 7"/></svg>
         </button>
       </div>
+      <p class="brief-err" role="alert">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"
+             stroke-linecap="round" aria-hidden="true" style="flex:none"><circle cx="12" cy="12" r="9"/>
+             <path d="M12 7.5v5M12 16.2h.01"/></svg>
+        <span id="brief-err-msg"></span>
+      </p>
       <p class="brief-done" role="status">
         <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#4136C3" stroke-width="2.4"
              stroke-linecap="round" stroke-linejoin="round" style="flex:none;margin-top:4px" aria-hidden="true">
@@ -320,9 +350,9 @@ footer{border-top:1px solid var(--ash);padding:44px 0 56px;color:var(--smoke);fo
         No company sees your brief until you ask us to send it.</span></span>
       </p>
     </form>
-    <p class="hero-fine rise">Filling in the brief does not oblige you to hire anyone.</p>
+    <p class="hero-fine">Filling in the brief does not oblige you to hire anyone.</p>
 
-    <div class="stats rise">
+    <div class="stats">
       <div class="art">
         <span class="art-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"
           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>
@@ -396,19 +426,19 @@ footer{border-top:1px solid var(--ash);padding:44px 0 56px;color:var(--smoke);fo
       <p class="body">Firms that fail are named on the page, not quietly removed.</p>
     </div>
     <div class="checks">
-      <article class="check rise">
+      <article class="check">
         <p class="tag">Check 01</p><h3>Head office</h3>
         <p class="body">Checked against the company's own website, not a directory label.</p>
       </article>
-      <article class="check rise" style="transition-delay:90ms">
+      <article class="check">
         <p class="tag">Check 02</p><h3>Review evidence</h3>
         <p class="body">Rating and review count read from live profiles, with the date we read them printed next to the figures.</p>
       </article>
-      <article class="check rise" style="transition-delay:180ms">
+      <article class="check">
         <p class="tag">Check 03</p><h3>Published pricing</h3>
         <p class="body">Hourly band and minimum project size, so you can qualify a firm before you spend a call on it.</p>
       </article>
-      <article class="check rise" style="transition-delay:270ms">
+      <article class="check">
         <p class="tag">Check 04</p><h3>No pay-to-play</h3>
         <p class="body">Placement cannot be bought. Companies can submit themselves for review, which does not change their position.</p>
       </article>
@@ -509,8 +539,31 @@ const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const briefEl=document.getElementById('brief'), fieldEl=document.getElementById('brief-field');
 fieldEl.addEventListener('input',()=>{fieldEl.style.height='auto';
   fieldEl.style.height=Math.min(fieldEl.scrollHeight,200)+'px';});
-briefEl.addEventListener('submit',e=>{e.preventDefault();
-  if(!fieldEl.value.trim()){fieldEl.focus();return;} briefEl.classList.add('sent');});
+const goEl=briefEl.querySelector('.brief-go'), hintEl=briefEl.querySelector('.brief-hint'),
+      errEl=document.getElementById('brief-err-msg'), hintText=hintEl.textContent;
+function fail(msg){
+  briefEl.classList.remove('loading'); briefEl.classList.add('err');
+  errEl.textContent=msg; goEl.disabled=false; goEl.innerHTML=goArrow;
+  hintEl.textContent=hintText; fieldEl.focus();
+}
+const goArrow=goEl.innerHTML;
+briefEl.addEventListener('submit',e=>{
+  e.preventDefault();
+  const v=fieldEl.value.trim();
+  briefEl.classList.remove('err');
+  if(!v){ return fail('Add a sentence about your project before sending.'); }
+  if(v.length<12){ return fail('That is a little short. Describe the work in a sentence or two.'); }
+  // loading: the control reports its own state rather than freezing silently
+  briefEl.classList.add('loading');
+  goEl.disabled=true; goEl.innerHTML='<span class="brief-spin"></span>';
+  hintEl.textContent='Finding relevant providers...';
+  setTimeout(()=>{
+    briefEl.classList.remove('loading');
+    goEl.disabled=false; goEl.innerHTML=goArrow; hintEl.textContent=hintText;
+    briefEl.classList.add('sent');
+  },900);
+});
+fieldEl.addEventListener('input',()=>briefEl.classList.remove('err'));
 fieldEl.addEventListener('keydown',e=>{
   if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();briefEl.requestSubmit();}});
 
