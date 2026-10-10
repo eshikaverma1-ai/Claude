@@ -565,3 +565,45 @@ beyond this project:
 - Any MCP server: the nine k12 education endpoints, AgentWiki's
   `api.agentwiki.cc/mcp`, and whatever the `claude-plugins-official` external
   plugins want.
+
+---
+
+# Uploaded `.skill` Bundles
+
+Two `.skill` files on 2026-10-10. A `.skill` is a zip holding one skill folder;
+both held a single `SKILL.md` and nothing else. Extracted into
+`.agents/skills/` and symlinked, verbatim — an uploaded skill's own text is not
+rewritten.
+
+| Skill | Lines | What it is |
+| --- | --- | --- |
+| `distinctive-ui` | 55 | A renamed fork of the anthropics `frontend-design` skill, extended. Adds a calibration section naming the three looks AI design currently clusters around (cream/serif/terracotta, near-black with one acid accent, broadsheet hairline rules), a two-pass brainstorm-then-critique process with a 4–6 hex token system, the "remove one accessory" restraint rule, and a long section on interface copywriting. |
+| `frontend-design` | 43 | A different, shorter edition. Its distinctive content is an explicit tone list (brutalist, art deco, retro-futuristic and so on), a backgrounds-and-texture section, and a hard ban on purple gradients on white and on Inter, Roboto and Arial. |
+
+## Two problems worth knowing
+
+**`frontend-design` now shadows the canonical version.** The plugin
+`example-skills@anthropic-agent-skills`, enabled for the MatchFast work, already
+provides a `frontend-design` skill — the 71-line upstream anthropics one that
+`distinctive-ui` is itself a fork of. The uploaded file is a different 43-line
+edition under the same name, and a project skill takes precedence over a plugin
+skill, so the upload wins and the 71-line version is no longer reachable. That is
+probably the intent of uploading it. If not, renaming the project copy restores
+both.
+
+**`distinctive-ui` carries a stale client reference.** Its description ends
+"...or visual layout — especially for RankFast. Always use before writing any UI
+code or design." The description is what the skill triggers on, so a named
+product in it biases selection toward RankFast while the current brief is
+MatchFast. Dropping two words — `especially for RankFast` — fixes it; the file is
+otherwise product-neutral. Left as uploaded.
+
+Its frontmatter also cites `license: Complete terms in LICENSE.txt`, but no
+`LICENSE.txt` was in the bundle.
+
+## Current state
+
+**35 skills** and **14 marketplaces** (469 plugins, four enabled:
+`ui-ux-pro-max`, `taste-skill`, `motion-graphics`, `example-skills`). No hooks.
+No MCP servers approved — the `ui-ux-pro-max` plugin declares `playwright`,
+`chrome-devtools` and `shadcn` over `npx -y …@latest`, all left unapproved.
