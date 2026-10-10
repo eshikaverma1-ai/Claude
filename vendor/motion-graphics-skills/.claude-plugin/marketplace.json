@@ -1,0 +1,33 @@
+{
+  "name": "motion-graphics-skills",
+  "owner": {
+    "name": "Vendored locally for this project"
+  },
+  "metadata": {
+    "description": "Keystone-driven pack for brand-consistent motion graphics built in code",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "motion-graphics",
+      "description": "Keystone-driven pack for brand-consistent motion graphics built in code: brand-intake writes brand.md and MOTION.md plus a CLAUDE.md rule so the other twelve read your colours, type and timing first, covering motion briefs, effects, animated charts, milestone reveals, launch films, 3D title sequences, newsletter promos, loop covers, reel export and explainers.",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./skills/animated-chart",
+        "./skills/apple-launch-film",
+        "./skills/brand-intake",
+        "./skills/launch-video",
+        "./skills/loop-cover",
+        "./skills/milestone-reveal",
+        "./skills/model-showdown",
+        "./skills/motion-brief-writer",
+        "./skills/motion-effects",
+        "./skills/newsletter-promo",
+        "./skills/reel-export",
+        "./skills/title-sequence-3d",
+        "./skills/vox-explainer"
+      ]
+    }
+  ]
+}

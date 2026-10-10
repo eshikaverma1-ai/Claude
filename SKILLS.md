@@ -470,3 +470,98 @@ cuts, both still outstanding:
 Taking both gets to 72. Repackaging `life-automation-skills` and
 `motion-graphics-skills` as marketplaces, as every other multi-skill pack now
 is, would reach roughly 46.
+
+---
+
+# Consolidation
+
+All three outstanding cleanups, done in one pass. **83 skills to 33**, with
+nothing lost: every skill removed from the listing is still on disk under
+`vendor/` and still installable by name.
+
+## 1. anthropics/skills registered — 19 loose copies removed
+
+Rather than deleting only the six that duplicated the `anthropic-skills` plugin,
+the whole pack moved to its own packaging. anthropics/skills ships a manifest
+declaring five plugins — `document-skills` (4), `example-skills` (12),
+`claude-api`, `academy-guide`, `discernment-nudge` — which together cover all 19
+skills round 1 had copied in loose. Registering `anthropic-agent-skills` and
+removing those 19 loses nothing.
+
+Removing the loose `claude-api` also un-shadowed Claude Code's own bundled
+`claude-api` skill, which is back to showing its full description.
+
+## 2. Five generic harness names unlinked
+
+`verify`, `patch`, `triage`, `customize` and `quickstart` were symlinks into
+`vendor/defending-code-reference-harness/.claude/skills/`. Only the symlinks were
+removed; all five files are untouched in `vendor/` and still work when working
+inside that repository. The four specifically-named harness skills stay linked:
+`threat-model`, `vuln-scan`, `dnr-hunt`, `dnr-respond`.
+
+## 3. Two packs repackaged as marketplaces
+
+`life-automation-skills` and `motion-graphics-skills` were the only multi-skill
+packs still installed as loose skills, because neither upstream ships a
+marketplace manifest. Both are now vendored with one written for them, modelled
+on the anthropics/skills manifest: a single plugin per repo, `source: "./"`,
+`strict: false`, and a `skills` array generated from the directories on disk
+rather than typed by hand. Every declared path was verified to hold a `SKILL.md`.
+
+- `life-automation-skills` → plugin `life-automation`, 13 skills
+- `motion-graphics-skills` → plugin `motion-graphics`, 13 skills
+
+Their 26 loose copies were then removed. `motion-graphics-skills` is vendored
+without its 13 MB `assets/` directory, which is README screenshots no skill
+references.
+
+## Current state
+
+**33 skills** in `.claude/skills/` and **14 marketplaces** holding **469
+plugins**, none enabled. No hooks registered, no MCP servers added.
+
+The 33 that stay in the listing are the ones with no plugin form to fall back
+on — single skills and the two reference projects:
+
+```
+agent-harness-setup  ai-second-brain  answer-first  archify  diagram-design
+dnr-hunt  dnr-respond  frontend-slides  hallmark  humanizer  i-have-adhd
+impeccable  k12-check-for-understanding  k12-lesson-differentiation
+k12-lesson-plan-creation  k12-lesson-prep  launch-your-agent
+remove-ai-design-slop  stop-slop  threat-model  understand  understand-chat
+understand-dashboard  understand-diff  understand-domain  understand-explain
+understand-figma  understand-knowledge  understand-onboard  unlazy  voiceprint
+vuln-scan  wrap-up
+```
+
+| Marketplace | Plugins | Skills behind it |
+| --- | --- | --- |
+| `claude-plugins-official` | 315 | — |
+| `knowledge-work-plugins` | 123 | 252 |
+| `charlie-free-mods` | 13 | mods, not skills |
+| `anthropic-agent-skills` | 5 | 19 |
+| `skillx-marketplace` | 4 | 4 |
+| `social-media-skills` | 1 | 17 |
+| `taste-skill` | 1 | 13 |
+| `ui-ux-pro-max-skill` | 1 | 7 |
+| `life-automation-skills` | 1 | 13 |
+| `motion-graphics-skills` | 1 | 13 |
+| `skills-for-everyone` | 1 | 7 |
+| `exposure-audit` | 1 | 1 |
+| `machiavelli` | 1 | 1 |
+| `nextlevelbuilder-agentwiki` | 1 | 1 |
+
+At 33 the listing fits its default budget, so descriptions should render in full
+again and every skill can be auto-selected rather than only invoked by name.
+
+Still deliberately not done, each needing a decision that changes behaviour
+beyond this project:
+
+- `unlazy`'s Stop hook (`.agents/skills/unlazy/scripts/install-hooks.mjs`) — it
+  is what makes the gates block a turn from ending.
+- `agent-harness-starter`'s `install.sh` — writes into `~/.claude/` for every
+  project on the machine.
+- The defending-code harness's `pip install -e .` plus `flask` and `pyyaml`.
+- Any MCP server: the nine k12 education endpoints, AgentWiki's
+  `api.agentwiki.cc/mcp`, and whatever the `claude-plugins-official` external
+  plugins want.

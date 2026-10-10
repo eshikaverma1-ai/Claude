@@ -1,0 +1,33 @@
+{
+  "name": "life-automation-skills",
+  "owner": {
+    "name": "Vendored locally for this project"
+  },
+  "metadata": {
+    "description": "Keystone-driven pack for recurring knowledge work",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "life-automation",
+      "description": "Keystone-driven pack for recurring knowledge work: company-setup interviews once and writes a shared company-profile.md that the other twelve skills read, covering inbox triage, follow-ups, invoices, expenses, CRM hygiene, scheduling, meeting notes, standups, weekly reviews, task capture, document drafting and research briefs. Read-and-propose: the skills draft and the user sends.",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./skills/company-setup",
+        "./skills/crm-hygiene",
+        "./skills/doc-drafter",
+        "./skills/expense-wrangler",
+        "./skills/follow-up-chaser",
+        "./skills/inbox-executive-assistant",
+        "./skills/invoice-chaser",
+        "./skills/meeting-notes",
+        "./skills/meeting-scheduler",
+        "./skills/research-brief",
+        "./skills/standup-writer",
+        "./skills/task-capture",
+        "./skills/weekly-review"
+      ]
+    }
+  ]
+}

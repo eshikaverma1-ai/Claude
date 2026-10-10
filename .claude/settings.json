@@ -70,6 +70,24 @@
         "source": "directory",
         "path": "./vendor/taste-skill"
       }
+    },
+    "anthropic-agent-skills": {
+      "source": {
+        "source": "directory",
+        "path": "./vendor/anthropic-agent-skills"
+      }
+    },
+    "life-automation-skills": {
+      "source": {
+        "source": "directory",
+        "path": "./vendor/life-automation-skills"
+      }
+    },
+    "motion-graphics-skills": {
+      "source": {
+        "source": "directory",
+        "path": "./vendor/motion-graphics-skills"
+      }
     }
   }
 }
