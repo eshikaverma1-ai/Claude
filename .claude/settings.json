@@ -4,6 +4,12 @@
       "Bash(npx skills:*)"
     ]
   },
+  "enabledPlugins": {
+    "ui-ux-pro-max@ui-ux-pro-max-skill": true,
+    "taste-skill@taste-skill": true,
+    "motion-graphics@motion-graphics-skills": true,
+    "example-skills@anthropic-agent-skills": true
+  },
   "extraKnownMarketplaces": {
     "claude-plugins-official": {
       "source": {
