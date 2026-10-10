@@ -3,283 +3,265 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>MatchFast — AI-powered agency matchmaking</title>
-<meta name="description" content="An AI-powered agency matchmaking platform that connects businesses with the right agencies — faster, smarter and more transparently.">
+<title>MatchFast · AI-powered agency matchmaking</title>
+<meta name="description" content="An AI-powered agency matchmaking platform that connects businesses with the right agencies, faster and more transparently.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;1,8..60,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 /* ============================================================
-   MatchFast — brand tokens, straight from the brand sheet.
-   Royal Blue / Deep Indigo / Cornflower Blue / Lavender Mist
-   and white. Two faces only: DM Sans and Inter.
-   Motion is element8's: 1000ms fade-up, scroll-scrubbed wipe.
+   MatchFast
+   Structure from two style references:
+     Steep:  white paper canvas, serif display locked at 400, one
+              rationed accent surface, hairline borders, shadow only
+              on floating product artifacts, 24px cards, pill buttons.
+     Monad:  editorial serif plus functional UI face, one saturated fill
+              for the single primary action, 40px feature cards,
+              hairline rules instead of elevation.
+   Chroma is the MatchFast brand sheet. Both references forbid purple
+   on their own canvas; that is overridden here on purpose, with
+   Lavender Mist taking Steep's peach role and Deep Indigo its ink.
    ============================================================ */
 :root{
-  --royal:#4136C3;      /* Primary 01    */
-  --indigo:#3E3183;     /* Secondary 01  */
-  --corn:#74A3FF;       /* Secondary 03  */
-  --mist:#E8D7F8;       /* Secondary 02  */
-  --white:#ffffff;
+  /* brand */
+  --royal:#4136C3;      /* single saturated fill, primary action only */
+  --indigo:#3E3183;     /* ink on accent surfaces, serif emphasis      */
+  --corn:#74A3FF;       /* chart strokes, secondary marks              */
+  --blush:#E8D7F8;      /* the one accent surface, once per page       */
 
-  /* The only derived values: Deep Indigo taken down for page ground and
-     hairlines, so large type stays readable on it. Same hue, no new colour. */
-  --ground:#120F29;
-  --ground-2:#191442;
-  --hair:#2E2769;
+  /* neutrals, carried with a faint indigo cast so white reads warm-cool
+     against the purple rather than clinically grey */
+  --canvas:#ffffff;
+  --fog:#FBFAFE;        /* alternating section band                    */
+  --mist:#F4F2F9;       /* quiet nested card surface                   */
+  --ink:#1A1733;        /* primary text                               */
+  --slate:#64608A;      /* body, muted copy, links                    */
+  --smoke:#6D688F;      /* placeholder, tertiary labels               */
+  --ash:#E2DEEF;        /* hairline borders, the only rule weight     */
 
-  --ink-soft:rgba(255,255,255,.70);
-  --ink-dim:rgba(255,255,255,.52);
+  --serif:"Source Serif 4",ui-serif,Georgia,"Times New Roman",serif;
+  --ui:"Inter",ui-sans-serif,system-ui,sans-serif;
 
-  --display:"DM Sans",system-ui,sans-serif;
-  --ui:"Inter",system-ui,sans-serif;
-
-  --measure:1240px;
-  --gut:clamp(20px,5vw,56px);
-  --sect:clamp(84px,10vw,152px);
+  --page:1200px;
+  --gut:clamp(20px,5vw,48px);
+  --sect:clamp(64px,8vw,112px);
   --ease:cubic-bezier(.22,.61,.36,1);
   --rise:1000ms;
+
+  --r-card:24px;
+  --r-feature:40px;
+  --r-input:16px;
+  --r-art:20px;
+  --r-pill:9999px;
+
+  --lift:0 0 0 1px rgba(26,23,51,.05), 0 20px 25px -5px rgba(26,23,51,.10), 0 8px 10px -6px rgba(26,23,51,.10);
 }
 *,*::before,*::after{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
 body{
-  margin:0;background:var(--ground);color:var(--white);
-  font-family:var(--ui);font-size:clamp(15px,1.05vw,16.5px);line-height:1.65;
+  margin:0;background:var(--canvas);color:var(--ink);
+  font-family:var(--ui);font-size:17px;line-height:1.5;
   -webkit-font-smoothing:antialiased;overflow-x:hidden;
 }
-h1,h2,h3,h4{font-family:var(--display);font-weight:700;letter-spacing:-.025em;line-height:1.06;margin:0}
+/* The serif never goes bold. That restraint is the signature in both
+   references, so weight 400 is hard-set and tracking does the work. */
+h1,h2,h3{font-family:var(--serif);font-weight:400;margin:0;line-height:1.2}
+h1{font-size:clamp(40px,6.4vw,90px);letter-spacing:-.025em}
+h2{font-size:clamp(30px,4.4vw,64px);letter-spacing:-.015em}
+h3{font-size:clamp(21px,2vw,26px);letter-spacing:-.009em}
 p{margin:0}
 a{color:inherit;text-decoration:none}
-:focus-visible{outline:2px solid var(--corn);outline-offset:3px;border-radius:6px}
+:focus-visible{outline:2px solid var(--royal);outline-offset:3px;border-radius:6px}
 
-/* Emphasis: the brand sheet marks the key word in Cornflower Blue.
-   At hero scale it carries a cornflower-to-mist ramp — element8's
-   clipped-gradient move, built only from brand colours. */
-.em{color:var(--corn)}
-.em-grad{
-  background:linear-gradient(92deg,var(--corn) 8%,var(--mist) 94%);
-  -webkit-background-clip:text;background-clip:text;
-  -webkit-text-fill-color:transparent;color:transparent;
-  -webkit-box-decoration-break:clone;box-decoration-break:clone;
-}
+/* emphasis: an italicised serif phrase in Royal Blue, mid-sentence */
+.it{font-style:italic;color:var(--royal)}
 
-.wrap{max-width:var(--measure);margin-inline:auto;padding-inline:var(--gut)}
-.eyebrow{
-  font-family:var(--ui);font-size:11.5px;font-weight:600;letter-spacing:.22em;
-  text-transform:uppercase;color:var(--corn)
-}
-.label{
-  font-family:var(--ui);font-size:11px;font-weight:600;letter-spacing:.16em;
-  text-transform:uppercase;color:var(--ink-dim);font-variant-numeric:tabular-nums
-}
+.wrap{max-width:var(--page);margin-inline:auto;padding-inline:var(--gut)}
+.tag{font-family:var(--ui);font-size:14px;font-weight:400;color:var(--smoke);letter-spacing:.01em}
+.lede{font-size:20px;line-height:1.35;color:var(--slate)}
+.body{font-size:17px;line-height:1.5;color:var(--slate)}
+.cap{font-size:15px;line-height:1.5;color:var(--slate)}
 .num{font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1}
 
-.rise{opacity:0;transform:translateY(26px);transition:opacity var(--rise) var(--ease),transform var(--rise) var(--ease)}
+.rise{opacity:0;transform:translateY(24px);transition:opacity var(--rise) var(--ease),transform var(--rise) var(--ease)}
 .rise.in{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   .rise{opacity:1!important;transform:none!important;transition:none!important}
-  .wipe span{color:var(--white)!important;background:none!important;-webkit-text-fill-color:currentColor!important}
+  .wipe span{color:var(--ink)!important;background:none!important;-webkit-text-fill-color:currentColor!important}
 }
 
-/* ============================ nav ============================ */
-.nav{position:sticky;top:0;z-index:60;background:rgba(18,15,41,.78);backdrop-filter:blur(16px);
-     border-bottom:1px solid transparent;transition:border-color .3s}
-.nav.stuck{border-bottom-color:var(--hair)}
-.nav-in{display:flex;align-items:center;gap:30px;height:74px}
-.brand{display:flex;align-items:center;gap:11px;margin-right:auto;font-family:var(--display);
-       font-weight:700;font-size:20px;letter-spacing:-.035em}
-.brand b{font-weight:700}
-.brand span{color:var(--corn);font-weight:500}
-.nav-links{display:flex;gap:28px;font-size:14px;color:var(--ink-soft)}
-.nav-links a:hover{color:var(--white)}
+/* ---------------- buttons: pill geometry, matched pair ---------------- */
+.pill{display:inline-flex;align-items:center;gap:9px;border-radius:var(--r-pill);
+  padding:13px 24px;font-family:var(--ui);font-size:16px;font-weight:500;
+  border:1px solid transparent;cursor:pointer;transition:background .2s,color .2s,border-color .2s,transform .2s var(--ease)}
+.pill-fill{background:var(--royal);color:#fff;border-color:var(--royal)}
+.pill-fill:hover{background:var(--indigo);border-color:var(--indigo);transform:translateY(-1px)}
+.pill-ghost{background:transparent;color:var(--royal);border-color:var(--royal)}
+.pill-ghost:hover{background:var(--blush);transform:translateY(-1px)}
+.arrowlink{font-size:16px;color:var(--royal);border-bottom:1px solid transparent;padding-bottom:1px}
+.arrowlink:hover{border-bottom-color:var(--royal)}
+
+/* ---------------- nav: whisper quiet, no background ---------------- */
+.nav{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.86);backdrop-filter:blur(14px);
+  border-bottom:1px solid transparent;transition:border-color .3s}
+.nav.stuck{border-bottom-color:var(--ash)}
+.nav-in{display:flex;align-items:center;gap:28px;height:76px}
+.brand{display:flex;align-items:center;gap:10px;margin-right:auto;font-family:var(--serif);
+  font-size:21px;letter-spacing:-.02em}
+.brand i{font-style:italic;color:var(--royal)}
+.nav-links{display:flex;gap:26px;font-size:16px;color:var(--ink)}
+.nav-links a:hover{color:var(--royal)}
 @media (max-width:900px){.nav-links{display:none}}
 
-.pill{display:inline-flex;align-items:center;gap:10px;border-radius:999px;padding:13px 24px;
-      font-family:var(--ui);font-weight:600;font-size:14.5px;border:1px solid transparent;
-      cursor:pointer;transition:transform .2s var(--ease),box-shadow .25s,background .2s}
-.pill-solid{background:var(--white);color:var(--royal)}
-.pill-solid:hover{transform:translateY(-2px);box-shadow:0 14px 34px -12px rgba(116,163,255,.6)}
-.pill-royal{background:var(--royal);color:var(--white)}
-.pill-royal:hover{transform:translateY(-2px);box-shadow:0 14px 34px -12px rgba(65,54,195,.85)}
-.pill-ghost{border-color:var(--hair);color:var(--white)}
-.pill-ghost:hover{border-color:var(--corn);transform:translateY(-2px)}
+/* ---------------- hero ---------------- */
+.hero{padding:clamp(44px,6vw,80px) 0 var(--sect)}
+.hero h1{max-width:20ch;line-height:1.12}
+.hero .lede{margin-top:24px;max-width:52ch}
 
-/* ============================ hero ============================ */
-.hero{position:relative;padding:clamp(48px,7vw,86px) 0 var(--sect);overflow:hidden}
-.aura{position:absolute;inset-inline:-12%;top:-340px;height:880px;pointer-events:none;
-  background:radial-gradient(48% 58% at 22% 42%,rgba(65,54,195,.95),transparent 68%),
-             radial-gradient(42% 52% at 78% 28%,rgba(116,163,255,.42),transparent 70%),
-             radial-gradient(52% 48% at 56% 80%,rgba(62,49,131,.85),transparent 72%)}
-.hero-in{position:relative}
-.hero h1{font-size:clamp(38px,5.9vw,78px);max-width:16ch;margin-top:22px}
-.hero-sub{margin-top:24px;max-width:50ch;color:var(--ink-soft);font-size:clamp(15.5px,1.2vw,18px)}
-
-/* ---- the brief field: primary entry point ---- */
-.brief{
-  margin-top:clamp(32px,4vw,48px);background:var(--white);border-radius:24px;
-  padding:clamp(22px,2.3vw,30px) clamp(22px,2.3vw,30px) clamp(18px,1.8vw,22px);
-  box-shadow:0 30px 70px -28px rgba(10,6,40,.85);max-width:1000px
-}
-.brief-field{
-  width:100%;border:0;outline:0;resize:none;background:transparent;display:block;
-  font-family:var(--ui);font-size:clamp(17px,1.5vw,21px);line-height:1.45;color:#1C1740;
-  min-height:62px;padding:0;overflow:hidden
-}
-/* placeholder and hint are Deep Indigo at low opacity, not neutral grey */
-.brief-field::placeholder{color:rgba(62,49,131,.70)}
-.brief-foot{display:flex;align-items:center;gap:16px;margin-top:14px}
-.brief-hint{font-size:13.5px;color:rgba(62,49,131,.70);flex:1;min-width:0}
-.brief-go{
-  flex:none;width:46px;height:46px;border-radius:50%;border:0;cursor:pointer;
-  background:var(--mist);color:var(--royal);display:grid;place-items:center;
-  transition:transform .2s var(--ease),background .2s
-}
-.brief-go:hover{background:var(--corn);color:var(--white);transform:translateX(3px)}
-.brief-go svg{width:19px;height:19px}
-.brief-done{display:none;align-items:flex-start;gap:12px;color:#1C1740;font-size:15px}
+/* brief composer: Steep's input artifact, hairline not shadow */
+.brief{margin-top:clamp(28px,3.4vw,42px);background:var(--canvas);border:1px solid var(--ash);
+  border-radius:var(--r-input);padding:20px;max-width:760px;box-shadow:var(--lift)}
+.brief-field{width:100%;border:0;outline:0;resize:none;background:transparent;display:block;
+  font-family:var(--ui);font-size:17px;line-height:1.45;color:var(--ink);min-height:56px;padding:0;overflow:hidden}
+.brief-field::placeholder{color:var(--smoke)}
+.brief-foot{display:flex;align-items:center;gap:16px;margin-top:12px}
+.brief-hint{font-size:15px;color:var(--slate);flex:1;min-width:0}
+.brief-go{flex:none;width:40px;height:40px;border-radius:var(--r-pill);border:0;cursor:pointer;
+  background:var(--royal);color:#fff;display:grid;place-items:center;transition:background .2s,transform .2s var(--ease)}
+.brief-go:hover{background:var(--indigo);transform:translateX(2px)}
+.brief-go svg{width:17px;height:17px}
+.brief-done{display:none;align-items:flex-start;gap:11px;font-size:16px;color:var(--ink)}
 .brief.sent .brief-field,.brief.sent .brief-foot{display:none}
 .brief.sent .brief-done{display:flex}
-.brief-done b{font-family:var(--display);display:block;margin-bottom:3px}
+.brief-done b{font-family:var(--serif);font-weight:400;display:block;font-size:19px;margin-bottom:2px}
+.hero-fine{margin-top:16px;font-size:15px;color:var(--smoke)}
 
-.hero-fine{margin-top:18px;font-size:13px;color:var(--ink-dim)}
+/* floating stat artifacts */
+.stats{display:flex;flex-wrap:wrap;gap:12px;margin-top:clamp(28px,3vw,40px)}
+.art{background:var(--canvas);border-radius:var(--r-art);box-shadow:var(--lift);padding:16px 20px 14px 16px;
+  display:flex;align-items:center;gap:14px}
+.art-ico{width:36px;height:36px;border-radius:12px;background:var(--blush);display:grid;place-items:center;flex:none;color:var(--indigo)}
+.art-ico svg{width:17px;height:17px}
+.art-k{display:block;font-size:14px;color:var(--smoke)}
+.art-v{display:block;font-size:20px;font-weight:500;color:var(--ink);letter-spacing:-.01em;line-height:1.25}
 
-/* ---- stat chips, from the brand sheet ---- */
-.stats{display:flex;flex-wrap:wrap;gap:12px;margin-top:clamp(28px,3vw,38px)}
-.stat{
-  display:flex;align-items:center;gap:14px;border:1px solid var(--hair);border-radius:18px;
-  padding:15px 22px;background:rgba(62,49,131,.42);backdrop-filter:blur(8px)
-}
-.stat-ico{width:36px;height:36px;border-radius:11px;background:var(--royal);display:grid;place-items:center;flex:none}
-.stat-ico svg{width:18px;height:18px;color:var(--white)}
-.stat-txt{display:flex;flex-direction:column;gap:1px}
-.stat-k{display:block;font-size:11.5px;color:var(--ink-dim);letter-spacing:.04em}
-.stat-v{display:block;font-family:var(--display);font-weight:700;font-size:21px;letter-spacing:-.02em;line-height:1.2}
-
-/* ============================ scroll wipe ============================ */
+/* ---------------- scroll wipe ---------------- */
 .wipe-sect{padding:var(--sect) 0 0}
 .hero + .wipe-sect{padding-top:0}
-.wipe{font-family:var(--display);font-weight:500;letter-spacing:-.03em;line-height:1.18;
-      font-size:clamp(25px,3.9vw,52px);max-width:21ch;margin:26px 0 0}
+.wipe{font-family:var(--serif);font-weight:400;letter-spacing:-.015em;line-height:1.3;
+  font-size:clamp(26px,3.8vw,52px);max-width:22ch;margin:20px 0 0}
 .wipe span{
-  background:linear-gradient(90deg,var(--white) 50%,#342C6B 0);
+  background:linear-gradient(90deg,var(--ink) 50%,#DCD8EA 0);
   background-size:220% 100%;background-position-x:100%;
   -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;
 }
-.wipe-foot{display:flex;flex-wrap:wrap;gap:12px 28px;margin-top:32px;align-items:center}
-.wipe-foot a{font-size:14.5px;font-weight:600;color:var(--corn);border-bottom:1px solid transparent;padding-bottom:2px}
-.wipe-foot a:hover{border-bottom-color:var(--corn)}
+.wipe-foot{display:flex;flex-wrap:wrap;gap:12px 28px;margin-top:30px;align-items:center}
 
-/* ============================ sections ============================ */
+/* ---------------- sections ---------------- */
 .sect{padding:var(--sect) 0}
 .sect + .sect{padding-top:0}
-.sect-head{max-width:42ch;margin-bottom:clamp(36px,4.2vw,58px)}
-.sect-head h2{font-size:clamp(27px,3.4vw,44px);margin-top:16px}
-.sect-head p{margin-top:16px;color:var(--ink-soft)}
+.band{background:var(--fog);border-block:1px solid var(--ash)}
+.sect-head{max-width:44ch;margin-bottom:clamp(32px,4vw,56px)}
+.sect-head h2{margin-top:14px}
+.sect-head p{margin-top:16px}
 
-/* ---- proof panel: the weighting demonstrator ---- */
-.proof{display:grid;grid-template-columns:.92fr 1.08fr;gap:clamp(30px,4.4vw,64px);align-items:center}
-@media (max-width:940px){.proof{grid-template-columns:1fr;gap:34px}}
-.weigh{border:1px solid var(--hair);border-radius:24px;
-       background:linear-gradient(170deg,var(--indigo),var(--ground-2) 70%);padding:clamp(22px,2.4vw,30px)}
+/* proof: weighting artifact */
+.proof{display:grid;grid-template-columns:.92fr 1.08fr;gap:clamp(28px,4.4vw,64px);align-items:center}
+@media (max-width:940px){.proof{grid-template-columns:1fr;gap:32px}}
+.weigh{background:var(--canvas);border-radius:var(--r-art);box-shadow:var(--lift);padding:24px}
 .weigh-top{display:flex;align-items:baseline;justify-content:space-between;gap:14px}
-.weigh-top h3{font-size:16px;font-weight:700}
-.weigh-read{font-size:11px;color:var(--ink-dim);font-variant-numeric:tabular-nums}
-.weigh-note{font-size:13px;color:var(--ink-dim);margin:6px 0 20px}
-.firm{display:grid;grid-template-columns:1fr auto;gap:7px 14px;padding:14px 0;border-top:1px solid var(--hair)}
+.weigh-top h3{font-size:22px}
+.weigh-read{font-size:14px;color:var(--smoke)}
+.weigh-note{font-size:15px;color:var(--slate);margin:6px 0 18px}
+.firm{display:grid;grid-template-columns:1fr auto;gap:7px 14px;padding:13px 0;border-top:1px solid var(--ash)}
 .firm:first-of-type{border-top:0}
 .firm-id{display:flex;align-items:center;gap:11px;min-width:0}
-.firm-rank{font-size:11.5px;width:26px;height:26px;flex:none;border-radius:50%;border:1px solid var(--hair);
-  display:grid;place-items:center;color:var(--ink-dim);font-variant-numeric:tabular-nums;
+.firm-rank{font-size:13px;width:26px;height:26px;flex:none;border-radius:var(--r-pill);border:1px solid var(--ash);
+  display:grid;place-items:center;color:var(--smoke);
   transition:background var(--rise) var(--ease),color var(--rise) var(--ease),border-color var(--rise) var(--ease)}
-.firm.lead .firm-rank{background:var(--corn);color:var(--ground);border-color:transparent;font-weight:600}
-.firm-name{font-weight:600;font-size:14.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.firm-fig{font-size:12.5px;color:var(--ink-dim);white-space:nowrap;font-variant-numeric:tabular-nums}
-.firm-fig b{color:var(--white);font-weight:600}
-.bar{grid-column:1/-1;height:5px;border-radius:999px;background:rgba(255,255,255,.09);overflow:hidden}
-.bar i{display:block;height:100%;width:0;border-radius:999px;
-       background:linear-gradient(90deg,var(--royal),var(--corn));transition:width 1100ms var(--ease)}
-.weigh-toggle{display:flex;gap:4px;margin-top:20px;padding:4px;border:1px solid var(--hair);border-radius:999px}
-.weigh-toggle button{flex:1;border:0;background:none;color:var(--ink-soft);cursor:pointer;border-radius:999px;
-  padding:9px 12px;font-family:var(--ui);font-size:12.5px;font-weight:600;transition:.22s}
-.weigh-toggle button[aria-pressed=true]{background:var(--white);color:var(--royal)}
+.firm.lead .firm-rank{background:var(--royal);color:#fff;border-color:var(--royal)}
+.firm-name{font-weight:500;font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.firm-fig{font-size:14px;color:var(--slate);white-space:nowrap}
+.firm-fig b{color:var(--ink);font-weight:500}
+.bar{grid-column:1/-1;height:4px;border-radius:var(--r-pill);background:var(--mist);overflow:hidden}
+.bar i{display:block;height:100%;width:0;border-radius:var(--r-pill);background:var(--indigo);transition:width 1100ms var(--ease)}
+.weigh-toggle{display:flex;gap:4px;margin-top:18px;padding:4px;border:1px solid var(--ash);border-radius:var(--r-pill)}
+.weigh-toggle button{flex:1;border:0;background:none;color:var(--slate);cursor:pointer;border-radius:var(--r-pill);
+  padding:9px 12px;font-family:var(--ui);font-size:15px;font-weight:400;transition:.2s}
+.weigh-toggle button[aria-pressed=true]{background:var(--royal);color:#fff;font-weight:500}
 
-/* ---- four checks ---- */
-.checks{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--hair);
-        border:1px solid var(--hair);border-radius:22px;overflow:hidden}
+/* four checks: neutral cards, flat and quiet, no shadow */
+.checks{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
 @media (max-width:760px){.checks{grid-template-columns:1fr}}
-.check{background:var(--ground-2);padding:clamp(24px,2.7vw,36px);transition:background .3s}
-.check:hover{background:var(--indigo)}
-.check h3{font-size:19px;margin:13px 0 10px}
-.check p{font-size:14.5px;color:var(--ink-soft)}
+.check{background:var(--mist);border-radius:var(--r-card);padding:32px 28px}
+.check h3{margin:12px 0 10px}
 
-/* ---- budget matcher ---- */
-.matcher{border:1px solid var(--hair);border-radius:26px;
-         background:linear-gradient(165deg,var(--indigo),var(--ground-2) 72%);padding:clamp(24px,3vw,44px)}
-.matcher-grid{display:grid;grid-template-columns:.84fr 1.16fr;gap:clamp(28px,4vw,54px);align-items:start}
-@media (max-width:920px){.matcher-grid{grid-template-columns:1fr;gap:32px}}
-.matcher h2{font-size:clamp(24px,2.8vw,37px);margin-top:16px}
-.matcher-note{margin-top:15px;color:var(--ink-soft);font-size:14.5px}
-.slider-lab{display:flex;justify-content:space-between;align-items:baseline;margin:28px 0 12px}
-.slider-val{font-family:var(--display);font-weight:700;font-size:26px;letter-spacing:-.02em;color:var(--white);font-variant-numeric:tabular-nums}
+/* matcher: feature card, hairline, 40px radius */
+.matcher{border:1px solid var(--ash);border-radius:var(--r-feature);padding:clamp(28px,3.4vw,40px)}
+.matcher-grid{display:grid;grid-template-columns:.84fr 1.16fr;gap:clamp(28px,4vw,52px);align-items:start}
+@media (max-width:920px){.matcher-grid{grid-template-columns:1fr;gap:30px}}
+.matcher h2{font-size:clamp(27px,3.2vw,44px);margin-top:14px}
+.slider-lab{display:flex;justify-content:space-between;align-items:baseline;margin:26px 0 12px}
+.slider-val{font-family:var(--serif);font-size:30px;color:var(--ink);letter-spacing:-.015em}
 input[type=range]{width:100%;-webkit-appearance:none;appearance:none;background:transparent;cursor:pointer}
-input[type=range]::-webkit-slider-runnable-track{height:5px;border-radius:999px;background:rgba(255,255,255,.12)}
-input[type=range]::-moz-range-track{height:5px;border-radius:999px;background:rgba(255,255,255,.12)}
-input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:20px;height:20px;margin-top:-7.5px;
-  border-radius:50%;background:var(--white);border:0;box-shadow:0 0 0 5px rgba(116,163,255,.3)}
-input[type=range]::-moz-range-thumb{width:20px;height:20px;border:0;border-radius:50%;background:var(--white);
-  box-shadow:0 0 0 5px rgba(116,163,255,.3)}
-.shortlist{display:flex;flex-direction:column;gap:9px;min-height:248px}
+input[type=range]::-webkit-slider-runnable-track{height:4px;border-radius:var(--r-pill);background:var(--ash)}
+input[type=range]::-moz-range-track{height:4px;border-radius:var(--r-pill);background:var(--ash)}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:20px;height:20px;margin-top:-8px;
+  border-radius:50%;background:var(--royal);border:2px solid #fff;box-shadow:0 0 0 1px var(--ash)}
+input[type=range]::-moz-range-thumb{width:20px;height:20px;border:2px solid #fff;border-radius:50%;
+  background:var(--royal);box-shadow:0 0 0 1px var(--ash)}
+.shortlist{display:flex;flex-direction:column;gap:8px;min-height:236px}
 .slot{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:14px;
-  border:1px solid var(--hair);border-radius:15px;padding:14px 17px;background:rgba(18,15,41,.55)}
-.slot-mark{font-size:11.5px;color:var(--ink-dim);width:20px;font-variant-numeric:tabular-nums}
-.slot-name{font-weight:600;font-size:14.5px}
-.slot-meta{font-size:12px;color:var(--ink-dim);margin-top:2px;font-variant-numeric:tabular-nums}
-.slot-score{font-size:14px;color:var(--corn);font-weight:600;font-variant-numeric:tabular-nums}
-.shortlist-empty{border:1px dashed var(--hair);border-radius:15px;padding:26px 18px;color:var(--ink-dim);
-  font-size:14px;text-align:center}
+  border:1px solid var(--ash);border-radius:var(--r-input);padding:14px 16px;background:var(--canvas)}
+.slot-mark{font-size:14px;color:var(--smoke);width:20px}
+.slot-name{display:block;font-weight:500;font-size:16px}
+.slot-meta{display:block;font-size:14px;color:var(--slate);margin-top:1px}
+.slot-score{font-size:16px;color:var(--royal);font-weight:500}
+.shortlist-empty{border:1px dashed var(--ash);border-radius:var(--r-input);padding:26px 18px;
+  color:var(--smoke);font-size:16px;text-align:center}
 
-/* ---- categories marquee ---- */
-.marq{padding:clamp(50px,6.5vw,86px) 0;border-block:1px solid var(--hair);overflow:hidden}
-.marq-row{display:flex;gap:12px;width:max-content;animation:slide 46s linear infinite}
+/* category pill nodes */
+.marq{padding:clamp(44px,5.5vw,76px) 0;overflow:hidden}
+.marq-row{display:flex;gap:10px;width:max-content;animation:slide 46s linear infinite}
 .marq:hover .marq-row{animation-play-state:paused}
 @keyframes slide{to{transform:translateX(-50%)}}
 @media (prefers-reduced-motion:reduce){.marq-row{animation:none;flex-wrap:wrap;width:auto}}
-.tag{border:1px solid var(--hair);border-radius:999px;padding:11px 20px;font-size:14px;
-     color:var(--ink-soft);white-space:nowrap;transition:.22s}
-.tag:hover{color:var(--white);border-color:var(--corn);background:rgba(65,54,195,.3)}
+.node{border:1px solid var(--ash);border-radius:var(--r-pill);padding:11px 20px;font-size:15px;
+  color:var(--slate);white-space:nowrap;background:var(--canvas);transition:.2s}
+.node:hover{color:var(--royal);border-color:var(--royal);background:var(--blush)}
 
-/* ---- faq ---- */
-.faq{border-top:1px solid var(--hair)}
-.q{border-bottom:1px solid var(--hair)}
-.q summary{display:flex;align-items:flex-start;gap:18px;padding:25px 0;cursor:pointer;list-style:none;
-  font-family:var(--display);font-weight:500;font-size:clamp(16.5px,1.55vw,20px);letter-spacing:-.015em}
+/* faq: Monad accordion, serif questions, hairline rule only */
+.faq{border-top:1px solid var(--ash)}
+.q{border-bottom:1px solid var(--ash)}
+.q summary{display:flex;align-items:flex-start;gap:18px;padding:28px 0;cursor:pointer;list-style:none;
+  font-family:var(--serif);font-weight:400;font-size:clamp(19px,1.9vw,24px);letter-spacing:-.02em}
 .q summary::-webkit-details-marker{display:none}
-.q summary::after{content:"";margin-left:auto;flex:none;width:10px;height:10px;margin-top:8px;
-  border-right:1.6px solid var(--corn);border-bottom:1.6px solid var(--corn);
+.q summary::after{content:"";margin-left:auto;flex:none;width:10px;height:10px;margin-top:9px;
+  border-right:1.4px solid var(--royal);border-bottom:1.4px solid var(--royal);
   transform:rotate(45deg);transition:transform .25s var(--ease)}
 .q[open] summary::after{transform:rotate(-135deg)}
-.q-n{font-size:11.5px;color:var(--ink-dim);margin-top:8px;flex:none;font-variant-numeric:tabular-nums}
-.q-a{padding:0 0 26px 30px;max-width:66ch;color:var(--ink-soft);font-size:15px}
+.q-n{font-size:14px;color:var(--smoke);margin-top:11px;flex:none}
+.q-a{padding:0 0 28px 30px;max-width:66ch;color:var(--slate);font-size:17px;line-height:1.5}
 
-/* ---- close ---- */
-.close-card{
-  border-radius:30px;padding:clamp(44px,6vw,92px) clamp(24px,4vw,56px);text-align:center;position:relative;overflow:hidden;
-  background:linear-gradient(135deg,var(--royal) 0%,var(--indigo) 58%,#2A2063 100%)
-}
-.close-card::after{content:"";position:absolute;inset:0;pointer-events:none;
-  background:radial-gradient(44% 70% at 82% 18%,rgba(116,163,255,.34),transparent 70%)}
-.close-card > *{position:relative}
-.close-card h2{font-size:clamp(29px,4.3vw,58px);max-width:19ch;margin:18px auto 0}
-.close-card p{margin:20px auto 0;max-width:44ch;color:rgba(255,255,255,.82)}
-.close-cta{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:34px}
-.close-fine{margin-top:18px!important;font-size:13px;color:rgba(255,255,255,.62)!important}
+/* the single accent surface, once per page */
+.accent{background:var(--blush);border-radius:var(--r-feature);padding:clamp(44px,6vw,88px) clamp(26px,4vw,56px);
+  text-align:center;color:var(--indigo)}
+.accent h2{color:var(--indigo);max-width:20ch;margin:16px auto 0}
+.accent p{margin:18px auto 0;max-width:46ch;color:var(--indigo);opacity:.84;font-size:19px;line-height:1.4}
+.accent .tag{color:var(--indigo);opacity:.7}
+.accent-cta{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:32px}
+.accent .pill-fill{background:var(--indigo);border-color:var(--indigo)}
+.accent .pill-fill:hover{background:var(--royal);border-color:var(--royal)}
+.accent .pill-ghost{color:var(--indigo);border-color:var(--indigo)}
+.accent .pill-ghost:hover{background:rgba(255,255,255,.55)}
+.accent-fine{margin-top:16px!important;font-size:15px!important;opacity:.7}
 
-footer{border-top:1px solid var(--hair);padding:46px 0 58px;color:var(--ink-dim);font-size:13.5px}
-.foot-grid{display:flex;flex-wrap:wrap;gap:22px 44px;align-items:center}
+footer{border-top:1px solid var(--ash);padding:44px 0 56px;color:var(--smoke);font-size:15px}
+.foot-grid{display:flex;flex-wrap:wrap;gap:20px 40px;align-items:center}
 .foot-grid nav{display:flex;flex-wrap:wrap;gap:20px}
-.foot-grid a:hover{color:var(--white)}
-.foot-addr{margin-left:auto;font-size:12.5px}
+.foot-grid a:hover{color:var(--royal)}
+.foot-addr{margin-left:auto}
 @media (max-width:780px){.foot-addr{margin-left:0}}
 </style>
 </head>
@@ -288,38 +270,36 @@ footer{border-top:1px solid var(--hair);padding:46px 0 58px;color:var(--ink-dim)
 <header class="nav" id="nav">
   <div class="wrap nav-in">
     <a class="brand" href="#top" aria-label="MatchFast home">
-      <svg width="28" height="28" viewBox="0 0 32 34" aria-hidden="true">
-        <path d="M2 28V4h4.6l7.4 11.4L21.4 4H26v10.6h-4.6V12l-5.6 8.6h-3.6L6.6 12v16H2Z" fill="#fff"/>
-        <path d="M19.6 20.4h10v10l-3.3-3.3-4.4 4.4-3.4-3.4 4.4-4.4-3.3-3.3Z" fill="#74A3FF"/>
+      <svg width="26" height="26" viewBox="0 0 32 34" aria-hidden="true">
+        <path d="M2 28V4h4.6l7.4 11.4L21.4 4H26v10.6h-4.6V12l-5.6 8.6h-3.6L6.6 12v16H2Z" fill="#1A1733"/>
+        <path d="M19.6 20.4h10v10l-3.3-3.3-4.4 4.4-3.4-3.4 4.4-4.4-3.3-3.3Z" fill="#4136C3"/>
       </svg>
-      <span><b style="color:#fff">Match</b>Fast</span>
+      <span>Match<i>Fast</i></span>
     </a>
     <nav class="nav-links" aria-label="Primary">
-      <a href="#how">How it works</a>
-      <a href="#proof">Ranking</a>
-      <a href="#checks">Verification</a>
-      <a href="#faq">Methodology</a>
+      <a href="#how">How it works</a><a href="#proof">Ranking</a>
+      <a href="#checks">Verification</a><a href="#faq">Methodology</a>
     </nav>
-    <a class="pill pill-solid" href="#top">Get Matched</a>
+    <a class="pill pill-fill" href="#top">Get matched</a>
   </div>
 </header>
 
 <main id="top">
 
-<!-- ========================= HERO ========================= -->
+<!-- ===================== HERO ===================== -->
 <section class="hero">
-  <div class="aura" aria-hidden="true"></div>
-  <div class="wrap hero-in">
-    <p class="eyebrow rise">Find &nbsp;•&nbsp; Match &nbsp;•&nbsp; Grow faster</p>
-    <h1 class="rise">The right agency is just a <span class="em-grad">smarter</span> search away.</h1>
-    <p class="hero-sub rise">
-      An AI-powered agency matchmaking platform that connects businesses with the right agencies —
-      faster, smarter and more transparently.
+  <div class="wrap">
+    <p class="tag rise">Find · Match · Grow faster</p>
+    <h1 class="rise" style="margin-top:18px">
+      The right agency is just a <span class="it">smarter</span> search away.
+    </h1>
+    <p class="lede rise">
+      An AI-powered agency matchmaking platform that connects businesses with the right
+      agencies, faster and more transparently.
     </p>
 
-    <!-- primary entry point -->
     <form class="brief rise" id="brief" autocomplete="off">
-      <label class="visually-hidden" for="brief-field" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">
+      <label for="brief-field" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">
         Search companies or describe your project
       </label>
       <textarea id="brief-field" class="brief-field" rows="1"
@@ -328,69 +308,68 @@ footer{border-top:1px solid var(--hair);padding:46px 0 58px;color:var(--ink-dim)
         <span class="brief-hint">Search a company or service, or describe your project</span>
         <button class="brief-go" type="submit" aria-label="Find matches">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
-               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M5 12h13M12 5l7 7-7 7"/>
-          </svg>
+               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M12 5l7 7-7 7"/></svg>
         </button>
       </div>
       <p class="brief-done" role="status">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4136C3" stroke-width="2.4"
-             stroke-linecap="round" stroke-linejoin="round" style="flex:none;margin-top:2px" aria-hidden="true">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#4136C3" stroke-width="2.4"
+             stroke-linecap="round" stroke-linejoin="round" style="flex:none;margin-top:4px" aria-hidden="true">
           <path d="M20 6 9 17l-5-5"/></svg>
-        <span><b>Your project brief is in.</b>We'll use your requirements to identify relevant technology providers. No company sees your brief until you ask us to send it.</span>
+        <span><b>Your project brief is in.</b>
+        <span class="cap">We will use your requirements to identify relevant technology providers.
+        No company sees your brief until you ask us to send it.</span></span>
       </p>
     </form>
     <p class="hero-fine rise">Filling in the brief does not oblige you to hire anyone.</p>
 
-    <!-- stat chips -->
     <div class="stats rise">
-      <div class="stat">
-        <span class="stat-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"
+      <div class="art">
+        <span class="art-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"
           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>
-        <span class="stat-txt"><span class="stat-k">Verified agencies</span><span class="stat-v num">2,500+</span></span>
+        <span><span class="art-k">Verified agencies</span><span class="art-v num">2,500+</span></span>
       </div>
-      <div class="stat">
-        <span class="stat-ico"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <div class="art">
+        <span class="art-ico"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
           <path d="M13 2 4.5 13.5H11L10 22l8.5-11.5H12L13 2Z"/></svg></span>
-        <span class="stat-txt"><span class="stat-k">Avg. match time</span><span class="stat-v num">&lt; 24 hrs</span></span>
+        <span><span class="art-k">Avg. match time</span><span class="art-v num">Under 24 hrs</span></span>
       </div>
-      <div class="stat">
-        <span class="stat-ico"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <div class="art">
+        <span class="art-ico"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
           <rect x="3" y="12" width="4.4" height="9" rx="1.2"/><rect x="9.8" y="7" width="4.4" height="14" rx="1.2"/>
           <rect x="16.6" y="3" width="4.4" height="18" rx="1.2"/></svg></span>
-        <span class="stat-txt"><span class="stat-k">Success rate</span><span class="stat-v num">94%</span></span>
+        <span><span class="art-k">Success rate</span><span class="art-v num">94%</span></span>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ========================= SCROLL WIPE ========================= -->
+<!-- ===================== SCROLL WIPE ===================== -->
 <section class="wipe-sect" id="how">
   <div class="wrap">
-    <p class="eyebrow rise">From a brief to a shortlist</p>
+    <p class="tag rise">From a brief to a shortlist</p>
     <h2 class="wipe" id="wipe" aria-label="You describe the work. We match it against eight published criteria. The firms that fit receive your brief and reply within three days.">
       <span>You describe the work. We match it against eight published criteria. The firms that fit receive your brief and reply within three days.</span>
     </h2>
     <div class="wipe-foot rise">
-      <a href="#faq">See all eight criteria</a>
-      <span style="font-size:13px;color:var(--ink-dim)">No company sees your brief until you ask us to send it.</span>
+      <a class="arrowlink" href="#faq">See all eight criteria →</a>
+      <span class="cap">No company sees your brief until you ask us to send it.</span>
     </div>
   </div>
 </section>
 
-<!-- ========================= PROOF ========================= -->
+<!-- ===================== PROOF ===================== -->
 <section class="sect" id="proof">
   <div class="wrap proof">
     <div class="rise">
-      <p class="eyebrow">How ranking works</p>
-      <h2 style="font-size:clamp(27px,3.4vw,44px);margin-top:16px">
-        Smarter matches.<br><span class="em">Stronger businesses.</span>
+      <p class="tag">How ranking works</p>
+      <h2 style="font-size:clamp(28px,3.4vw,46px);margin-top:14px">
+        Smarter matches.<br><span class="it">Stronger</span> businesses.
       </h2>
-      <p style="margin-top:18px;color:var(--ink-soft)">
+      <p class="body" style="margin-top:18px">
         Ordered by rating weighted for review volume, so a 4.8 from forty reviewers
         outranks a 5.0 from three. Minimum ten reviews to appear.
       </p>
-      <p style="margin-top:22px"><a class="pill pill-ghost" href="#faq">Read the methodology</a></p>
+      <p style="margin-top:24px"><a class="pill pill-ghost" href="#faq">Read the methodology</a></p>
     </div>
 
     <div class="weigh rise" aria-labelledby="weigh-h">
@@ -408,60 +387,60 @@ footer{border-top:1px solid var(--hair);padding:46px 0 58px;color:var(--ink-dim)
   </div>
 </section>
 
-<!-- ========================= FOUR CHECKS ========================= -->
-<section class="sect" id="checks">
+<!-- ===================== FOUR CHECKS ===================== -->
+<section class="sect band" id="checks">
   <div class="wrap">
     <div class="sect-head rise">
-      <p class="eyebrow">Verification</p>
-      <h2>Four checks on <span class="em">every listing</span></h2>
-      <p>Firms that fail are named on the page, not quietly removed.</p>
+      <p class="tag">Verification</p>
+      <h2>Four checks on <span class="it">every</span> listing</h2>
+      <p class="body">Firms that fail are named on the page, not quietly removed.</p>
     </div>
     <div class="checks">
       <article class="check rise">
-        <p class="label">Check 01</p><h3>Head office</h3>
-        <p>Checked against the company's own website, not a directory label.</p>
+        <p class="tag">Check 01</p><h3>Head office</h3>
+        <p class="body">Checked against the company's own website, not a directory label.</p>
       </article>
       <article class="check rise" style="transition-delay:90ms">
-        <p class="label">Check 02</p><h3>Review evidence</h3>
-        <p>Rating and review count read from live profiles, with the date we read them printed next to the figures.</p>
+        <p class="tag">Check 02</p><h3>Review evidence</h3>
+        <p class="body">Rating and review count read from live profiles, with the date we read them printed next to the figures.</p>
       </article>
       <article class="check rise" style="transition-delay:180ms">
-        <p class="label">Check 03</p><h3>Published pricing</h3>
-        <p>Hourly band and minimum project size, so you can qualify a firm before you spend a call on it.</p>
+        <p class="tag">Check 03</p><h3>Published pricing</h3>
+        <p class="body">Hourly band and minimum project size, so you can qualify a firm before you spend a call on it.</p>
       </article>
       <article class="check rise" style="transition-delay:270ms">
-        <p class="label">Check 04</p><h3>No pay-to-play</h3>
-        <p>Placement cannot be bought. Companies can submit themselves for review, which does not change their position.</p>
+        <p class="tag">Check 04</p><h3>No pay-to-play</h3>
+        <p class="body">Placement cannot be bought. Companies can submit themselves for review, which does not change their position.</p>
       </article>
     </div>
   </div>
 </section>
 
-<!-- ========================= BUDGET MATCHER ========================= -->
+<!-- ===================== BUDGET MATCHER ===================== -->
 <section class="sect" id="matcher">
   <div class="wrap">
     <div class="matcher rise">
       <div class="matcher-grid">
         <div>
-          <p class="eyebrow">Live matcher</p>
-          <h2>Set a budget. Watch the <span class="em">shortlist change.</span></h2>
-          <p class="matcher-note">
+          <p class="tag">Live matcher</p>
+          <h2>Set a budget. Watch the <span class="it">shortlist</span> change.</h2>
+          <p class="body" style="margin-top:16px">
             Every company ranking carries a matcher that scores the firms on that page
             against your budget, the work you need and how much review evidence you want to see.
           </p>
           <div class="slider-lab">
-            <span class="label">Minimum project size</span>
-            <span class="slider-val" id="budget-out">$25k</span>
+            <span class="tag">Minimum project size</span>
+            <span class="slider-val num" id="budget-out">$25k</span>
           </div>
           <input id="budget" type="range" min="5" max="250" step="5" value="25"
                  aria-label="Minimum project size in thousands of dollars">
           <div class="slider-lab" style="margin:10px 0 0">
-            <span class="label">$5k</span><span class="label">$250k</span>
+            <span class="tag num">$5k</span><span class="tag num">$250k</span>
           </div>
         </div>
         <div>
           <div class="slider-lab" style="margin:0 0 14px">
-            <span class="label">Matching firms</span><span class="label num" id="count">4 of 6</span>
+            <span class="tag">Matching firms</span><span class="tag num" id="count">4 of 6</span>
           </div>
           <div class="shortlist" id="shortlist"></div>
         </div>
@@ -470,36 +449,36 @@ footer{border-top:1px solid var(--hair);padding:46px 0 58px;color:var(--ink-dim)
   </div>
 </section>
 
-<!-- ========================= CATEGORIES ========================= -->
-<section class="marq" aria-label="Service categories">
-  <div class="wrap" style="padding-bottom:28px"><p class="eyebrow rise">Browse by what you need built</p></div>
+<!-- ===================== CATEGORIES ===================== -->
+<section class="marq band" aria-label="Service categories">
+  <div class="wrap" style="padding-bottom:26px"><p class="tag rise">Browse by what you need built</p></div>
   <div class="marq-row" id="marq" aria-hidden="true"></div>
 </section>
 
-<!-- ========================= FAQ ========================= -->
+<!-- ===================== FAQ ===================== -->
 <section class="sect" id="faq">
   <div class="wrap">
     <div class="sect-head rise">
-      <p class="eyebrow">Methodology</p>
-      <h2>How MatchFast <span class="em">ranks</span></h2>
-      <p>The short version is below. The full methodology, with every criterion and data source, is published.</p>
+      <p class="tag">Methodology</p>
+      <h2>How MatchFast <span class="it">ranks</span></h2>
+      <p class="body">The short version is below. The full methodology, with every criterion and data source, is published.</p>
     </div>
     <div class="faq rise" id="faqlist"></div>
   </div>
 </section>
 
-<!-- ========================= CLOSE ========================= -->
+<!-- ===================== ACCENT CLOSE ===================== -->
 <section class="sect">
   <div class="wrap">
-    <div class="close-card rise">
-      <p class="eyebrow" style="color:var(--mist)">Better agencies · Brighter businesses</p>
-      <h2>Start with your idea. We'll take it from there.</h2>
+    <div class="accent rise">
+      <p class="tag">Better agencies · Brighter businesses</p>
+      <h2>Start with your idea. We will <span class="it">take it from there.</span></h2>
       <p>Software development · Mobile apps · AI · SaaS · Web development</p>
-      <div class="close-cta">
-        <a class="pill pill-solid" href="#top">Get Matched</a>
-        <a class="pill pill-ghost" href="#faq" style="border-color:rgba(255,255,255,.34)">How ranking works</a>
+      <div class="accent-cta">
+        <a class="pill pill-fill" href="#top">Get matched</a>
+        <a class="pill pill-ghost" href="#faq">How ranking works</a>
       </div>
-      <p class="close-fine">Most matched firms reply within 3 days. No obligation to hire anyone.</p>
+      <p class="accent-fine">Most matched firms reply within 3 days. No obligation to hire anyone.</p>
     </div>
   </div>
 </section>
@@ -508,12 +487,12 @@ footer{border-top:1px solid var(--hair);padding:46px 0 58px;color:var(--ink-dim)
 
 <footer>
   <div class="wrap foot-grid">
-    <span class="brand" style="font-size:17px;margin:0">
-      <svg width="22" height="22" viewBox="0 0 32 34" aria-hidden="true">
-        <path d="M2 28V4h4.6l7.4 11.4L21.4 4H26v10.6h-4.6V12l-5.6 8.6h-3.6L6.6 12v16H2Z" fill="#fff"/>
-        <path d="M19.6 20.4h10v10l-3.3-3.3-4.4 4.4-3.4-3.4 4.4-4.4-3.3-3.3Z" fill="#74A3FF"/>
+    <span class="brand" style="font-size:18px;margin:0">
+      <svg width="20" height="20" viewBox="0 0 32 34" aria-hidden="true">
+        <path d="M2 28V4h4.6l7.4 11.4L21.4 4H26v10.6h-4.6V12l-5.6 8.6h-3.6L6.6 12v16H2Z" fill="#1A1733"/>
+        <path d="M19.6 20.4h10v10l-3.3-3.3-4.4 4.4-3.4-3.4 4.4-4.4-3.3-3.3Z" fill="#4136C3"/>
       </svg>
-      <span><b style="color:#fff">Match</b>Fast</span>
+      <span>Match<i>Fast</i></span>
     </span>
     <nav aria-label="Footer">
       <a href="#proof">Ranking</a><a href="#checks">Verification</a>
@@ -526,94 +505,79 @@ footer{border-top:1px solid var(--hair);padding:46px 0 58px;color:var(--ink-dim)
 <script>
 const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-/* ---- brief field: autogrow + submitted state ---- */
-const briefEl = document.getElementById('brief');
-const fieldEl = document.getElementById('brief-field');
-fieldEl.addEventListener('input', () => {
-  fieldEl.style.height = 'auto';
-  fieldEl.style.height = Math.min(fieldEl.scrollHeight, 200) + 'px';
-});
-briefEl.addEventListener('submit', e => {
-  e.preventDefault();
-  if (!fieldEl.value.trim()) { fieldEl.focus(); return; }
-  briefEl.classList.add('sent');
-});
-// Enter submits, Shift+Enter makes a new line
-fieldEl.addEventListener('keydown', e => {
-  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); briefEl.requestSubmit(); }
-});
+/* brief composer */
+const briefEl=document.getElementById('brief'), fieldEl=document.getElementById('brief-field');
+fieldEl.addEventListener('input',()=>{fieldEl.style.height='auto';
+  fieldEl.style.height=Math.min(fieldEl.scrollHeight,200)+'px';});
+briefEl.addEventListener('submit',e=>{e.preventDefault();
+  if(!fieldEl.value.trim()){fieldEl.focus();return;} briefEl.classList.add('sent');});
+fieldEl.addEventListener('keydown',e=>{
+  if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();briefEl.requestSubmit();}});
 
-/* ---- signature: weighted vs raw rating ---- */
-const FIRMS = [
-  {name:'Northbound Studio', rating:5.0, reviews:3},
-  {name:'Halden Systems',    rating:4.8, reviews:40},
-  {name:'Pearl & Crane',     rating:4.9, reviews:12},
-  {name:'Vektor Labs',       rating:4.6, reviews:88},
+/* weighted vs raw rating */
+const FIRMS=[
+  {name:'Northbound Studio',rating:5.0,reviews:3},
+  {name:'Halden Systems',   rating:4.8,reviews:40},
+  {name:'Pearl & Crane',    rating:4.9,reviews:12},
+  {name:'Vektor Labs',      rating:4.6,reviews:88},
 ];
 // Shrink each rating toward a prior. This is the arithmetic behind
 // "a 4.8 from forty reviewers outranks a 5.0 from three".
-const PRIOR = 4.55, PRIOR_W = 25;
-const weighted = f => (f.rating * f.reviews + PRIOR * PRIOR_W) / (f.reviews + PRIOR_W);
-
-const firmsEl = document.getElementById('firms');
+const PRIOR=4.55, PRIOR_W=25;
+const weighted=f=>(f.rating*f.reviews+PRIOR*PRIOR_W)/(f.reviews+PRIOR_W);
+const firmsEl=document.getElementById('firms');
 function renderFirms(mode){
-  const scored = FIRMS.map(f => ({...f, score: mode === 'raw' ? f.rating : weighted(f)}))
-                      .sort((a,b) => b.score - a.score);
-  const hi = scored[0].score, lo = scored[scored.length-1].score;
-  const span = Math.max(hi - lo, .001);
-  // 52%..100% — raw scores differ by ~0.1 and would all render full-width
-  const width = v => 52 + ((v - lo) / span) * 48;
-  firmsEl.innerHTML = scored.map((f,i) => `
+  const scored=FIRMS.map(f=>({...f,score:mode==='raw'?f.rating:weighted(f)})).sort((a,b)=>b.score-a.score);
+  const hi=scored[0].score, lo=scored[scored.length-1].score, span=Math.max(hi-lo,.001);
+  // 52%..100%: raw scores differ by about a tenth and would all render full width
+  const width=v=>52+((v-lo)/span)*48;
+  firmsEl.innerHTML=scored.map((f,i)=>`
     <div class="firm${i===0?' lead':''}" role="listitem">
-      <div class="firm-id"><span class="firm-rank">${i+1}</span><span class="firm-name">${f.name}</span></div>
-      <span class="firm-fig"><b>${f.rating.toFixed(1)}</b> · ${f.reviews} reviews</span>
+      <div class="firm-id"><span class="firm-rank num">${i+1}</span><span class="firm-name">${f.name}</span></div>
+      <span class="firm-fig num"><b>${f.rating.toFixed(1)}</b> · ${f.reviews} reviews</span>
       <span class="bar"><i data-w="${width(f.score).toFixed(1)}"></i></span>
     </div>`).join('');
-  requestAnimationFrame(() => firmsEl.querySelectorAll('.bar i')
-    .forEach(b => b.style.width = b.dataset.w + '%'));
+  requestAnimationFrame(()=>firmsEl.querySelectorAll('.bar i').forEach(b=>b.style.width=b.dataset.w+'%'));
 }
 renderFirms('weighted');
-document.querySelectorAll('.weigh-toggle button').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.weigh-toggle button')
-      .forEach(b => b.setAttribute('aria-pressed', String(b === btn)));
-    renderFirms(btn.dataset.mode);
-  });
+document.querySelectorAll('.weigh-toggle button').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.weigh-toggle button').forEach(b=>b.setAttribute('aria-pressed',String(b===btn)));
+    renderFirms(btn.dataset.mode);});
 });
 
-/* ---- budget matcher ---- */
-const SHORT = [
-  {name:'Halden Systems',    min:20,  band:'$75–100/hr',  score:4.74},
-  {name:'Vektor Labs',       min:50,  band:'$100–150/hr', score:4.62},
-  {name:'Pearl & Crane',     min:10,  band:'$50–75/hr',   score:4.78},
-  {name:'Northbound Studio', min:5,   band:'$50–75/hr',   score:4.69},
-  {name:'Orrery Digital',    min:100, band:'$150–200/hr', score:4.55},
-  {name:'Fenwick Build',     min:15,  band:'$75–100/hr',  score:4.51},
+/* budget matcher */
+const SHORT=[
+  {name:'Halden Systems',   min:20, band:'$75 to $100/hr',  score:4.74},
+  {name:'Vektor Labs',      min:50, band:'$100 to $150/hr', score:4.62},
+  {name:'Pearl & Crane',    min:10, band:'$50 to $75/hr',   score:4.78},
+  {name:'Northbound Studio',min:5,  band:'$50 to $75/hr',   score:4.69},
+  {name:'Orrery Digital',   min:100,band:'$150 to $200/hr', score:4.55},
+  {name:'Fenwick Build',    min:15, band:'$75 to $100/hr',  score:4.51},
 ];
 const listEl=document.getElementById('shortlist'), outEl=document.getElementById('budget-out'),
       countEl=document.getElementById('count'), rangeEl=document.getElementById('budget');
 function renderShort(){
-  const k = +rangeEl.value;
-  outEl.textContent = '$' + k + 'k';
-  const hits = SHORT.filter(f => f.min <= k).sort((a,b) => b.score - a.score);
-  countEl.textContent = hits.length + ' of ' + SHORT.length;
-  listEl.innerHTML = hits.length ? hits.map((f,i) => `
+  const k=+rangeEl.value; outEl.textContent='$'+k+'k';
+  const hits=SHORT.filter(f=>f.min<=k).sort((a,b)=>b.score-a.score);
+  countEl.textContent=hits.length+' of '+SHORT.length;
+  listEl.innerHTML=hits.length?hits.map((f,i)=>`
     <div class="slot">
-      <span class="slot-mark">${String(i+1).padStart(2,'0')}</span>
-      <span><span class="slot-name">${f.name}</span><span class="slot-meta">${f.band} · min $${f.min}k</span></span>
-      <span class="slot-score">${f.score.toFixed(2)}</span>
+      <span class="slot-mark num">${String(i+1).padStart(2,'0')}</span>
+      <span><span class="slot-name">${f.name}</span><span class="slot-meta num">${f.band} · min $${f.min}k</span></span>
+      <span class="slot-score num">${f.score.toFixed(2)}</span>
     </div>`).join('')
-    : `<p class="shortlist-empty">No firm publishes a minimum this low. Raise the budget to see matches.</p>`;
+    :`<p class="shortlist-empty">No firm publishes a minimum this low. Raise the budget to see matches.</p>`;
 }
-rangeEl.addEventListener('input', renderShort); renderShort();
+rangeEl.addEventListener('input',renderShort); renderShort();
 
-/* ---- categories marquee ---- */
-const CATS = ['Mobile App Development','Software Development','AI Development','UI/UX Design',
+/* category nodes */
+const CATS=['Mobile App Development','Software Development','AI Development','UI/UX Design',
   'Digital Marketing','SEO Services','SaaS','Developer Tools','Fintech','Web Development'];
-document.getElementById('marq').innerHTML = [...CATS,...CATS].map(c => `<span class="tag">${c}</span>`).join('');
+document.getElementById('marq').innerHTML=[...CATS,...CATS].map(c=>`<span class="node">${c}</span>`).join('');
 
-/* ---- FAQ, from MatchFast's published methodology ---- */
-const QA = [
+/* faq, from MatchFast's published methodology */
+const QA=[
   ['Can a company pay for a higher position?',
    'No. Placement is editorial and cannot be bought. Companies can submit themselves for consideration, which does not affect their position.'],
   ['Why does a 4.8 outrank a 5.0?',
@@ -627,33 +591,31 @@ const QA = [
   ['Who sees my brief?',
    'Your brief is stored so we can reply. No company sees it until you ask us to send it.'],
 ];
-document.getElementById('faqlist').innerHTML = QA.map(([q,a],i) => `
-  <details class="q"><summary><span class="q-n">${String(i+1).padStart(2,'0')}</span>${q}</summary>
+document.getElementById('faqlist').innerHTML=QA.map(([q,a],i)=>`
+  <details class="q"><summary><span class="q-n num">${String(i+1).padStart(2,'0')}</span>${q}</summary>
   <p class="q-a">${a}</p></details>`).join('');
 
-/* ---- reveal on scroll: fade + rise, 1000ms ---- */
-if (!REDUCED && 'IntersectionObserver' in window) {
-  const io = new IntersectionObserver(es => es.forEach(e => {
-    if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
-  }), {rootMargin:'0px 0px -8% 0px', threshold:.12});
-  document.querySelectorAll('.rise').forEach(el => io.observe(el));
-} else {
-  document.querySelectorAll('.rise').forEach(el => el.classList.add('in'));
-}
+/* reveal on scroll */
+if(!REDUCED&&'IntersectionObserver' in window){
+  const io=new IntersectionObserver(es=>es.forEach(e=>{
+    if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}
+  }),{rootMargin:'0px 0px -8% 0px',threshold:.12});
+  document.querySelectorAll('.rise').forEach(el=>io.observe(el));
+}else{document.querySelectorAll('.rise').forEach(el=>el.classList.add('in'));}
 
-/* ---- scroll-scrubbed text wipe ---- */
-const wipeEl = document.querySelector('#wipe span'), navEl = document.getElementById('nav');
-let queued = false;
+/* scroll-scrubbed text wipe */
+const wipeEl=document.querySelector('#wipe span'), navEl=document.getElementById('nav');
+let queued=false;
 function onScroll(){
-  navEl.classList.toggle('stuck', scrollY > 8);
-  if (wipeEl && !REDUCED) {
-    const r = wipeEl.getBoundingClientRect(), span = innerHeight * .72;
-    const t = Math.min(1, Math.max(0, (r.top - innerHeight * .14) / span));
-    wipeEl.style.backgroundPositionX = (t * 100) + '%';
+  navEl.classList.toggle('stuck',scrollY>8);
+  if(wipeEl&&!REDUCED){
+    const r=wipeEl.getBoundingClientRect(), span=innerHeight*.72;
+    const t=Math.min(1,Math.max(0,(r.top-innerHeight*.14)/span));
+    wipeEl.style.backgroundPositionX=(t*100)+'%';
   }
-  queued = false;
+  queued=false;
 }
-addEventListener('scroll', () => { if (!queued) { queued = true; requestAnimationFrame(onScroll); } }, {passive:true});
+addEventListener('scroll',()=>{if(!queued){queued=true;requestAnimationFrame(onScroll);}},{passive:true});
 onScroll();
 </script>
 </body>
