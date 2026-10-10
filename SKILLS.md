@@ -88,3 +88,76 @@ executable code that a skill can invoke:
 
 Nothing has run. No hooks were registered and `.claude/settings.json` holds only
 the `npx skills` permission rule.
+
+---
+
+# Uploaded Archives
+
+Five zip archives installed on 2026-10-10. They are five different kinds of
+thing, so each took a different mechanism.
+
+## Installed as skills (24)
+
+Copied into `.agents/skills/` and symlinked into `.claude/skills/`, matching the
+layout `npx skills` established. No name collided with the 39 already present.
+
+| Archive | What it is | Skills |
+| --- | --- | --- |
+| `ai-second-brain` | A single skill: walks a non-technical user through the Obsidian + Karpathy-wiki setup from Charlie Hills's MarTech AI newsletter. | 1: `ai-second-brain` |
+| `skills` (anthropics/skills) | Anthropic's own example-skill repository. The `skills/` folder only — `spec/` is the format spec and `template/` is a scaffold, neither a skill. | 19: `academy-guide`, `algorithmic-art`, `brand-guidelines`, `canvas-design`, `claude-api`, `discernment-nudge`, `doc-coauthoring`, `docx`, `frontend-design`, `internal-comms`, `mcp-builder`, `pdf`, `pptx`, `skill-creator`, `slack-gif-creator`, `theme-factory`, `web-artifacts-builder`, `webapp-testing`, `xlsx` |
+| `k12-teacher-skills` | The plugin shipped with Claude for Teachers, co-developed with Learning Commons. | 4: `k12-lesson-plan-creation`, `k12-lesson-differentiation`, `k12-lesson-prep`, `k12-check-for-understanding` |
+
+Six of the anthropics/skills set — `docx`, `pdf`, `pptx`, `xlsx`,
+`skill-creator`, `claude-api` — duplicate skills this session already loads from
+the `anthropic-skills` plugin. The project copies carry no namespace prefix, so
+both now appear in the listing and compete on the same triggers.
+
+The k12 skills expect the Learning Commons Knowledge Graph connector for
+standards lookups across all 50 states. Its `.mcp.json` also names nine
+third-party education MCP servers (ASSISTments, Brisk Teaching, Canva, Coteach,
+Diffit, Eedi, MagicSchool, Snorkl, TeachFX). **None were registered** — each is a
+remote endpoint needing its own authorization. The skills degrade without the
+connector; the repo says to adapt them.
+
+## Installed as a project (9 skills)
+
+`vendor/defending-code-reference-harness/` holds the whole repository, because
+its skills drive its own Python code (`dnr_harness/`, `bin/`, `targets/`) and are
+inert without it. The nine skills are symlinked into `.claude/skills/`:
+`threat-model`, `vuln-scan`, `triage`, `patch`, `verify`, `quickstart`,
+`customize`, `dnr-hunt`, `dnr-respond`. The repo's `.claude/skills/_lib/` is a
+shared Python helper, not a skill, and is not linked.
+
+**The harness does not run yet.** It needs
+`python3 -m venv .venv && .venv/bin/pip install -e .` plus `flask` and `pyyaml`.
+That was left undone — it installs and executes third-party code, which is the
+user's call. Upstream states the repo is unmaintained and accepts no
+contributions.
+
+Five of its skills carry generic names — `verify`, `patch`, `triage`,
+`customize`, `quickstart` — and will now compete for unrelated requests anywhere
+in this project, not just inside the harness.
+
+## Registered as a marketplace (0 plugins enabled)
+
+`claude-plugins-official` is a plugin directory, not a skill pack, so it is
+registered rather than copied into `.claude/skills/`. `vendor/claude-plugins-official/`
+holds the repository and `.claude/settings.json` points `extraKnownMarketplaces`
+at it.
+
+Its manifest catalogues **315 plugins**; 54 are vendored in the archive (40
+Anthropic-internal under `plugins/`, 14 third-party under `external_plugins/`)
+and the rest resolve from GitHub or npm on install. Browse with `/plugin` and
+install one with `/plugin install <name>@claude-plugins-official`.
+
+**No plugin is enabled.** `enabledPlugins` is deliberately absent, so no MCP
+server connects and no hook runs until something is installed by name. That
+matters here: the external plugins include Discord, Telegram, iMessage, GitHub,
+GitLab, Linear, Asana and Firebase integrations, each wanting its own
+credentials. Anthropic's own README notes it does not control what those
+plugins contain and cannot verify they will not change.
+
+## Totals
+
+72 skills in `.claude/skills/` — 39 from `npx skills`, 24 from these archives, 9
+from the harness. One marketplace registered, no plugins enabled.

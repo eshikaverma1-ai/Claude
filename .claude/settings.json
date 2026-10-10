@@ -3,5 +3,13 @@
     "allow": [
       "Bash(npx skills:*)"
     ]
+  },
+  "extraKnownMarketplaces": {
+    "claude-plugins-official": {
+      "source": {
+        "source": "directory",
+        "path": "./vendor/claude-plugins-official"
+      }
+    }
   }
 }
