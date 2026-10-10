@@ -46,6 +46,12 @@
         "source": "directory",
         "path": "./vendor/mod-maker"
       }
+    },
+    "social-media-skills": {
+      "source": {
+        "source": "directory",
+        "path": "./vendor/social-media-skills"
+      }
     }
   }
 }

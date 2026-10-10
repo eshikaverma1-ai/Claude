@@ -308,3 +308,89 @@ Two settings control it: `skillListingBudgetFraction` (default `0.01`, one
 percent of the context window) and `skillListingMaxDescChars` (default `1536`).
 Raising either costs context on every turn. The cheaper fix is fewer skills —
 see the duplicate and generic-name problems recorded above.
+
+---
+
+# Uploaded Archives, Round 4
+
+Five archives on 2026-10-10. Two were already installed, one registers as a
+marketplace, two install as skills.
+
+## Already installed — version check
+
+| Archive | Result |
+| --- | --- |
+| `voiceprint` | **Byte-identical** to the installed copy. Nothing changed. |
+| `impeccable` | Same version (4.5.2), but a **different build target**. Swapped. |
+
+The impeccable repository builds one skill into roughly 24 agent-specific
+directories — `.claude/`, `.cursor/`, `.gemini/`, `.grok/`, `.kiro/`, `.trae/`,
+`.opencode/` and the rest — all from `skill/SKILL.src.md`. `npx skills`
+installed the universal build, which spells its paths `.agents/skills/impeccable/`
+and its commands `$impeccable`. The archive's `.claude/` build spells them
+`.claude/skills/impeccable/` and `/impeccable`, and adds two frontmatter keys the
+universal build omits: `user-invocable: true` and an `argument-hint` listing all
+22 verbs. The Claude build is now installed, so `/impeccable` works as a real
+slash command with argument completion.
+
+The archive is 85 MB, almost all of it `tests/` (22 MB), `crates/` (14 MB of Rust
+source) and those two dozen duplicate skill copies. Only the one Claude build was
+taken.
+
+## Registered as a marketplace
+
+| Marketplace | Plugins | What it is |
+| --- | --- | --- |
+| `social-media-skills` | 1 plugin, 17 skills | `reels-scripting`, `hook-generator`, `post-writer`, `post-formatter`, `post-scorer`, `quote-post`, `pinned-comment`, `voice-builder`, `newsletter-voice`, `niche-research`, `content-matrix`, `profile-optimizer`, `graphic-designer`, `youtube-thumbnail`, `gemini-carousel`, `gemini-infographic`, `analytics-dashboard` |
+
+## Installed as skills (26)
+
+Neither pack ships a marketplace manifest, so both went into `.agents/skills/`
+and are symlinked into `.claude/skills/`. No name collided.
+
+**`life-automation-skills` — 13.** `company-setup` is the keystone: it interviews
+once and writes a shared `company-profile.md` the other twelve read.
+`inbox-executive-assistant`, `follow-up-chaser`, `invoice-chaser`,
+`expense-wrangler`, `crm-hygiene`, `meeting-scheduler`, `meeting-notes`,
+`standup-writer`, `weekly-review`, `task-capture`, `doc-drafter`,
+`research-brief`. Most are read-and-propose only — they draft and the user sends,
+and `crm-hygiene` shows merges as a change list before running them. They expect
+Gmail or Microsoft 365, Google Calendar, and Airtable/Notion/HubSpot connectors.
+
+**`motion-graphics-skills` — 13.** `brand-intake` is this pack's keystone: it
+writes `brand.md` and `MOTION.md` plus a CLAUDE.md rule so the rest read your
+colours, type and timing first. `motion-brief-writer`, `motion-effects`,
+`animated-chart`, `milestone-reveal`, `launch-video`, `apple-launch-film`,
+`title-sequence-3d`, `newsletter-promo`, `model-showdown`, `loop-cover`,
+`reel-export`, `vox-explainer`. Its 13 MB `assets/` directory is entirely README
+screenshots that no skill references, so `vendor/motion-graphics-skills/` keeps
+only the README, prompts, licence and validator.
+
+## Totals
+
+**102 skills** and **eight marketplaces** (337 plugins catalogued, none enabled).
+Still no hooks and no MCP servers.
+
+## The skill listing is now badly over budget
+
+This is no longer a warning. At 102 skills roughly **45 now appear with no
+description at all** — among them `pdf`, `pptx`, `xlsx`, `skill-creator`,
+`slides`, `stop-slop`, `unlazy`, `verify`, `patch`, `triage`, `quickstart`,
+`ui-ux-pro-max`, `threat-model`, `vuln-scan`, every `understand-*`, and most of
+the two packs just installed. A skill with no description in the listing cannot
+be auto-selected; it only works if invoked by name. Nearly half the collection is
+in that state.
+
+Three ways out, in order of cost:
+
+1. **Prune.** The six anthropics duplicates (`docx`, `pdf`, `pptx`, `xlsx`,
+   `skill-creator`, `claude-api` — all still available as `anthropic-skills:*`)
+   and the five generic harness names (`verify`, `patch`, `triage`, `customize`,
+   `quickstart`) are 11 skills whose removal costs nothing. That alone gets back
+   under 92.
+2. **Repackage the two keystone packs as marketplaces.** They are the only two
+   rounds installed as loose skills rather than plugins; moving them behind
+   manifests takes 26 more out of the listing, leaving about 65.
+3. **Raise the budget.** `skillListingBudgetFraction` (default `0.01`) and
+   `skillListingMaxDescChars` (default `1536`) in `.claude/settings.json`. This
+   keeps all 102 live and costs context on every single turn, in proportion.
