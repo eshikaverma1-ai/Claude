@@ -34,22 +34,57 @@
 
 ## Install status
 
-None installed yet. The session's permission classifier denies both `npx skills add`
-and read-only `git clone` of these repos, so no skill files have been fetched.
+Installed with `npx skills add` on 2026-10-10. Skills land in `.agents/skills/`
+and are symlinked into `.claude/skills/`. Lockfile: `skills-lock.json`.
 
-### Verified from the repo listings
+**13 of 15 repos installed, yielding 39 skills.** Several repos ship more than
+one skill, so the count exceeds the roster.
 
-All five writing repos exist and are public. Layouts differ:
+| Repo | Skills installed |
+| --- | --- |
+| `blader/humanizer` | `humanizer` |
+| `ayghri/i-have-adhd` | `i-have-adhd` |
+| `hardikpandya/stop-slop` | `stop-slop` |
+| `charlie947/answer-first` | `answer-first` |
+| `charlie947/voiceprint` | `voiceprint` |
+| `nextlevelbuilder/ui-ux-pro-max-skill` | 7: `ui-ux-pro-max`, `ui-styling`, `design`, `design-system`, `brand`, `banner-design`, `slides` |
+| `Leonxlnx/taste-skill` | 13: `gpt-taste`, `brandkit`, `minimalist-ui`, `industrial-brutalist-ui`, `image-to-code`, `imagegen-frontend-web`, `imagegen-frontend-mobile`, `design-taste-frontend`, `design-taste-frontend-v1`, `stitch-design-taste`, `high-end-visual-design`, `redesign-existing-projects`, `full-output-enforcement` |
+| `pbakaus/impeccable` | `impeccable` |
+| `Nutlope/hallmark` | `hallmark` |
+| `zarazhangrui/frontend-slides` | `frontend-slides` |
+| `cathrynlavery/diagram-design` | `diagram-design` |
+| `tt-a1i/archify` | `archify` |
+| `Egonex-AI/Understand-Anything` | 9: `understand`, `understand-chat`, `understand-dashboard`, `understand-diff`, `understand-domain`, `understand-explain`, `understand-figma`, `understand-knowledge`, `understand-onboard` |
 
-- `blader/humanizer` — `SKILL.md` at root. v3.1.0, MIT. Markdown only.
-- `hardikpandya/stop-slop` — `SKILL.md` at root plus `references/`. MIT. Markdown only.
-- `charlie947/answer-first` — `skills/answer-first/`, `.claude-plugin/`. Markdown only.
-- `ayghri/i-have-adhd` — ships `hooks/`, `scripts/`, `extensions/`, `package.json`. **Executable code.**
-- `charlie947/voiceprint` — ships `bin/`, `setup.sh`, `trace.py`. **Executable code.**
+### The two that are not skills
 
-The ten design repos have not been inspected.
+`design.md` and `awesome-design-md` are a file format and a library of files
+written in it. Neither installs as a skill.
 
-### Review before installing
+- **`google-labs-code/design.md`** is a format spec plus a CLI and linter
+  (`@google/design.md`): `lint` checks token references and WCAG contrast,
+  `diff` catches regressions, `export` emits Tailwind or W3C DTCG JSON. The
+  installer found that repo's own internal dev skills
+  (`tdd-red-green-refactor`, `typed-service-contracts`), which have nothing to
+  do with brand tokens and would trigger on unrelated TypeScript work. Both
+  were removed. To use the format, write a `DESIGN.md` at the project root and
+  lint it with the CLI.
+- **`VoltAgent/awesome-design-md`** reported "No skills found", correctly: it is
+  73 ready-made `DESIGN.md` files for brands like Stripe, Linear and Claude,
+  each with `preview.html` and `preview-dark.html`. To use one, copy its
+  `DESIGN.md` into the project root.
 
-`i-have-adhd` installs hooks that run on tool calls, and `voiceprint` has a shell
-setup script. Read both before letting either run.
+### Review before use
+
+The installer's own warning: skills run with full agent permissions. These ship
+executable code that a skill can invoke:
+
+- `design-system/scripts/` — token validators, slide generation, background fetch (Python)
+- `frontend-slides/scripts/` — `deploy.sh`, `export-pdf.sh`, `extract-pptx.py`
+- `design/scripts/logo/` — logo search (Python)
+- `brand/scripts/` — brand-to-token sync (Python)
+- `understand-domain/extract-domain-context.py`
+- `impeccable/scripts/data/font-index.json` — 1.1 MB font index
+
+Nothing has run. No hooks were registered and `.claude/settings.json` holds only
+the `npx skills` permission rule.
