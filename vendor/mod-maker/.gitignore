@@ -1,0 +1,4 @@
+.DS_Store
+node_modules/
+PUBLISH.md
+plugins/*/.claude-plugin/types/

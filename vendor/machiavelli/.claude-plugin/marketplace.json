@@ -1,0 +1,19 @@
+{
+  "name": "machiavelli",
+  "owner": {
+    "name": "Charlie Hills",
+    "url": "https://charliehills.substack.com"
+  },
+  "plugins": [
+    {
+      "name": "machiavelli",
+      "source": ".",
+      "description": "Reads a real business situation for power and leverage, then writes the message. Paste a thread from a client, agency, brand, publisher or event organiser and get back a power map, two or three ranked plays with what each costs, a paste-ready draft, and the one move to avoid. Built around a measured failure: a brand named $1,000, the counter was a single figure 3.4x higher with no alternative beside it, and they passed four minutes later. Every play runs on true facts, never on manufactured urgency. Draft only, it never sends anything.",
+      "version": "1.0.0",
+      "metadata": {
+        "categories": ["business"],
+        "tags": ["negotiation", "leverage", "sales", "brand deals", "client management", "positioning", "email drafting"]
+      }
+    }
+  ]
+}

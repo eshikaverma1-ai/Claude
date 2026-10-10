@@ -1,0 +1,90 @@
+{
+  "name": "charlie-free-mods",
+  "owner": {
+    "name": "Charlie Hills"
+  },
+  "metadata": {
+    "description": "Mod Maker: find what you ask Claude again and again, and turn it into a mod. Plus 8 example mods and a virtual office.",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "office",
+      "source": "./plugins/office",
+      "description": "A pixel-art office in a local web page: each Claude session gets a desk, walks to the filing cabinet when it reads, types when it edits, sends paper planes when it messages, and shows a live Done-by clock",
+      "version": "0.1.1"
+    },
+    {
+      "name": "mission-control",
+      "source": "./plugins/mission-control",
+      "description": "A live panel above your prompt: the plan as a stage bar, what Claude is doing in plain English, your asks ticked off, and a chime when it is done",
+      "version": "0.1.4"
+    },
+    {
+      "name": "mod-maker",
+      "source": "./plugins/mod-maker",
+      "description": "/mod-audit, /mod-build, /mod-check and a habit spotter that offers to turn a repeat ask into a mod",
+      "version": "0.1.1"
+    },
+    {
+      "name": "safe-delete",
+      "source": "./plugins/safe-delete",
+      "description": "Deletes Claude runs go to the Bin instead, with a receipt and /undo-delete",
+      "version": "0.1.2"
+    },
+    {
+      "name": "secrets-guard",
+      "source": "./plugins/secrets-guard",
+      "description": "Stops Claude reading .env and key files, masks API keys in command output, and lets you hand Claude a key through a pane without it ever seeing the value",
+      "version": "0.1.3"
+    },
+    {
+      "name": "open-loops",
+      "source": "./plugins/open-loops",
+      "description": "A pane listing every ask you make in a session, ticked off only with proof",
+      "version": "0.1.4"
+    },
+    {
+      "name": "show-it",
+      "source": "./plugins/show-it",
+      "description": "Opens the newest page, image or video Claude made, without stealing focus",
+      "version": "0.1.2"
+    },
+    {
+      "name": "sessions-band",
+      "source": "./plugins/sessions-band",
+      "description": "A band above the prompt listing your other open sessions, with an Ask button",
+      "version": "0.1.2"
+    },
+    {
+      "name": "pre-build-check",
+      "source": "./plugins/pre-build-check",
+      "description": "Re-reads your CLAUDE.md rules before any build, and keeps references to structure only",
+      "version": "0.1.1"
+    },
+    {
+      "name": "done-ping",
+      "source": "./plugins/done-ping",
+      "description": "A desktop notification with a sound when Claude finishes a long answer or may need your OK",
+      "version": "0.1.1"
+    },
+    {
+      "name": "plain-reply",
+      "source": "./plugins/plain-reply",
+      "description": "Grades every reply for length, long sentences and jargon, and offers a one-click 'Say it simpler' draft when it goes over your bar",
+      "version": "0.1.0"
+    },
+    {
+      "name": "outbox",
+      "source": "./plugins/outbox",
+      "description": "Holds every message Claude tries to send (WhatsApp, email, Slack) until you read it, see who it goes to, and press Send",
+      "version": "0.1.0"
+    },
+    {
+      "name": "brand-theme",
+      "source": "./plugins/brand-theme",
+      "description": "Dresses Claude Code in your brand: a branded spinner, the running tool row and the question dialog, plus a band above the prompt with your name, open loops and context used. One colour block to swap",
+      "version": "0.1.0"
+    }
+  ]
+}

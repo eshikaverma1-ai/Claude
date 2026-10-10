@@ -22,6 +22,30 @@
         "source": "directory",
         "path": "./vendor/agentwiki-skills"
       }
+    },
+    "exposure-audit": {
+      "source": {
+        "source": "directory",
+        "path": "./vendor/exposure-audit"
+      }
+    },
+    "skills-for-everyone": {
+      "source": {
+        "source": "directory",
+        "path": "./vendor/skills-for-everyone"
+      }
+    },
+    "machiavelli": {
+      "source": {
+        "source": "directory",
+        "path": "./vendor/machiavelli"
+      }
+    },
+    "charlie-free-mods": {
+      "source": {
+        "source": "directory",
+        "path": "./vendor/mod-maker"
+      }
     }
   }
 }

@@ -237,3 +237,74 @@ runs until you install it by name with
 archives, 9 from the defending-code harness, 1 `unlazy`, 2 from
 launch-your-agent. **Three marketplaces** registered (320 plugins catalogued),
 none enabled. No hooks registered and no MCP servers added.
+
+---
+
+# Uploaded Archives, Round 3
+
+Five archives installed on 2026-10-10. Four ship their own marketplace manifest
+and are registered; one does not and is installed as a skill.
+
+## Registered as marketplaces (0 plugins enabled)
+
+| Marketplace | Plugins | What it is |
+| --- | --- | --- |
+| `exposure-audit` | 1 | Audits your own machine for live credentials left lying around and for things you switched off that are still on somewhere. Scopes the surface before scoring a twenty-item checklist, so items that cannot apply are marked NOT RUN rather than passed. Never prints a secret. Ships `validate-skills.sh`. |
+| `skills-for-everyone` | 1 plugin, 7 skills | Charlie Hills's pack for people who use Claude daily but do not write code: `close`, `show-me`, `push-check`, `improve-system`, `workflow-maker`, `answer-first`, `prompt-lab`. Cut from 23 skills to seven. |
+| `machiavelli` | 1 | Reads a business situation for power and leverage, then writes the message: one power-map table, ranked plays with costs, a paste-ready draft, and the move to avoid. |
+| `charlie-free-mods` | 13 | Mod Maker plus 11 example mods and a virtual office: `mod-maker`, `safe-delete`, `secrets-guard`, `pre-build-check`, `mission-control`, `sessions-band`, `open-loops`, `outbox`, `plain-reply`, `done-ping`, `show-it`, `brand-theme`, `office`. |
+
+Registering `skills-for-everyone` rather than copying it resolved a second
+collision: it carries its own `answer-first` (78 lines) while the standalone
+`charlie947/answer-first` already installed is a different, longer edition (116
+lines). As a plugin the pack version stays namespaced and both survive.
+
+`machiavelli` was read before installing. It is arm's-length negotiation
+analysis, not manipulation tooling: it bans manufactured scarcity, invented
+offers and fake urgency on the grounds that a called bluff costs more than the
+deal, and it refuses to build a play against your own team, routing that to
+management instead.
+
+**`charlie-free-mods` is the one to be careful with.** Mods change Claude Code
+itself — panes, status lines, guards before a command — and at least five of its
+plugins (`plain-reply`, `open-loops`, `mission-control`, `secrets-guard`,
+`brand-theme`) ship a `hooks/hooks.json`. Enabling one changes how every turn in
+this project behaves. Its README also asks for Claude Code 2.1.287 or newer.
+
+## Installed as a skill (1)
+
+`agent-harness-starter` ships no marketplace manifest, so `vendor/agent-harness-starter/`
+holds the repository and `agent-harness-setup` is symlinked into `.claude/skills/`.
+It needs the repo: the skill reads `templates/CLAUDE.md`,
+`templates/project-CLAUDE.md`, `templates/memory/`, `templates/agents/` and
+`templates/skills/post-writer-example/` from the root, plus its own
+`scripts/setup.sh` and `scripts/seed-claude-md.sh`.
+
+An interactive scaffold for the six markdown components of an agent harness —
+personalisation, context, action, memory and the rest — companion to Charlie
+Hills's MarTech AI newsletter issue.
+
+**Its `install.sh` was not run.** That script writes into `~/.claude/` globally:
+it installs the skill and a slash command there, backing up and replacing
+whatever it finds. That is a change to every project on the machine, not just
+this one, so it is left for you. `templates/skills/post-writer-example/` is a
+worked example for the scaffold, not a skill to install, and is not symlinked.
+
+## Totals
+
+**76 skills** in `.claude/skills/` and **seven marketplaces** registered
+(336 plugins catalogued, none enabled). Still no hooks registered and no MCP
+servers added.
+
+### The skill listing is now over budget
+
+At 76 skills the per-turn skill listing exceeds its context budget, so Claude
+Code has begun truncating descriptions — a number of skills now appear by name
+only, with no description, which is what they trigger on. Registering rounds 2
+and 3 as marketplaces instead of copying their skills in kept roughly 25 more
+skills out of the listing, but the 76 already there are over the line.
+
+Two settings control it: `skillListingBudgetFraction` (default `0.01`, one
+percent of the context window) and `skillListingMaxDescChars` (default `1536`).
+Raising either costs context on every turn. The cheaper fix is fewer skills —
+see the duplicate and generic-name problems recorded above.
