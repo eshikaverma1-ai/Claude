@@ -394,3 +394,79 @@ Three ways out, in order of cost:
 3. **Raise the budget.** `skillListingBudgetFraction` (default `0.01`) and
    `skillListingMaxDescChars` (default `1536`) in `.claude/settings.json`. This
    keeps all 102 live and costs context on every single turn, in proportion.
+
+---
+
+# Uploaded Archives, Round 5
+
+Four archives on 2026-10-10. Three register as marketplaces, one installs as a
+skill — and two of the three replaced skills already installed loose.
+
+## Registered as marketplaces
+
+| Marketplace | Plugins | Skills behind them | What it is |
+| --- | --- | --- | --- |
+| `knowledge-work-plugins` | **123** | 252 | Plugins across 18 domains: `bio-research`, `customer-support`, `data`, `design`, `engineering`, `enterprise-search`, `finance`, `human-resources`, `legal`, `marketing`, `operations`, `product-management`, `productivity`, `sales`, `small-business`, `partner-built`, `pdf-viewer`, `cowork-plugin-management`. |
+| `ui-ux-pro-max-skill` | 1 | 7 | The source repository of the pack `npx skills` installed in round 1. |
+| `taste-skill` | 1 | 13 | The source repository of the pack `npx skills` installed in round 1. |
+
+One `knowledge-work-plugins` entry, `noibu`, is not vendored: its source is a
+`git-subdir` pinned to a SHA at `github.com/Noibu/ai-plugin.git`, fetched on
+install. The other 122 resolve inside the vendored copy.
+
+Both smaller manifests declare `source: "./"`, so the whole repository is the
+plugin and each is vendored intact.
+
+## 20 loose skills removed as superseded
+
+`ui-ux-pro-max-skill` and `taste-skill` are the upstream repositories of 20
+skills already sitting loose in `.agents/skills/`, installed by `npx skills` in
+round 1. Their `SKILL.md` files are byte-identical to the installed copies, so
+registering the marketplaces would have produced twenty exact duplicates — the
+same skill both namespaced as a plugin and bare in the listing.
+
+The loose copies were removed and the plugin form kept:
+
+- From `ui-ux-pro-max-skill`: `ui-ux-pro-max`, `ui-styling`, `design`,
+  `design-system`, `brand`, `banner-design`, `slides`.
+- From `taste-skill`: `gpt-taste`, `brandkit`, `minimalist-ui`,
+  `industrial-brutalist-ui`, `image-to-code`, `imagegen-frontend-web`,
+  `imagegen-frontend-mobile`, `design-taste-frontend`, `design-taste-frontend-v1`,
+  `stitch-design-taste`, `high-end-visual-design`, `redesign-existing-projects`,
+  `full-output-enforcement`.
+
+Nothing was lost. Every one is still installable by name from its marketplace,
+and both archives are vendored in full.
+
+## Installed as a skill (1)
+
+`remove-ai-design-slop` ships no manifest, so it went into `.agents/skills/`.
+Builds the four files (a `REFERENCE.md`, a `DESIGN.md` and four lines in
+`CLAUDE.md`) that make later graphics come out on brand, checks work against 29
+tells, and turns a long list into a graphic that reads as a reference document
+rather than an AI card grid. Its frontmatter states it targets the free tier at
+claude.ai — no paid plan, API key or install.
+
+## Totals
+
+**83 skills** (down from 102) and **eleven marketplaces** holding **462
+plugins**, none enabled. Still no hooks and no MCP servers. The repository is
+about 142 MB, 67 MB of it under `vendor/`.
+
+### Listing pressure, eased but not fixed
+
+This round removed 19 skills net from the listing — the first reduction in the
+project — by taking the plugin form of two packs instead of keeping both forms.
+Descriptions should return for some skills that had lost them.
+
+83 is still above where the listing fits comfortably. The two cheapest remaining
+cuts, both still outstanding:
+
+1. The six skills duplicating the `anthropic-skills` plugin: `docx`, `pdf`,
+   `pptx`, `xlsx`, `skill-creator`, `claude-api`.
+2. The five generically named harness skills that fire on unrelated requests:
+   `verify`, `patch`, `triage`, `customize`, `quickstart`.
+
+Taking both gets to 72. Repackaging `life-automation-skills` and
+`motion-graphics-skills` as marketplaces, as every other multi-skill pack now
+is, would reach roughly 46.

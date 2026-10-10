@@ -52,6 +52,24 @@
         "source": "directory",
         "path": "./vendor/social-media-skills"
       }
+    },
+    "knowledge-work-plugins": {
+      "source": {
+        "source": "directory",
+        "path": "./vendor/knowledge-work-plugins"
+      }
+    },
+    "ui-ux-pro-max-skill": {
+      "source": {
+        "source": "directory",
+        "path": "./vendor/ui-ux-pro-max-skill"
+      }
+    },
+    "taste-skill": {
+      "source": {
+        "source": "directory",
+        "path": "./vendor/taste-skill"
+      }
     }
   }
 }
