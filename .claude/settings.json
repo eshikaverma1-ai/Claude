@@ -10,6 +10,18 @@
         "source": "directory",
         "path": "./vendor/claude-plugins-official"
       }
+    },
+    "skillx-marketplace": {
+      "source": {
+        "source": "directory",
+        "path": "./vendor/skillx"
+      }
+    },
+    "nextlevelbuilder-agentwiki": {
+      "source": {
+        "source": "directory",
+        "path": "./vendor/agentwiki-skills"
+      }
     }
   }
 }

@@ -161,3 +161,79 @@ plugins contain and cannot verify they will not change.
 
 72 skills in `.claude/skills/` — 39 from `npx skills`, 24 from these archives, 9
 from the harness. One marketplace registered, no plugins enabled.
+
+---
+
+# Uploaded Archives, Round 2
+
+Four archives installed on 2026-10-10. Again four different shapes.
+
+## Installed as a skill (1)
+
+| Archive | What it is |
+| --- | --- |
+| `unlazy` v2.1.0 | One skill whose `SKILL.md` sits at the repo root. Enforces completion discipline on long autonomous work: write acceptance gates first, decompose with a Depth Tree, run approved checks, re-verify evidence before reporting. Triggers include `/unlazy` and "do not stop until it is done". |
+
+Installed to `.agents/skills/unlazy/` with its `agents/`, `references/`,
+`research/`, `scripts/`, `templates/` and `tests/` intact; `.github/` dropped.
+
+**It ships a Stop hook it wants installed.** `scripts/install-hooks.mjs` registers
+`scripts/stop-hook.mjs`, which is what makes the gates block a turn from ending.
+That was not run — a Stop hook changes how every turn in this project finishes.
+Run it yourself if you want the enforcement, or use the skill without it and the
+gates stay advisory. `.claude/settings.json` has no `hooks` block.
+
+## Installed as a project (2 skills)
+
+`vendor/launch-your-agent/` holds the whole repository, because its skills read
+`cma-primitives.md`, `CLAUDE.md` and `ui/` (an example overview page, a build
+sheet and a stylesheet) from the repo root. `launch-your-agent` and `wrap-up` are
+symlinked into `.claude/skills/`.
+
+An Anthropic reference implementation for building on Claude Managed Agents:
+interview, scope a v0, launch it in your own account, grade it against your own
+rubric, iterate, optionally put it on a schedule. Upstream states it is
+unmaintained, accepts no contributions, and is deliberately token-intensive
+because it explains each step.
+
+## Registered as marketplaces (0 plugins enabled)
+
+Both archives ship their own `.claude-plugin/marketplace.json` and their READMEs
+say to install through Claude Code's plugin system, so both are registered
+rather than copied into `.claude/skills/`.
+
+| Marketplace | Plugins | What it is |
+| --- | --- | --- |
+| `skillx-marketplace` | 4 | SkillX.sh — a skills marketplace with a web app, a CLI and a hybrid search engine. Plugins: `skillx`, `skill-creator` v3.0.0, `marketing-mindset`, `hol-guard`. |
+| `nextlevelbuilder-agentwiki` | 1 | `agentwiki` — drives the AgentWiki CLI (`@aiagentwiki/cli`) and its MCP server for documents, folders, search, knowledge-graph traversal, uploads and publishing. |
+
+Registering rather than copying also resolved a collision: skillx ships its own
+`skill-creator` v3.0.0, tuned for Skillmark benchmarks, which would have
+overwritten the Anthropic `skill-creator` already in `.claude/skills/`. As a
+plugin it stays namespaced, and both can coexist.
+
+`vendor/skillx/` keeps the monorepo (`apps/`, `packages/`, `docs/`) but leaves
+out ~9 MB of the maintainer's own database artifacts that shipped in the zip:
+`scripts/seed-data.json`, `scripts/.content-update-progress.json` and the
+`scripts/.tmp-update*.sql` files. None are needed to use the marketplace or the
+skills. The `skillx` skill calls the published `npx skillx` package, not the
+local checkout.
+
+### Two things to know before enabling these
+
+- The `skillx` skill's whole description is "Use this skill in every task", and
+  its body shells out to `npx skillx`. Enabled, it would fire on every request
+  and reach a network CLI each time.
+- `agentwiki` talks to `https://api.agentwiki.cc/mcp` and an npm CLI, both
+  needing their own credentials. No MCP server was registered.
+
+`enabledPlugins` is still absent, so nothing from any of the three marketplaces
+runs until you install it by name with
+`/plugin install <name>@<marketplace>`.
+
+## Totals
+
+**75 skills** in `.claude/skills/`: 39 from `npx skills`, 24 from round-1
+archives, 9 from the defending-code harness, 1 `unlazy`, 2 from
+launch-your-agent. **Three marketplaces** registered (320 plugins catalogued),
+none enabled. No hooks registered and no MCP servers added.

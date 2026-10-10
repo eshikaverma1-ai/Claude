@@ -1,0 +1,13 @@
+{
+  "name": "agentwiki",
+  "version": "0.1.0",
+  "description": "Drive AgentWiki via CLI and MCP — manage documents, folders, search, knowledge graph, uploads, static sites, sharing.",
+  "author": {
+    "name": "NextLevelBuilder",
+    "email": "digitop.vn@gmail.com"
+  },
+  "homepage": "https://github.com/nextlevelbuilder/agentwiki-skills",
+  "repository": "https://github.com/nextlevelbuilder/agentwiki-skills",
+  "license": "MIT",
+  "keywords": ["agentwiki", "knowledge-base", "mcp", "cli", "cloudflare"]
+}

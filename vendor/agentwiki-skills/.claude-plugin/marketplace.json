@@ -1,0 +1,30 @@
+{
+  "name": "nextlevelbuilder-agentwiki",
+  "owner": {
+    "name": "NextLevelBuilder",
+    "email": "digitop.vn@gmail.com"
+  },
+  "metadata": {
+    "description": "Skills for mastering AgentWiki — the Cloudflare-hosted knowledge platform with CLI and MCP server.",
+    "version": "0.1.0",
+    "pluginRoot": "./plugins"
+  },
+  "plugins": [
+    {
+      "name": "agentwiki",
+      "source": "./agentwiki",
+      "description": "Teach AI agents to drive the AgentWiki CLI (@aiagentwiki/cli) and MCP server — auth, documents, folders, search, knowledge graph, uploads, sites, sharing.",
+      "version": "0.1.0",
+      "author": {
+        "name": "NextLevelBuilder",
+        "email": "digitop.vn@gmail.com"
+      },
+      "homepage": "https://github.com/nextlevelbuilder/agentwiki-skills",
+      "repository": "https://github.com/nextlevelbuilder/agentwiki-skills",
+      "license": "MIT",
+      "category": "knowledge-management",
+      "keywords": ["agentwiki", "knowledge-base", "mcp", "cli", "cloudflare", "rag", "documents"],
+      "tags": ["agentwiki", "mcp", "cli", "knowledge-graph", "search"]
+    }
+  ]
+}
