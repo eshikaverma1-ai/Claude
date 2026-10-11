@@ -1,30 +1,41 @@
 /* Hallmark · tokens.css · MatchFast
- * Every value below is lifted from the live matchfast.co stylesheet, not invented.
- * Source: the --mf-* custom properties and the .mfdir2 / .bor-* directory CSS.
+ * Colour is the official brand sheet: Royal Blue #4136C3 (primary),
+ * Deep Indigo #3E3183, Cornflower Blue #74A3FF, Lavender Mist #E8D7F8.
+ * The live site's mint #2ED3B5 does not appear on that sheet and has been
+ * dropped. Every ratio below is measured against --color-paper.
  */
 :root{
-  /* ---- surfaces: the live radial navy stack ---------------------------- */
-  --color-paper:#070D24;          /* page floor, live gradient stop 3       */
-  --color-paper-2:#0B1437;        /* mid stop                               */
-  --color-paper-3:#0F1A4A;        /* card + panel surface, live stop 1      */
-  --color-paper-4:#152057;        /* hover surface                          */
+  /* ---- surfaces, derived from Deep Indigo ------------------------------ */
+  --color-paper:#0B0E20;          /* page floor                            */
+  --color-paper-2:#101329;        /* the brand sheet's own background      */
+  --color-paper-3:#1A1A47;        /* card and panel surface                */
+  --color-paper-4:#252356;        /* hover surface                         */
 
-  /* ---- ink. Ratios against --color-paper are in the comments ----------- */
-  --color-ink:#FFFFFF;            /* 17.7 */
-  --color-text:#E2E8F0;           /* 15.6 */
-  --color-muted:#B6BDD0;          /* 10.2 */
-  --color-faint:#9AA6BA;          /*  7.8 */
+  /* ---- ink. Ratios are against --color-paper. -------------------------- */
+  --color-ink:#FFFFFF;            /* 19.1 */
+  --color-text:#E6E4F5;           /* 15.3 */
+  --color-muted:#B4B0D4;          /*  9.2 */
+  --color-faint:#9D99C2;          /*  7.1 */
 
-  /* ---- accent. Mint is the live primary; amber is the live rating ------ */
-  --color-accent:#2ED3B5;         /* 10.2 */
-  --color-accent-deep:#14B8A6;    /* hover fill                            */
-  --color-accent-ink:#07332B;     /* 7.3 on mint, the live ink-on-mint     */
-  --color-rating:#FFC727;         /* 12.3 */
-  --color-royal:#4F46FF;          /* --mf-royal-blue, fills only           */
+  /* ---- the four brand colours, each given one job ---------------------- */
+  --color-cta:#4136C3;            /* Royal Blue, primary action fill only.
+                                     White on it is 8.3; as text on the page
+                                     floor it is 2.3, so it is never text.  */
+  --color-cta-hover:#5247D8;
+  --color-cta-ink:#FFFFFF;
+  --color-accent:#74A3FF;         /* Cornflower Blue, 7.7. Links, figures,
+                                     rules, every accent that is text.      */
+  --color-accent-ink:#0B0E20;     /* 7.7 on Cornflower, for a filled chip   */
+  --color-indigo:#3E3183;         /* Deep Indigo, surfaces and borders only;
+                                     1.8 as text, so never text.            */
+  --color-rating:#E8D7F8;         /* Lavender Mist, 14.1. Ratings, so the
+                                     figure never shares a colour with a
+                                     link. Replaces the off-brand amber.    */
 
-  --color-rule:rgba(46,211,181,.20);   /* the live teal-tinted hairline    */
+  --color-rule:rgba(116,163,255,.22);
   --color-rule-2:rgba(255,255,255,.08);
-  --color-focus:#2ED3B5;
+  --color-focus:#74A3FF;
+
 
   /* ---- type: two families, as instructed ------------------------------- */
   --font-display:"DM Sans",ui-sans-serif,system-ui,sans-serif;
