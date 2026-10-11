@@ -215,59 +215,124 @@ header.on{border-bottom:var(--rule-hair) solid var(--color-rule-2)}
 }
 @media (max-width:620px){.nav .acts .btn-ghost{display:none}}
 
-/* ======================== HERO =========================================
-   Ecosystem Index: a brief positioning line, then straight into the
-   discovery surfaces. The field is the one action.                       */
-.hero{padding-block:clamp(32px,4.5vw,64px) clamp(28px,3.5vw,44px)}
-.hgrid{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:clamp(24px,4vw,64px);align-items:start}
-@media (max-width:1000px){.hgrid{grid-template-columns:minmax(0,1fr)}}
-.hero h1{max-width:19ch}
-.today{
-  background:var(--color-paper-3);border:var(--rule-hair) solid var(--color-rule);
-  border-radius:var(--radius-md);padding:var(--space-lg);display:flex;flex-direction:column;gap:var(--space-sm)
+/* ======================== HERO BANNER ==================================
+   Built to the brand sheet's own hero: the flowing light surface, the
+   wide-tracked kicker, frosted stat cards, and the lavender pill with a
+   Royal Blue circle nested flush inside it.                            */
+.hero{padding-block:var(--space-lg) var(--space-xl)}
+.banner{
+  position:relative;overflow:hidden;isolation:isolate;
+  border-radius:clamp(18px,2.2vw,30px);
+  padding:clamp(26px,4vw,62px);
+  min-height:clamp(470px,52vw,650px);
+  display:flex;flex-direction:column;
+  background:var(--color-cta)
 }
-.today .lab{margin-bottom:var(--space-2xs)}
-.tw{
-  display:flex;flex-direction:column;gap:2px;padding-block:var(--space-sm);
-  border-top:var(--rule-hair) solid var(--color-rule-2);
-  transition:color var(--dur-fast) var(--ease-out)
+.banner-art{position:absolute;inset:0;z-index:-2;width:100%;height:100%;object-fit:cover}
+.banner::before{
+  content:"";position:absolute;inset:0;z-index:-1;
+  background:
+    radial-gradient(60% 46% at 100% 0%, rgba(14,11,54,.52) 0%, rgba(14,11,54,0) 70%),
+    linear-gradient(100deg, rgba(14,11,54,.82) 0%, rgba(14,11,54,.56) 36%, rgba(14,11,54,.12) 68%, rgba(14,11,54,0) 100%),
+    linear-gradient(0deg, rgba(14,11,54,.55) 0%, rgba(14,11,54,0) 46%)
 }
-.tw strong{font-family:var(--font-display);font-size:var(--text-base);font-weight:500;letter-spacing:-.012em;color:var(--color-text)}
-.tw:hover strong{color:var(--color-accent)}
-.hero .lead{margin-top:var(--space-md)}
-.finder{margin-top:var(--space-xl);max-width:860px}
+.kicker{
+  display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-sm);
+  font-size:var(--text-xs);font-weight:500;letter-spacing:.32em;text-transform:uppercase;
+  color:rgba(255,255,255,.9)
+}
+.kicker b{width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,.62);flex:none}
+.banner-grid{
+  display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);
+  gap:clamp(24px,4vw,56px);align-items:end;margin-top:auto;padding-top:clamp(28px,4vw,54px)
+}
+@media (max-width:900px){.banner-grid{grid-template-columns:minmax(0,1fr);align-items:start}}
+.banner h1{color:#fff;max-width:none;text-shadow:0 2px 26px rgba(10,8,40,.38)}
+.banner h1 .em{color:var(--color-accent)}
+.banner .sub{margin-top:var(--space-md);max-width:44ch;color:rgba(255,255,255,.88);
+  font-size:var(--text-xl);line-height:1.5}
+
+.glass{
+  background:rgba(255,255,255,.13);
+  border:var(--rule-hair) solid rgba(255,255,255,.27);
+  border-radius:var(--radius-md);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  padding:var(--space-md) var(--space-lg);
+  display:flex;align-items:center;gap:var(--space-md);
+  transition:background-color var(--dur-mid) var(--ease-out),transform var(--dur-mid) var(--ease-out)
+}
+.glass:hover{background:rgba(255,255,255,.2);transform:translateY(-2px)}
+.glass .ic{width:38px;height:38px;flex:none;border-radius:50%;display:grid;place-items:center;
+  background:rgba(255,255,255,.92);color:var(--color-cta)}
+.glass .ic svg{width:18px;height:18px;stroke-width:2.2}
+.glass k{display:block;font-size:var(--text-xs);color:rgba(255,255,255,.84);line-height:1.3}
+.glass v{display:block;font-family:var(--font-display);font-size:var(--text-2xl);font-weight:500;
+  letter-spacing:-.018em;color:#fff;line-height:1.2;margin-top:2px;font-variant-numeric:tabular-nums}
+.glass-col{display:flex;flex-direction:column;gap:var(--space-sm)}
+.glass-col .glass:nth-child(2){margin-right:clamp(0px,4vw,54px)}
+
+.pill{
+  display:inline-flex;align-items:center;gap:var(--space-md);
+  background:var(--color-rating);color:#1A1440;border:0;border-radius:var(--radius-pill);
+  cursor:pointer;font-family:var(--font-body);font-size:var(--text-base);font-weight:600;
+  letter-spacing:-.005em;padding:7px 7px 7px var(--space-lg);min-height:52px;white-space:nowrap;
+  transition:background-color var(--dur-mid) var(--ease-out),transform var(--dur-fast) var(--ease-out)
+}
+.pill:hover{background:#fff}
+.pill:active{transform:translateY(1px)}
+.pill i{width:38px;height:38px;flex:none;border-radius:50%;display:grid;place-items:center;
+  background:var(--color-cta);color:#fff;transition:transform var(--dur-mid) var(--ease-out)}
+.pill i svg{width:16px;height:16px;stroke-width:2.2}
+.pill:hover i{transform:translateX(3px)}
+.pill[data-state=loading]{pointer-events:none}
+
+.signoff{
+  position:absolute;right:clamp(20px,4vw,62px);top:clamp(24px,4vw,62px);
+  text-align:right;font-size:var(--text-xs);font-weight:500;line-height:1.95;
+  letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.82)
+}
+@media (max-width:1100px){.signoff{display:none}}
+
+.finder{margin-top:clamp(22px,3vw,32px);max-width:640px}
 .f-bar{
   display:flex;align-items:stretch;gap:var(--space-xs);
-  background:var(--color-paper-3);border:var(--rule-hair) solid var(--color-rule);
   border-radius:var(--radius-md);padding:var(--space-xs);
+  background:rgba(255,255,255,.13);
+  border:var(--rule-hair) solid rgba(255,255,255,.3);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
   transition:border-color var(--dur-mid) var(--ease-out)
 }
-.f-bar:focus-within{border-color:var(--color-accent)}
-.finder.is-error .f-bar{border-color:var(--color-rating)}
 .f-bar textarea{
-  flex:1;min-width:0;border:0;background:none;resize:none;color:var(--color-ink);
-  font-size:var(--text-base);line-height:1.5;padding:var(--space-sm) var(--space-md);
-  min-height:48px;max-height:132px
+  flex:1;min-width:0;border:0;background:none;resize:none;
+  font-size:var(--text-base);line-height:1.5;
+  padding:var(--space-sm) var(--space-md);min-height:46px;max-height:124px
 }
-.f-bar textarea::placeholder{color:var(--color-faint)}
 .f-bar textarea:focus{outline:none}
+.finder.is-error .f-bar{border-color:var(--color-rating)}
 .f-meta{display:flex;flex-wrap:wrap;gap:var(--space-sm) var(--space-md);align-items:center;margin-top:var(--space-sm)}
 .chips{display:flex;flex-wrap:wrap;gap:var(--space-xs)}
 .chip{
-  font-family:var(--font-body);font-size:var(--text-xs);color:var(--color-muted);
-  background:var(--color-paper-3);border:var(--rule-hair) solid var(--color-rule-2);
-  border-radius:var(--radius-pill);padding:7px var(--space-sm);cursor:pointer;
+  font-family:var(--font-body);font-size:var(--text-xs);border-radius:var(--radius-pill);
+  padding:7px var(--space-sm);cursor:pointer;
   transition:border-color var(--dur-fast) var(--ease-out),color var(--dur-fast) var(--ease-out)
 }
-.chip:hover{border-color:var(--color-accent);color:var(--color-accent)}
 .f-msg{display:none;gap:var(--space-xs);margin-top:var(--space-sm);font-size:var(--text-sm)}
-.finder.is-error .f-msg.e{display:flex;color:var(--color-rating)}
-.finder.is-done .f-msg.s{display:flex;color:var(--color-accent)}
+.finder.is-error .f-msg.e{display:flex}
+.finder.is-done .f-msg.s{display:flex}
 .finder.is-done .f-bar,.finder.is-done .f-meta{display:none}
-@media (max-width:620px){
-  .f-bar{flex-direction:column}
-  .f-bar .btn{width:100%}
-}
+@media (max-width:620px){.f-bar{flex-direction:column}.f-bar .pill{width:100%;justify-content:center}}
+/* the example briefs are full sentences; below 440px they cannot sit on
+   one line, and a two-line chip is a broken hit target. Drop them. */
+@media (max-width:440px){.chips{display:none}}
+.f-bar:focus-within{border-color:#fff}
+.f-bar textarea{color:#fff}
+.f-bar textarea::placeholder{color:rgba(255,255,255,.74)}
+.f-meta .chip{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.26);color:rgba(255,255,255,.92)}
+.f-meta .chip:hover{border-color:#fff;color:#fff}
+.f-meta .xs{color:rgba(255,255,255,.8)}
+.finder .f-msg.s{color:#fff}
+.finder .f-msg.e{color:var(--color-rating)}
+
 
 /* stat strip, one band only, real figures from the live site */
 .strip{
@@ -560,6 +625,7 @@ footer{border-top:var(--rule-hair) solid var(--color-rule);margin-top:var(--spac
   transition:transform 1s cubic-bezier(.16,1,.3,1)}
 .lit .ln>span{transform:none}
 .lit .ln:nth-child(2)>span{transition-delay:.09s}
+.lit .ln:nth-child(3)>span{transition-delay:.18s}
 
 /* a 2px mint rule across the top, showing read position */
 .prog{position:fixed;left:0;top:0;height:2px;width:100%;z-index:90;
@@ -650,55 +716,64 @@ footer{border-top:var(--rule-hair) solid var(--color-rule);margin-top:var(--spac
 
 <main id="main">
 
-<!-- ===================== HERO ===================== -->
+<!-- ===================== HERO BANNER ===================== -->
 <section class="hero">
   <div class="wrap">
-   <div class="hgrid">
-    <div>
-    <h1 id="h1"><span class="ln"><span>Tell us what you need.</span></span><span class="ln"><span>We will find the <span class="em">right match.</span></span></span></h1>
-    <p class="lead">Describe your project in your own words and we help you find technology
-      companies that fit your requirements. Every listing is checked, dated and ranked on
-      published criteria.</p>
+    <div class="banner">
+      <img class="banner-art" src="img/hero-wave.jpg" alt="" width="2400" height="1400" fetchpriority="high" decoding="async">
 
-    <form class="finder" id="finder" novalidate>
-      <label class="sr" for="fq">Search companies or describe your project</label>
-      <div class="f-bar">
-        <textarea id="fq" rows="1" placeholder="Search companies or describe your project..."></textarea>
-        <button class="btn btn-primary" type="submit" id="fgo"><span class="btn-t">Find my match</span></button>
-      </div>
-      <div class="f-meta">
-        <div class="chips">
-          <button class="chip" type="button">Video editing agency, 20 videos a month</button>
-          <button class="chip" type="button">Mobile app MVP in India, under $25,000</button>
-          <button class="chip" type="button">SEO agency in London with SaaS clients</button>
+      <p class="kicker">Find <b aria-hidden="true"></b> Match <b aria-hidden="true"></b> Grow faster</p>
+
+      <div class="banner-grid">
+        <div>
+          <h1 id="h1"><span class="ln"><span>Tell us what</span></span><span class="ln"><span>you need. We will find</span></span><span class="ln"><span>the <span class="em">right match.</span></span></span></h1>
+          <p class="sub">Describe your project in your own words and we help you find technology companies that fit your requirements.</p>
+
+          <form class="finder" id="finder" novalidate>
+            <label class="sr" for="fq">Search companies or describe your project</label>
+            <div class="f-bar">
+              <textarea id="fq" rows="1" placeholder="Describe your project..."></textarea>
+              <button class="pill" type="submit" id="fgo"><span class="btn-t">Get matched</span>
+                <i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M12 5l7 7-7 7"/></svg></i></button>
+            </div>
+            <div class="f-meta">
+              <div class="chips">
+                <button class="chip" type="button">Video editing agency, 20 videos a month</button>
+                <button class="chip" type="button">Mobile app MVP in India, under $25,000</button>
+              </div>
+              <p class="xs">No company sees your brief until you ask us to send it.</p>
+            </div>
+            <p class="f-msg e" role="alert">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true" style="flex:none;margin-top:3px"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5M12 16.2h.01"/></svg>
+              <span id="ferr"></span></p>
+            <p class="f-msg s" role="status">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none;margin-top:3px"><path d="M20 6 9 17l-5-5"/></svg>
+              <span>Your project brief is in. We will use your requirements to help identify relevant technology providers.</span></p>
+          </form>
         </div>
-        <p class="xs">No company sees your brief until you ask us to send it.</p>
+
+        <div class="glass-col stg">
+          <div class="glass">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>
+            <span><k>Company profiles</k><v>640</v></span>
+          </div>
+          <div class="glass">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19V5M4 19h16M8 19v-6M13 19V9M18 19v-3"/></svg></span>
+            <span><k>Client reviews counted</k><v>25,778</v></span>
+          </div>
+          <div class="glass">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7h18M3 12h18M3 17h10"/></svg></span>
+            <span><k>Apps and tools reviewed</k><v>384</v></span>
+          </div>
+        </div>
       </div>
-      <p class="f-msg e" role="alert">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true" style="flex:none;margin-top:3px"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5M12 16.2h.01"/></svg>
-        <span id="ferr"></span></p>
-      <p class="f-msg s" role="status">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none;margin-top:3px"><path d="M20 6 9 17l-5-5"/></svg>
-        <span>Your project brief is in. We will use your requirements to help identify relevant technology providers.</span></p>
-    </form>
 
+      <p class="signoff">Better<br>agencies<br>brighter<br>businesses</p>
     </div>
-    <aside class="today rv">
-      <p class="lab">Today on MatchFast</p>
-      <a class="tw" href="#"><span class="xs">Newest ranking</span><strong>Top Software Development Companies in Poland</strong><span class="xs">Verified 18 Sep 2026</span></a>
-      <a class="tw" href="#"><span class="xs">Figures re-read</span><strong>780 listings in the last 30 days</strong><span class="xs">Checked 11 Oct 2026</span></a>
-      <a class="tw" href="#"><span class="xs">Most reviewed profile</span><strong>Empat, San Francisco</strong><span class="xs">148 verified reviews</span></a>
-    </aside>
-   </div>
 
-    <div class="strip stg">
-      <div><v>640</v><k>Company profiles</k></div>
-      <div><v>25,778</v><k>Client reviews counted</k></div>
-      <div><v>384</v><k>Apps and tools reviewed</k></div>
-      <div><v>169</v><k>Categories covered</k></div>
-    </div>
   </div>
 </section>
+
 
 <!-- ===================== SURFACE 1 · TRENDING ===================== -->
 <section class="sect">
@@ -1055,7 +1130,7 @@ if(rm){
     es.forEach(function(e){
       if(!e.isIntersecting) return;
       e.target.classList.add("in");
-      if(e.target.classList.contains("strip")) count();
+      if(e.target.classList.contains("glass-col")) count();
       io.unobserve(e.target);
     });
   },{rootMargin:"0px 0px -8% 0px",threshold:.12});
@@ -1063,7 +1138,7 @@ if(rm){
   requestAnimationFrame(function(){ document.getElementById("h1").classList.add("lit"); });
 }
 function count(){
-  document.querySelectorAll(".strip v").forEach(function(el){
+  document.querySelectorAll(".glass v").forEach(function(el){
     var target=parseFloat(el.textContent.replace(/,/g,"")); if(!target) return;
     var t0=null, dur=1100;
     function step(ts){
