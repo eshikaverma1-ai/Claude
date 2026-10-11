@@ -601,6 +601,93 @@ footer{border-top:1px solid var(--line);margin-top:clamp(50px,6vw,90px)}
 .lit .ln:nth-child(3)>span{transition-delay:.16s}
 .prog{position:fixed;left:0;top:0;height:2px;width:100%;z-index:90;background:var(--accent);
   transform:scaleX(0);transform-origin:left;will-change:transform}
+/* ===== glowing arc horizon, from the Quantix and SYNC references ===== */
+.hero{isolation:isolate}
+.hero::before{
+  content:"";position:absolute;z-index:-1;left:50%;top:-56%;
+  width:min(1500px,150vw);aspect-ratio:1;transform:translateX(-50%);
+  border-radius:50%;pointer-events:none;
+  background:radial-gradient(closest-side,transparent 68%,var(--arc-a) 76%,transparent 86%);
+  opacity:var(--arc-o)
+}
+html[data-theme=light]{--arc-a:rgba(65,54,195,.26);--arc-o:.5}
+html[data-theme=indigo]{--arc-a:rgba(180,170,255,.55);--arc-o:.85}
+
+/* ===== featured directories ===== */
+.tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+@media (max-width:980px){.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.tiles{grid-template-columns:minmax(0,1fr)}}
+.tile .core{padding:24px;display:flex;flex-direction:column;gap:7px;height:100%;min-height:158px}
+.tile v{font-family:var(--f-display);font-size:var(--t-head);font-weight:500;line-height:1;
+  letter-spacing:-.03em;color:var(--accent);font-variant-numeric:tabular-nums}
+.tile .sub{margin-top:6px}
+.tile p{margin-top:auto;padding-top:12px}
+
+/* ===== how it works ===== */
+.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-top:1px solid var(--line)}
+@media (max-width:860px){.steps{grid-template-columns:minmax(0,1fr)}}
+.step{padding:26px 32px 28px 0;border-right:1px solid var(--line-2)}
+.step:last-child{border-right:0;padding-right:0}
+.step:not(:first-child){padding-left:32px}
+@media (max-width:860px){.step{border-right:0;border-bottom:1px solid var(--line-2);padding:22px 0}
+  .step:not(:first-child){padding-left:0}.step:last-child{border-bottom:0}}
+.step .k{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;
+  border-radius:50%;border:1px solid var(--ring);color:var(--accent);
+  font-family:var(--f-display);font-size:12px;font-variant-numeric:tabular-nums;margin-bottom:12px}
+.step .sub{margin-bottom:7px}
+
+/* ===== rankings by city and service ===== */
+.rank{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:clamp(18px,3vw,40px);align-items:stretch}
+@media (max-width:940px){.rank{grid-template-columns:minmax(0,1fr)}}
+.feat .core{padding:clamp(24px,3vw,38px);display:flex;flex-direction:column;gap:14px;height:100%}
+.feat .flag{align-self:flex-start;display:inline-flex;align-items:center;gap:7px;
+  font-size:10px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--cta-ink);background:var(--cta);border-radius:var(--r-pill);padding:5px 12px}
+.feat .when{margin-top:auto;padding-top:12px}
+.vrow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:3px 16px;align-items:center;
+  padding-block:16px;border-bottom:1px solid var(--line-2);transition:padding-left var(--d2) var(--e1)}
+.vrow:first-child{border-top:1px solid var(--line)}
+.vrow:hover{padding-left:8px}
+.vrow t{font-size:var(--t-sm);font-weight:500;color:var(--ink);line-height:1.35}
+.vrow d{grid-column:1;font-size:var(--t-xs);color:var(--muted)}
+.vrow svg{grid-row:1/span 2;grid-column:2;width:14px;height:14px;stroke-width:2;color:var(--muted)}
+
+/* ===== the Get Matched brief, as a dialog ===== */
+.scrim{position:fixed;inset:0;z-index:100;display:none;place-items:center;padding:20px;
+  background:rgba(13,10,31,.62);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.scrim[data-open]{display:grid}
+.sheet{width:min(640px,100%);max-height:88vh;overflow-y:auto;background:var(--paper);
+  border:1px solid var(--line);border-radius:var(--r-out);padding:clamp(22px,3vw,36px);
+  box-shadow:0 40px 90px -30px rgba(13,10,31,.5)}
+.sheet h2{margin-bottom:6px}
+.sheet .lede{font-size:var(--t-sm);margin-bottom:22px}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:560px){.fgrid{grid-template-columns:1fr}}
+.fld{display:flex;flex-direction:column;gap:6px}
+.fld.full{grid-column:1/-1}
+.fld label{font-size:var(--t-xs);font-weight:600;color:var(--ink);letter-spacing:.01em}
+.fld label em{font-style:normal;color:var(--accent)}
+.fld input,.fld select,.fld textarea{
+  width:100%;background:var(--tint);border:1px solid var(--line);border-radius:12px;
+  color:var(--ink);font-family:var(--f-ui);font-size:var(--t-sm);padding:12px 14px;min-height:46px;
+  transition:border-color var(--d1) var(--e1)}
+.fld textarea{resize:vertical;min-height:92px}
+.fld input:focus,.fld select:focus,.fld textarea:focus{outline:none;border-color:var(--accent)}
+.fld.bad input,.fld.bad select,.fld.bad textarea{border-color:#C2410C}
+.fld .err{font-size:var(--t-xs);color:#B23A0B;display:none}
+.fld.bad .err{display:block}
+.sheet-foot{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;margin-top:22px}
+.x{position:absolute;top:14px;right:14px;width:40px;height:40px;border-radius:50%;border:1px solid var(--line);
+  background:var(--paper);color:var(--ink);cursor:pointer;display:grid;place-items:center}
+.sheet{position:relative}
+.x svg{width:15px;height:15px;stroke-width:2}
+.sent{display:none;text-align:center;padding:26px 0}
+.sheet.done .sent{display:block}
+.sheet.done form,.sheet.done .lede,.sheet.done h2{display:none}
+.sent .ok{width:52px;height:52px;border-radius:50%;background:var(--chip);color:var(--accent);
+  display:grid;place-items:center;margin:0 auto 16px}
+.sent .ok svg{width:24px;height:24px;stroke-width:2.2}
+
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
 @media (prefers-reduced-motion:reduce){
@@ -670,7 +757,7 @@ footer{border-top:1px solid var(--line);margin-top:clamp(50px,6vw,90px)}
         </button>
       </div>
       <a class="btn btn-line" href="#cta">List your company</a>
-      <a class="btn btn-fill" href="#main">Post a project</a>
+      <button class="btn btn-fill" type="button" data-brief>Post a project</button>
       <button class="burger" id="burger" type="button" aria-expanded="false" aria-controls="menu" aria-label="Open menu"><span></span></button>
     </div>
   </div>
@@ -758,6 +845,31 @@ footer{border-top:1px solid var(--line);margin-top:clamp(50px,6vw,90px)}
   </div>
 </section>
 
+<!-- ===== FEATURED DIRECTORIES · opener C ===== -->
+<section class="sect" id="directories">
+  <div class="page">
+    <div class="op-c rv">
+      <h2 class="disp clip">Browse by what you need built</h2>
+      <p class="lede">Six of 169 directories. Each one is a maintained list, not a tag, with every
+        listing checked and dated before it appears.</p>
+    </div>
+    <div class="tiles stg">
+      <a class="ring tile" href="#"><span class="core"><v>326</v><span class="cap">Listings</span>
+        <span class="sub">Mobile App Development</span><p class="xs">Brainvire Infotech, Aalpha Information Systems, Dev Technosys</p></span></a>
+      <a class="ring tile" href="#"><span class="core"><v>191</v><span class="cap">Listings</span>
+        <span class="sub">Software Development</span><p class="xs">Capital Numbers, Andersen Inc.</p></span></a>
+      <a class="ring tile" href="#"><span class="core"><v>128</v><span class="cap">Listings</span>
+        <span class="sub">AI Tools</span><p class="xs">ChatGPT, Fellow</p></span></a>
+      <a class="ring tile" href="#"><span class="core"><v>113</v><span class="cap">Listings</span>
+        <span class="sub">AI</span><p class="xs">GitHub Copilot, Cursor</p></span></a>
+      <a class="ring tile" href="#"><span class="core"><v>86</v><span class="cap">Listings</span>
+        <span class="sub">SaaS</span><p class="xs">Google Workspace, Canva</p></span></a>
+      <a class="ring tile" href="#"><span class="core"><v>63</v><span class="cap">Listings</span>
+        <span class="sub">SEO Services</span><p class="xs">WebFX, SmartSites</p></span></a>
+    </div>
+  </div>
+</section>
+
 <!-- ===== CATALOGUE · opener B, index ===== -->
 <section class="sect" id="browse">
   <div class="page">
@@ -765,6 +877,11 @@ footer{border-top:1px solid var(--line);margin-top:clamp(50px,6vw,90px)}
       <span class="n">01</span>
       <h2 class="head">The whole catalogue</h2>
       <span class="aside">169 categories. 539 listings in B2B alone. Counts read 11 Oct 2026.</span>
+    </div>
+    <div class="segs rv" id="cat-tabs" role="tablist" aria-label="Browse by"
+         style="margin-bottom:26px">
+      <button class="seg" type="button" role="tab" aria-selected="true"  data-k="cat">By category</button>
+      <button class="seg" type="button" role="tab" aria-selected="false" data-k="ind">By industry</button>
     </div>
     <div class="dirs rv" id="dirs"></div>
     <div style="margin-top:26px"><a class="go" href="#">All countries <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M12 5l7 7-7 7"/></svg></a></div>
@@ -786,6 +903,25 @@ footer{border-top:1px solid var(--line);margin-top:clamp(50px,6vw,90px)}
       <a class="lrow" href="#"><span class="mark"><img src="img/logo-docker.png" alt="" width="96" height="96" loading="lazy" decoding="async"></span><span class="nm">Docker</span><span class="who sm">Every developer who wants "works on my machine" to mean production too.</span><span class="rv">41 reviews</span><span class="rt">4.7</span></a>
       <a class="lrow" href="#"><span class="mark"><img src="img/logo-obs.png" alt="" width="96" height="96" loading="lazy" decoding="async"></span><span class="nm">OBS Studio</span><span class="who sm">Streamers and educators broadcasting without spending a cent.</span><span class="rv">36 reviews</span><span class="rt">4.7</span></a>
     </div>
+  </div>
+</section>
+
+<!-- ===== HOW IT WORKS · opener D ===== -->
+<section class="sect" id="how">
+  <div class="page">
+    <div class="op-d rv">
+      <h2 class="head">From a brief to a shortlist</h2>
+      <span class="xs">Three steps, one brief, no obligation</span>
+    </div>
+    <div class="steps rv">
+      <div class="step"><span class="k">1</span><h3 class="sub">Pick a ranking</h3>
+        <p class="sm">Start from a city or service ranking. Every firm on it has a checked head office and published pricing.</p></div>
+      <div class="step"><span class="k">2</span><h3 class="sub">Set your budget</h3>
+        <p class="sm">The project-fit tool on each ranking drops the firms whose minimum project size is above what you plan to spend.</p></div>
+      <div class="step"><span class="k">3</span><h3 class="sub">Send one brief</h3>
+        <p class="sm">Share what you are building once, and we reply with the firms on our rankings that fit it.</p></div>
+    </div>
+    <div style="margin-top:30px"><button class="btn btn-fill" type="button" data-brief>Share a project brief</button></div>
   </div>
 </section>
 
@@ -832,6 +968,31 @@ footer{border-top:1px solid var(--line);margin-top:clamp(50px,6vw,90px)}
       <span class="xs">495 profiles carry 20 or more client reviews</span>
     </div>
     <div class="ladder rv" id="ladder"></div>
+  </div>
+</section>
+
+<!-- ===== RANKINGS BY CITY AND SERVICE · opener C ===== -->
+<section class="sect" id="rankings">
+  <div class="page">
+    <div class="op-c rv">
+      <h2 class="disp clip">Company rankings by city and service</h2>
+      <p class="lede">Ten published, each ranked on verified Clutch reviews, published minimums and
+        what clients actually spent. Every page carries the date its figures were read.</p>
+    </div>
+    <div class="rank">
+      <a class="ring feat rv" href="#"><span class="core">
+        <span class="flag">Verified 18 Sep 2026</span>
+        <span class="sub" style="font-size:var(--t-head);line-height:1.14">Top Software Development Companies in Poland</span>
+        <p class="sm">42 firms assessed. Ranked on verified reviews, published minimums and client-reported project size.</p>
+        <span class="xs when">Figures checked 11 September 2026</span>
+      </span></a>
+      <div class="rv" style="transition-delay:.08s">
+        <a class="vrow" href="#"><t>Top 10 Mobile App Development Companies in Ukraine (2026)</t><d>Verified 15 Sep 2026 · 31 firms</d><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M12 5l7 7-7 7"/></svg></a>
+        <a class="vrow" href="#"><t>Top 10 Software Development Companies in India (2026)</t><d>Verified 14 Sep 2026 · 58 firms</d><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M12 5l7 7-7 7"/></svg></a>
+        <a class="vrow" href="#"><t>Top 10 Software Development Companies in UK (2026)</t><d>Verified 5 Sep 2026 · 37 firms</d><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M12 5l7 7-7 7"/></svg></a>
+        <a class="vrow" href="#"><t>Top 10 Mobile App Development Companies in Warsaw (2026)</t><d>Verified 5 Sep 2026 · 24 firms</d><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M12 5l7 7-7 7"/></svg></a>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -924,7 +1085,7 @@ footer{border-top:1px solid var(--line);margin-top:clamp(50px,6vw,90px)}
           <h2 class="disp clip">Start with your idea. We will take it from there.</h2>
           <p>Let us do the hard work for you. We will find the right partner for your project.</p>
           <div class="acts">
-            <a class="btn btn-fill" href="#main">Post a project</a>
+            <button class="btn btn-fill" type="button" data-brief>Post a project</button>
             <a class="btn btn-line" href="#">List your company</a>
           </div>
         </div>
@@ -938,6 +1099,57 @@ footer{border-top:1px solid var(--line);margin-top:clamp(50px,6vw,90px)}
   </div>
 </section>
 </main>
+
+<!-- ===== GET MATCHED · the brief, as a dialog ===== -->
+<div class="scrim" id="scrim">
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-h" id="sheet">
+    <button class="x" type="button" id="sheet-x" aria-label="Close">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    <h2 class="head" id="sheet-h">Tell us about your project</h2>
+    <p class="lede">The most suitable companies get your brief and contact you within three days.
+      Filling this in does not oblige you to hire anyone.</p>
+    <form id="brief-form" novalidate>
+      <div class="fgrid">
+        <div class="fld" data-req><label for="b-serv">Service required <em>*</em></label>
+          <select id="b-serv"><option value="">Select a service</option>
+            <option>Mobile App Development</option><option>Software Development</option>
+            <option>AI Development</option><option>UI/UX Design</option><option>Digital Marketing</option>
+            <option>SEO Services</option><option>SaaS Development</option><option>Web Development</option>
+            <option>Other</option></select>
+          <span class="err">Pick a service so we know who to ask.</span></div>
+        <div class="fld" data-req><label for="b-bud">Your budget <em>*</em></label>
+          <select id="b-bud"><option value="">Select budget</option>
+            <option>Under $5,000</option><option>$5,000 to $25,000</option>
+            <option>$25,000 to $100,000</option><option>$100,000 and above</option></select>
+          <span class="err">A budget lets us drop firms whose minimum is above it.</span></div>
+        <div class="fld" data-req><label for="b-name">Full name <em>*</em></label>
+          <input id="b-name" type="text" autocomplete="name">
+          <span class="err">Please add your name.</span></div>
+        <div class="fld"><label for="b-site">Website</label>
+          <input id="b-site" type="url" placeholder="yourcompany.com" autocomplete="url"></div>
+        <div class="fld" data-req data-email><label for="b-mail">Email address <em>*</em></label>
+          <input id="b-mail" type="email" autocomplete="email">
+          <span class="err">We need a valid address to reply to.</span></div>
+        <div class="fld"><label for="b-tel">Contact number</label>
+          <input id="b-tel" type="tel" autocomplete="tel"></div>
+        <div class="fld full" data-req data-min="20"><label for="b-desc">Project description <em>*</em></label>
+          <textarea id="b-desc" placeholder="What are you building, and what does done look like?"></textarea>
+          <span class="err">A sentence or two, around twenty characters, so we can match it.</span></div>
+      </div>
+      <div class="sheet-foot">
+        <p class="xs" style="max-width:34ch">By continuing you agree to receive relevant communication
+          from our team and matched partners.</p>
+        <button class="btn btn-fill" type="submit" id="b-go"><span class="t">Submit brief</span></button>
+      </div>
+    </form>
+    <div class="sent">
+      <span class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>
+      <h2 class="head" style="margin-bottom:8px">Your project brief is in</h2>
+      <p class="sm" style="max-width:40ch;margin-inline:auto">We will use your requirements to identify
+        relevant providers. No company sees your brief until you ask us to send it.</p>
+    </div>
+  </div>
+</div>
 
 <footer>
   <div class="page">
@@ -1064,11 +1276,30 @@ var CATS=[["Mobile App Development",326],["Software Development",191],["AI Tools
  ["Marketing",30],["PPC",30],["UI/UX Design",28],["Fintech",24],["Image Editing",23],["Design",21],
  ["Social Media",19],["Security",19],["Video",16],["Local SEO",15],["Analytics",14],["Digital PR",13],
  ["Web Design",11]];
-var top=CATS[0][1];
-document.getElementById("dirs").innerHTML=CATS.map(function(c,i){
-  return '<a class="dirrow" href="#"><n>'+c[0]+'</n><c>'+c[1]+'</c>'
-       + '<span class="bar" style="width:'+Math.max(4,Math.round(c[1]/top*100))+'%"></span></a>';
-}).join("");
+/* the industries half of the live site's coverage list, which v2 dropped */
+var INDS=[["B2B",539],["Enterprise",212],["Startups",157],["Consumer",129],["Marketing",109],
+ ["SMB",105],["Ecommerce",93],["Media",72],["Education",57],["SaaS",50],["Engineering",46],
+ ["Healthcare",42],["Fintech",37],["Software",27],["Creators",24],["Tech",24],["Finance",23],
+ ["Design",21],["Real Estate",20],["Legal",16],["Retail",16],["Consulting",14]];
+var dirs=document.getElementById("dirs");
+function drawDirs(set){
+  var top=set[0][1];
+  dirs.innerHTML=set.map(function(c){
+    return '<a class="dirrow" href="#"><n>'+c[0]+'</n><c>'+c[1]+'</c>'
+         + '<span class="bar" style="width:'+Math.max(4,Math.round(c[1]/top*100))+'%"></span></a>';
+  }).join("");
+}
+drawDirs(CATS);
+document.getElementById("cat-tabs").addEventListener("click",function(e){
+  var b=e.target.closest(".seg"); if(!b) return;
+  this.querySelectorAll(".seg").forEach(function(s){
+    var on=s===b; s.setAttribute("aria-selected",String(on)); s.setAttribute("aria-pressed",String(on));
+  });
+  drawDirs(b.dataset.k==="ind"?INDS:CATS);
+});
+document.querySelectorAll('#cat-tabs .seg').forEach(function(s){
+  s.setAttribute("aria-pressed",s.getAttribute("aria-selected"));
+});
 
 /* ---- leaderboard as a column chart ---- */
 var LB=[["Empat",148,"San Francisco, US"],["Trigma",137,"SAS Nagar, IN"],["WebSpero",122,"Mohali, IN"],
@@ -1134,6 +1365,71 @@ var FEED=[["9 Oct 2026","Anthropic's Claude Startups Program","Analysis"],
 var strip=FEED.map(function(x){return '<a href="#"><d>'+x[0]+'</d><span>'+x[1]+'</span><s>'+x[2]+'</s></a>'}).join("");
 document.getElementById("tick").innerHTML=strip+strip;
 
+/* ---- the Get Matched brief. Opened by every primary CTA. --------------
+   Focus is trapped while open and returned to whatever opened it. Nothing
+   a visitor types is written back into the DOM.                          */
+var scrim=document.getElementById("scrim"), sheet=document.getElementById("sheet"),
+    bform=document.getElementById("brief-form"), bgo=document.getElementById("b-go"),
+    opener=null;
+var FOCUSABLE='a[href],button:not([disabled]),input,select,textarea,[tabindex]:not([tabindex="-1"])';
+
+function openBrief(from){
+  opener=from||null;
+  scrim.setAttribute("data-open","");
+  document.body.style.overflow="hidden";
+  var seed=document.getElementById("fq");
+  var d=document.getElementById("b-desc");
+  if(seed && seed.value.trim() && !d.value) d.value=seed.value.trim();
+  var first=sheet.querySelector("select,input,textarea");
+  if(first) first.focus();
+}
+function closeBrief(){
+  scrim.removeAttribute("data-open");
+  document.body.style.overflow="";
+  if(opener && opener.focus) opener.focus();
+}
+document.querySelectorAll("[data-brief]").forEach(function(b){
+  b.addEventListener("click",function(){openBrief(b)});
+});
+document.getElementById("sheet-x").addEventListener("click",closeBrief);
+scrim.addEventListener("mousedown",function(e){ if(e.target===scrim) closeBrief(); });
+document.addEventListener("keydown",function(e){
+  if(!scrim.hasAttribute("data-open")) return;
+  if(e.key==="Escape"){closeBrief();return}
+  if(e.key!=="Tab") return;
+  var f=[].slice.call(sheet.querySelectorAll(FOCUSABLE)).filter(function(el){
+    return el.offsetParent!==null;});
+  if(!f.length) return;
+  var first=f[0], last=f[f.length-1];
+  if(e.shiftKey && document.activeElement===first){e.preventDefault();last.focus()}
+  else if(!e.shiftKey && document.activeElement===last){e.preventDefault();first.focus()}
+});
+
+function checkField(fld){
+  var el=fld.querySelector("input,select,textarea"); if(!el) return true;
+  var v=(el.value||"").trim(), ok=true;
+  if(fld.hasAttribute("data-req") && !v) ok=false;
+  if(ok && fld.hasAttribute("data-email") && !/^[^@\s]+@[^@\s]+\.[^@\s]{2,}$/.test(v)) ok=false;
+  if(ok && fld.getAttribute("data-min") && v.length < +fld.getAttribute("data-min")) ok=false;
+  fld.classList.toggle("bad",!ok);
+  return ok;
+}
+bform.addEventListener("input",function(e){
+  var fld=e.target.closest(".fld"); if(fld && fld.classList.contains("bad")) checkField(fld);
+});
+bform.addEventListener("submit",function(e){
+  e.preventDefault();
+  var flds=[].slice.call(bform.querySelectorAll(".fld")), bad=null;
+  flds.forEach(function(f){ if(!checkField(f) && !bad) bad=f; });
+  if(bad){ var el=bad.querySelector("input,select,textarea"); if(el) el.focus(); return; }
+  bgo.setAttribute("data-state","loading"); bgo.querySelector(".t").textContent="Sending...";
+  setTimeout(function(){
+    bgo.removeAttribute("data-state"); bgo.querySelector(".t").textContent="Submit brief";
+    sheet.classList.add("done");
+    sheet.querySelector(".sent .ok").focus && sheet.querySelector(".x").focus();
+  },900);
+});
+
 /* ---- the finder. Nothing a visitor types is written back into the DOM. ---- */
 var form=document.getElementById("find"), field=document.getElementById("fq"),
     go=document.getElementById("fgo"), err=document.getElementById("ferr");
@@ -1149,6 +1445,8 @@ document.querySelectorAll(".chip").forEach(function(c){
     field.focus();
   });
 });
+/* The hero arrow opens the brief and carries the text across. The example
+   chips only fill the field; they never submit, so the two stay separate. */
 form.addEventListener("submit",function(e){
   e.preventDefault();
   if(field.value.trim().length<12){
@@ -1157,11 +1455,7 @@ form.addEventListener("submit",function(e){
     field.focus(); return;
   }
   form.classList.remove("err");
-  go.setAttribute("data-state","loading"); go.querySelector(".t").textContent="Sending...";
-  setTimeout(function(){
-    go.removeAttribute("data-state"); go.querySelector(".t").textContent="Find my match";
-    form.classList.add("ok");
-  },900);
+  openBrief(go);
 });
 
 /* ---- newsletter ---- */
