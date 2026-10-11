@@ -292,7 +292,7 @@ header.on{border-bottom:var(--rule-hair) solid var(--color-rule-2)}
 .rail>*{flex:none;scroll-snap-align:start}
 
 .rcard{
-  width:300px;background:var(--color-paper-3);
+  width:300px;overflow:hidden;background:var(--color-paper-3);
   border:var(--rule-hair) solid var(--color-rule-2);border-radius:var(--radius-md);
   padding:var(--space-lg);display:flex;flex-direction:column;gap:var(--space-sm);min-height:190px;
   transition:transform var(--dur-mid) var(--ease-out),border-color var(--dur-mid) var(--ease-out),
@@ -356,7 +356,7 @@ header.on{border-bottom:var(--rule-hair) solid var(--color-rule-2)}
 /* ======================== SPEC ROWS (software) ========================= */
 .rows{border-top:var(--rule-hair) solid var(--color-rule)}
 .row{
-  display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,2fr) auto auto;
+  display:grid;grid-template-columns:auto minmax(0,1fr) minmax(0,2fr) auto auto;
   gap:var(--space-xs) var(--space-lg);align-items:center;
   padding-block:var(--space-md);border-bottom:var(--rule-hair) solid var(--color-rule-2);
   transition:background-color var(--dur-fast) var(--ease-out)
@@ -366,9 +366,10 @@ header.on{border-bottom:var(--rule-hair) solid var(--color-rule-2)}
 .row .st{display:flex;align-items:center;gap:6px;white-space:nowrap}
 .row .rt{font-family:var(--font-display);font-size:var(--text-2xl);font-weight:500;letter-spacing:-.02em;font-variant-numeric:tabular-nums;text-align:right;min-width:48px;color:var(--color-rating)}
 @media (max-width:860px){
-  .row{grid-template-columns:minmax(0,1fr) auto}
-  .row .nm{grid-column:1}.row .rt{grid-row:1;grid-column:2}
-  .row .who,.row .st{grid-column:1 / -1}
+  .row{grid-template-columns:auto minmax(0,1fr) auto}
+  .row .mark{grid-row:1 / span 3}
+  .row .nm{grid-column:2}.row .rt{grid-row:1;grid-column:3}
+  .row .who,.row .st{grid-column:2 / -1}
 }
 
 /* ======================== MATCHER ====================================== */
@@ -416,7 +417,7 @@ input[type=range]:active::-webkit-slider-thumb{transform:scale(1.18)}
    Read-time and a category tag, the one genuinely good pattern the
    reference site uses on its blog rails.                                 */
 .ecard{
-  width:330px;background:var(--color-paper-3);border:var(--rule-hair) solid var(--color-rule-2);
+  width:330px;overflow:hidden;background:var(--color-paper-3);border:var(--rule-hair) solid var(--color-rule-2);
   border-radius:var(--radius-md);padding:var(--space-lg);display:flex;flex-direction:column;
   gap:var(--space-sm);min-height:210px;
   transition:transform var(--dur-mid) var(--ease-out),border-color var(--dur-mid) var(--ease-out)
@@ -504,6 +505,72 @@ footer{border-top:var(--rule-hair) solid var(--color-rule);margin-top:var(--spac
   .more{min-height:44px;align-items:center}
 }
 
+/* ===================== MEDIA =========================================
+   Card artwork is abstract data drawing generated for this page, in the
+   site palette. The software marks are each product's own published icon.
+   No photography is invented.                                          */
+.thumb{
+  position:relative;overflow:hidden;border-radius:var(--radius-sm);
+  margin:calc(var(--space-lg) * -1) calc(var(--space-lg) * -1) 0;
+  border-bottom:var(--rule-hair) solid var(--color-rule-2);
+  aspect-ratio:88/52;background:var(--color-paper-2)
+}
+.thumb img{width:100%;height:100%;object-fit:cover;
+  transition:transform var(--dur-slow) var(--ease-out),filter var(--dur-slow) var(--ease-out);
+  filter:saturate(.88)}
+.rcard:hover .thumb img,.ecard:hover .thumb img{transform:scale(1.045);filter:saturate(1.08)}
+.thumb .pin{
+  position:absolute;left:var(--space-sm);top:var(--space-sm);z-index:2;
+  background:rgba(7,13,36,.78);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  border:var(--rule-hair) solid var(--color-rule);border-radius:var(--radius-pill);
+  padding:4px 10px
+}
+.ecard .thumb{aspect-ratio:76/44}
+
+.mark{
+  width:40px;height:40px;flex:none;border-radius:var(--radius-sm);
+  background:rgba(255,255,255,.05);border:var(--rule-hair) solid var(--color-rule-2);
+  display:grid;place-items:center;overflow:hidden;
+  transition:border-color var(--dur-mid) var(--ease-out),transform var(--dur-mid) var(--ease-out)
+}
+.mark img{width:26px;height:26px;object-fit:contain}
+.row:hover .mark{border-color:var(--color-accent);transform:scale(1.06)}
+
+/* ===================== MOTION ========================================
+   Entrance is transform + opacity only, driven by IntersectionObserver.
+   Everything here collapses under prefers-reduced-motion.              */
+.rv{opacity:0;transform:translateY(22px);
+  transition:opacity .8s var(--ease-out),transform .8s var(--ease-out)}
+.rv.in{opacity:1;transform:none}
+.stg>*{opacity:0;transform:translateY(18px);
+  transition:opacity .7s var(--ease-out),transform .7s var(--ease-out)}
+.stg.in>*{opacity:1;transform:none}
+.stg.in>*:nth-child(1){transition-delay:.04s}
+.stg.in>*:nth-child(2){transition-delay:.10s}
+.stg.in>*:nth-child(3){transition-delay:.16s}
+.stg.in>*:nth-child(4){transition-delay:.22s}
+.stg.in>*:nth-child(5){transition-delay:.28s}
+.stg.in>*:nth-child(6){transition-delay:.34s}
+
+/* the headline rises out from behind a clipping edge, line by line */
+.ln{display:block;overflow:hidden;padding-bottom:.06em;margin-bottom:-.06em}
+.ln>span{display:block;transform:translateY(104%);
+  transition:transform 1s cubic-bezier(.16,1,.3,1)}
+.lit .ln>span{transform:none}
+.lit .ln:nth-child(2)>span{transition-delay:.09s}
+
+/* a 2px mint rule across the top, showing read position */
+.prog{position:fixed;left:0;top:0;height:2px;width:100%;z-index:90;
+  background:var(--color-accent);transform:scaleX(0);transform-origin:left;
+  will-change:transform}
+
+@media (prefers-reduced-motion:reduce){
+  .rv,.stg>*{opacity:1;transform:none;transition:none}
+  .ln>span{transform:none;transition:none}
+  .prog{display:none}
+  .thumb img{transition:none}
+}
+
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
 @media (prefers-reduced-motion:reduce){
@@ -514,6 +581,7 @@ footer{border-top:var(--rule-hair) solid var(--color-rule);margin-top:var(--spac
 </style>
 </head>
 <body>
+<div class="prog" id="prog" aria-hidden="true"></div>
 <a href="#main" class="sr">Skip to content</a>
 
 <div class="wrap">
@@ -585,7 +653,7 @@ footer{border-top:var(--rule-hair) solid var(--color-rule);margin-top:var(--spac
   <div class="wrap">
    <div class="hgrid">
     <div>
-    <h1>Tell us what you need. We will find the <span class="em">right match.</span></h1>
+    <h1 id="h1"><span class="ln"><span>Tell us what you need.</span></span><span class="ln"><span>We will find the <span class="em">right match.</span></span></span></h1>
     <p class="lead">Describe your project in your own words and we help you find technology
       companies that fit your requirements. Every listing is checked, dated and ranked on
       published criteria.</p>
@@ -613,7 +681,7 @@ footer{border-top:var(--rule-hair) solid var(--color-rule);margin-top:var(--spac
     </form>
 
     </div>
-    <aside class="today">
+    <aside class="today rv">
       <p class="lab">Today on MatchFast</p>
       <a class="tw" href="#"><span class="xs">Newest ranking</span><strong>Top Software Development Companies in Poland</strong><span class="xs">Verified 18 Sep 2026</span></a>
       <a class="tw" href="#"><span class="xs">Figures re-read</span><strong>780 listings in the last 30 days</strong><span class="xs">Checked 11 Oct 2026</span></a>
@@ -621,7 +689,7 @@ footer{border-top:var(--rule-hair) solid var(--color-rule);margin-top:var(--spac
     </aside>
    </div>
 
-    <div class="strip">
+    <div class="strip stg">
       <div><v>640</v><k>Company profiles</k></div>
       <div><v>25,778</v><k>Client reviews counted</k></div>
       <div><v>384</v><k>Apps and tools reviewed</k></div>
@@ -633,17 +701,17 @@ footer{border-top:var(--rule-hair) solid var(--color-rule);margin-top:var(--spac
 <!-- ===================== SURFACE 1 · TRENDING ===================== -->
 <section class="sect">
   <div class="wrap">
-    <div class="rhead">
+    <div class="rhead rv">
       <div class="rhead-l"><h2>Trending this week</h2><span class="count">6 rankings</span></div>
       <a class="more" href="#">All rankings <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M12 5l7 7-7 7"/></svg></a>
     </div>
-    <div class="rail">
-      <a class="rcard w" href="#"><div class="top"><span class="lab">Ranking</span><span class="xs">Updated 5 Sep</span></div><h3>Top 10 Mobile App Development Companies in Warsaw (2026)</h3></a>
-      <a class="rcard" href="#"><div class="top"><span class="lab">Ranking</span><span class="xs">Updated 22 Sep</span></div><h3>Top 10 Software Development Companies in Australia (2026)</h3></a>
-      <a class="rcard n" href="#"><div class="top"><span class="lab">Ranking</span><span class="xs">Updated 5 Sep</span></div><h3>Top 10 Software Development Companies in UK (2026)</h3></a>
-      <a class="rcard" href="#"><div class="top"><span class="lab">Ranking</span><span class="xs">Updated 14 Sep</span></div><h3>Top 10 Software Development Companies in India (2026)</h3></a>
-      <a class="rcard w" href="#"><div class="top"><span class="lab">Editors tested</span><span class="xs">Updated 29 Aug</span></div><h3>Best AI Writing Tools in 2026, tested and ranked by MatchFast editors</h3></a>
-      <a class="rcard n" href="#"><div class="top"><span class="lab">Ranking</span><span class="xs">Updated 15 Sep</span></div><h3>Top 10 Mobile App Development Companies in Ukraine (2026)</h3></a>
+    <div class="rail rv">
+      <a class="rcard w" href="#"><span class="thumb"><img src="img/card-warsaw.png" alt="Bar study of monthly ranking opens" width="880" height="520" loading="lazy" decoding="async"></span><div class="top"><span class="lab">Ranking</span><span class="xs">Updated 5 Sep</span></div><h3>Top 10 Mobile App Development Companies in Warsaw (2026)</h3></a>
+      <a class="rcard" href="#"><span class="thumb"><img src="img/card-australia.png" alt="Node study of linked company profiles" width="880" height="520" loading="lazy" decoding="async"></span><div class="top"><span class="lab">Ranking</span><span class="xs">Updated 22 Sep</span></div><h3>Top 10 Software Development Companies in Australia (2026)</h3></a>
+      <a class="rcard n" href="#"><span class="thumb"><img src="img/card-uk.png" alt="Concentric study of review bands" width="880" height="520" loading="lazy" decoding="async"></span><div class="top"><span class="lab">Ranking</span><span class="xs">Updated 5 Sep</span></div><h3>Top 10 Software Development Companies in UK (2026)</h3></a>
+      <a class="rcard" href="#"><span class="thumb"><img src="img/card-india.png" alt="Radial study of service coverage" width="880" height="520" loading="lazy" decoding="async"></span><div class="top"><span class="lab">Ranking</span><span class="xs">Updated 14 Sep</span></div><h3>Top 10 Software Development Companies in India (2026)</h3></a>
+      <a class="rcard w" href="#"><span class="thumb"><img src="img/card-aitools.png" alt="Waveform study of tool test scores" width="880" height="520" loading="lazy" decoding="async"></span><div class="top"><span class="lab">Editors tested</span><span class="xs">Updated 29 Aug</span></div><h3>Best AI Writing Tools in 2026, tested and ranked by MatchFast editors</h3></a>
+      <a class="rcard n" href="#"><span class="thumb"><img src="img/card-ukraine.png" alt="Tile study of regional coverage" width="880" height="520" loading="lazy" decoding="async"></span><div class="top"><span class="lab">Ranking</span><span class="xs">Updated 15 Sep</span></div><h3>Top 10 Mobile App Development Companies in Ukraine (2026)</h3></a>
     </div>
   </div>
 </section>
@@ -651,11 +719,11 @@ footer{border-top:var(--rule-hair) solid var(--color-rule);margin-top:var(--spac
 <!-- ===================== SURFACE 2 · FEATURED DIRECTORIES ===================== -->
 <section class="sect">
   <div class="wrap">
-    <div class="rhead">
+    <div class="rhead rv">
       <div class="rhead-l"><h2>Featured directories</h2><span class="count">6 of 169 categories</span></div>
       <a class="more" href="#browse">All directories <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M12 5l7 7-7 7"/></svg></a>
     </div>
-    <div class="tiles">
+    <div class="tiles stg">
       <a class="tile" href="#" data-mark="MA"><v>326</v><span class="lab">Listings</span><h3>Mobile App Development</h3><p class="xs">Brainvire Infotech, Aalpha Information Systems, Dev Technosys</p></a>
       <a class="tile" href="#" data-mark="SD"><v>191</v><span class="lab">Listings</span><h3>Software Development</h3><p class="xs">Capital Numbers, Andersen Inc.</p></a>
       <a class="tile" href="#" data-mark="AI"><v>128</v><span class="lab">Listings</span><h3>AI Tools</h3><p class="xs">ChatGPT, Fellow</p></a>
@@ -667,7 +735,7 @@ footer{border-top:var(--rule-hair) solid var(--color-rule);margin-top:var(--spac
 <!-- ===================== SURFACE 3 · FACETED BROWSE ===================== -->
 <section class="sect" id="browse">
   <div class="wrap">
-    <div class="rhead">
+    <div class="rhead rv">
       <div class="rhead-l"><h2>Browse the whole catalogue</h2><span class="count">169 categories · 539 B2B listings</span></div>
       <a class="more" href="#">All countries <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M12 5l7 7-7 7"/></svg></a>
     </div>
@@ -744,16 +812,16 @@ footer{border-top:var(--rule-hair) solid var(--color-rule);margin-top:var(--spac
 <!-- ===================== SURFACE 4 · SOFTWARE ===================== -->
 <section class="sect">
   <div class="wrap">
-    <div class="rhead">
+    <div class="rhead rv">
       <div class="rhead-l"><h2>Software with the strongest review record</h2><span class="count">Weighted for review volume, so a 4.8 from forty beats a 5.0 from three</span></div>
       <a class="more" href="#">All software <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M12 5l7 7-7 7"/></svg></a>
     </div>
-    <div class="rows">
-      <a class="row" href="#"><span class="nm">Blender</span><span class="who sm">Artists and studios embracing professional 3D without licensing costs.</span><span class="st"><span class="xs">39 reviews</span></span><span class="rt">4.8</span></a>
-      <a class="row" href="#"><span class="nm">Ramp</span><span class="who sm">Finance teams replacing expense reports with controls at the card.</span><span class="st"><span class="xs">32 reviews</span></span><span class="rt">4.8</span></a>
-      <a class="row" href="#"><span class="nm">Screaming Frog</span><span class="who sm">Technical SEOs auditing sites beyond what browser tools can see.</span><span class="st"><span class="xs">30 reviews</span></span><span class="rt">4.8</span></a>
-      <a class="row" href="#"><span class="nm">Docker</span><span class="who sm">Every developer who wants "works on my machine" to mean production too.</span><span class="st"><span class="xs">41 reviews</span></span><span class="rt">4.7</span></a>
-      <a class="row" href="#"><span class="nm">OBS Studio</span><span class="who sm">Streamers and educators broadcasting without spending a cent.</span><span class="st"><span class="xs">36 reviews</span></span><span class="rt">4.7</span></a>
+    <div class="rows rv">
+      <a class="row" href="#"><span class="mark"><img src="img/logo-blender.png" alt="" width="96" height="96" loading="lazy" decoding="async"></span><span class="nm">Blender</span><span class="who sm">Artists and studios embracing professional 3D without licensing costs.</span><span class="st"><span class="xs">39 reviews</span></span><span class="rt">4.8</span></a>
+      <a class="row" href="#"><span class="mark"><img src="img/logo-ramp.png" alt="" width="96" height="96" loading="lazy" decoding="async"></span><span class="nm">Ramp</span><span class="who sm">Finance teams replacing expense reports with controls at the card.</span><span class="st"><span class="xs">32 reviews</span></span><span class="rt">4.8</span></a>
+      <a class="row" href="#"><span class="mark"><img src="img/logo-screamingfrog.png" alt="" width="96" height="96" loading="lazy" decoding="async"></span><span class="nm">Screaming Frog</span><span class="who sm">Technical SEOs auditing sites beyond what browser tools can see.</span><span class="st"><span class="xs">30 reviews</span></span><span class="rt">4.8</span></a>
+      <a class="row" href="#"><span class="mark"><img src="img/logo-docker.png" alt="" width="96" height="96" loading="lazy" decoding="async"></span><span class="nm">Docker</span><span class="who sm">Every developer who wants "works on my machine" to mean production too.</span><span class="st"><span class="xs">41 reviews</span></span><span class="rt">4.7</span></a>
+      <a class="row" href="#"><span class="mark"><img src="img/logo-obs.png" alt="" width="96" height="96" loading="lazy" decoding="async"></span><span class="nm">OBS Studio</span><span class="who sm">Streamers and educators broadcasting without spending a cent.</span><span class="st"><span class="xs">36 reviews</span></span><span class="rt">4.7</span></a>
     </div>
   </div>
 </section>
@@ -761,11 +829,11 @@ footer{border-top:var(--rule-hair) solid var(--color-rule);margin-top:var(--spac
 <!-- ===================== SURFACE 5 · MATCHER ===================== -->
 <section class="sect" id="matcher">
   <div class="wrap">
-    <div class="rhead">
+    <div class="rhead rv">
       <div class="rhead-l"><h2>Set a budget. Watch the shortlist change.</h2><span class="count">Runs in your browser</span></div>
       <a class="more" href="#">Try it on any ranking <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M12 5l7 7-7 7"/></svg></a>
     </div>
-    <div class="mgrid">
+    <div class="mgrid rv">
       <div class="mpanel">
         <div class="mrow">
           <div class="mlab"><span class="lab">Budget</span><b id="o-bud">$25,000</b></div>
@@ -799,10 +867,10 @@ footer{border-top:var(--rule-hair) solid var(--color-rule);margin-top:var(--spac
 <!-- ===================== SURFACE 6 · LEADERBOARD ===================== -->
 <section class="sect">
   <div class="wrap">
-    <div class="rhead">
+    <div class="rhead rv">
       <div class="rhead-l"><h2>Companies with the strongest review record</h2><span class="count">495 profiles carry 20+ reviews</span></div>
     </div>
-    <div class="board">
+    <div class="board stg">
       <a class="bc" href="#"><v>148</v><span class="lab">Reviews</span><n>Empat</n><w>San Francisco, US</w><g>5.0 rating</g></a>
       <a class="bc" href="#"><v>137</v><span class="lab">Reviews</span><n>Trigma</n><w>SAS Nagar, IN</w><g>5.0 rating</g></a>
       <a class="bc" href="#"><v>122</v><span class="lab">Reviews</span><n>WebSpero</n><w>Mohali, IN</w><g>5.0 rating</g></a>
@@ -815,28 +883,28 @@ footer{border-top:var(--rule-hair) solid var(--color-rule);margin-top:var(--spac
 <!-- ===================== SURFACE 7 · EDITORIAL ===================== -->
 <section class="sect" id="editorial">
   <div class="wrap">
-    <div class="rhead">
+    <div class="rhead rv">
       <div class="rhead-l"><h2>Editorial</h2><span class="count">Fact-checked before publishing</span></div>
       <a class="more" href="#">All editorials <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M12 5l7 7-7 7"/></svg></a>
     </div>
-    <div class="rail">
+    <div class="rail rv">
       <a class="ecard" href="#">
-        <div class="meta"><span class="cat">Analysis</span><span>9 Oct 2026</span><span>4 min read</span></div>
+        <span class="thumb"><img src="img/ed-anthropic.png" alt="" width="760" height="440" loading="lazy" decoding="async"></span><div class="meta"><span class="cat">Analysis</span><span>9 Oct 2026</span><span>4 min read</span></div>
         <h3>Anthropic's Claude Startups Program: what founders get, and what changed</h3>
         <p class="xs">Claude Team seats, API credits, partner discounts and founder support. What the October expansion includes.</p>
       </a>
       <a class="ecard" href="#">
-        <div class="meta"><span class="cat">Budgeting</span><span>1 Oct 2026</span><span>4 min read</span></div>
+        <span class="thumb"><img src="img/ed-pricing.png" alt="" width="760" height="440" loading="lazy" decoding="async"></span><div class="meta"><span class="cat">Budgeting</span><span>1 Oct 2026</span><span>4 min read</span></div>
         <h3>How to compare AI tool pricing and limits before you budget LLM spend</h3>
         <p class="xs">The number on a vendor homepage is an entry price. The number that stops a rollout is a limit on another plan.</p>
       </a>
       <a class="ecard" href="#">
-        <div class="meta"><span class="cat">Operations</span><span>1 Oct 2026</span><span>4 min read</span></div>
+        <span class="thumb"><img src="img/ed-clarity.png" alt="" width="760" height="440" loading="lazy" decoding="async"></span><div class="meta"><span class="cat">Operations</span><span>1 Oct 2026</span><span>4 min read</span></div>
         <h3>More software can create less operating clarity</h3>
         <p class="xs">Companies rarely buy software because they want more software. They buy it because something is not working.</p>
       </a>
       <a class="ecard" href="#">
-        <div class="meta"><span class="cat">Rankings</span><span>18 Sep 2026</span><span>6 min read</span></div>
+        <span class="thumb"><img src="img/ed-poland.png" alt="" width="760" height="440" loading="lazy" decoding="async"></span><div class="meta"><span class="cat">Rankings</span><span>18 Sep 2026</span><span>6 min read</span></div>
         <h3>Top Software Development Companies in Poland</h3>
         <p class="xs">Ranked on verified Clutch reviews, published minimums and what clients actually spent.</p>
       </a>
@@ -847,10 +915,10 @@ footer{border-top:var(--rule-hair) solid var(--color-rule);margin-top:var(--spac
 <!-- ===================== SURFACE 8 · VERIFICATION ===================== -->
 <section class="sect">
   <div class="wrap">
-    <div class="rhead">
+    <div class="rhead rv">
       <div class="rhead-l"><h2>Four checks on every listing</h2><span class="count">Run before publishing</span></div>
     </div>
-    <div class="checks">
+    <div class="checks stg">
       <div class="ck">
         <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg></span>
         <h3>Head office</h3><p class="sm">Checked against the company's own website, not a directory label. Firms that fail are named on the page, not hidden.</p></div>
@@ -876,11 +944,11 @@ footer{border-top:var(--rule-hair) solid var(--color-rule);margin-top:var(--spac
 <!-- ===================== METHOD ===================== -->
 <section class="sect" id="method">
   <div class="wrap">
-    <div class="rhead">
+    <div class="rhead rv">
       <div class="rhead-l"><h2>How MatchFast ranks</h2><span class="count">Eight published criteria</span></div>
       <a class="more" href="#">Read the methodology <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M12 5l7 7-7 7"/></svg></a>
     </div>
-    <div class="qs">
+    <div class="qs rv">
       <details class="q"><summary>How are companies ranked?</summary><p class="a">On eight published criteria: verified review volume and rating, the share of work that matches the ranking, a checked head office, published pricing and minimum project size, client-reported project size, trading history, independent recognition and named client evidence.</p></details>
       <details class="q"><summary>Can a company pay to rank higher?</summary><p class="a">No. Placement is editorial and cannot be bought. Companies can submit themselves for consideration, which does not affect their position.</p></details>
       <details class="q"><summary>Where do the figures come from?</summary><p class="a">Ratings, review counts, hourly bands and minimum project sizes are read from live Clutch profiles and dated on every ranking. Head offices and contracting entities are read from each company's own website.</p></details>
@@ -893,7 +961,7 @@ footer{border-top:var(--rule-hair) solid var(--color-rule);margin-top:var(--spac
 <!-- ===================== CTA ===================== -->
 <section class="sect" id="cta">
   <div class="wrap">
-    <div class="band">
+    <div class="band rv">
       <div>
         <h2>Start with your idea. We will take it from there.</h2>
         <p class="sm" style="margin-top:var(--space-sm);max-width:46ch">Let us do the hard work for you.
@@ -974,6 +1042,49 @@ burger.addEventListener("click",function(e){
   burger.setAttribute("aria-expanded",String(open));
 });
 menu.addEventListener("click",function(e){ e.stopPropagation(); });
+
+/* entrance reveals + the one-shot stat count-up */
+var rm=matchMedia("(prefers-reduced-motion:reduce)").matches;
+if(rm){
+  document.querySelectorAll(".rv,.stg").forEach(function(n){n.classList.add("in")});
+  document.getElementById("h1").classList.add("lit");
+}else{
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(!e.isIntersecting) return;
+      e.target.classList.add("in");
+      if(e.target.classList.contains("strip")) count();
+      io.unobserve(e.target);
+    });
+  },{rootMargin:"0px 0px -8% 0px",threshold:.12});
+  document.querySelectorAll(".rv,.stg").forEach(function(n){io.observe(n)});
+  requestAnimationFrame(function(){ document.getElementById("h1").classList.add("lit"); });
+}
+function count(){
+  document.querySelectorAll(".strip v").forEach(function(el){
+    var target=parseFloat(el.textContent.replace(/,/g,"")); if(!target) return;
+    var t0=null, dur=1100;
+    function step(ts){
+      if(!t0) t0=ts;
+      var k=Math.min((ts-t0)/dur,1);
+      var e=1-Math.pow(1-k,3);
+      el.textContent=Math.round(target*e).toLocaleString("en-US");
+      if(k<1) requestAnimationFrame(step);
+    }
+    el.textContent="0"; requestAnimationFrame(step);
+  });
+}
+
+/* read-position rule */
+var prog=document.getElementById("prog"), pt=false;
+if(!rm) addEventListener("scroll",function(){
+  if(pt) return; pt=true;
+  requestAnimationFrame(function(){
+    var h=document.documentElement.scrollHeight-innerHeight;
+    prog.style.transform="scaleX("+(h>0?Math.min(scrollY/h,1):0)+")";
+    pt=false;
+  });
+},{passive:true});
 
 var hdr=document.getElementById("hdr"), t=false;
 addEventListener("scroll",function(){
