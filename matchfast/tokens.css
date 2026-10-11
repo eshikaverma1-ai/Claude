@@ -1,41 +1,23 @@
 /* Hallmark · tokens.css · MatchFast
- * Colour is the official brand sheet: Royal Blue #4136C3 (primary),
- * Deep Indigo #3E3183, Cornflower Blue #74A3FF, Lavender Mist #E8D7F8.
- * The live site's mint #2ED3B5 does not appear on that sheet and has been
- * dropped. Every ratio below is measured against --color-paper.
+ * Colour comes from the brand sheet and its hero banner.
+ *   Royal Blue #4136C3 · Deep Indigo #3E3183
+ *   Cornflower Blue #74A3FF · Lavender Mist #E8D7F8
+ * Surfaces are sampled from the banner's own field, light to deep:
+ *   #937EFE -> #5A48F0 -> #3128CF -> #1F1C91
+ * Ratios in the comments are measured against --color-paper.
  */
 :root{
-  /* ---- surfaces, derived from Deep Indigo ------------------------------ */
-  --color-paper:#0B0E20;          /* page floor                            */
-  --color-paper-2:#101329;        /* the brand sheet's own background      */
-  --color-paper-3:#1A1A47;        /* card and panel surface                */
-  --color-paper-4:#252356;        /* hover surface                         */
+  --field-1:#937EFE;--field-2:#5A48F0;--field-3:#3128CF;--field-4:#1F1C91;
+  --color-paper:#171150;--color-paper-2:#1E1868;--color-paper-3:#292284;--color-paper-4:#2D2694;
+  --color-ink:#FFFFFF;--color-text:#E9E6FB;--color-muted:#C3BCEC;--color-faint:#A79FD9;
+  --color-glass:rgba(255,255,255,.07);--color-glass-line:rgba(255,255,255,.17);
+  --color-cta:#4136C3;--color-cta-hover:#5247D8;--color-cta-ink:#FFFFFF;
+  --color-accent:#74A3FF;--color-accent-ink:#0B0E20;--color-indigo:#3E3183;
+  --color-rating:#E8D7F8;
+  --color-rule:rgba(255,255,255,.15);--color-rule-2:rgba(255,255,255,.09);--color-focus:#E8D7F8;
 
-  /* ---- ink. Ratios are against --color-paper. -------------------------- */
-  --color-ink:#FFFFFF;            /* 19.1 */
-  --color-text:#E6E4F5;           /* 15.3 */
-  --color-muted:#B4B0D4;          /*  9.2 */
-  --color-faint:#9D99C2;          /*  7.1 */
-
-  /* ---- the four brand colours, each given one job ---------------------- */
-  --color-cta:#4136C3;            /* Royal Blue, primary action fill only.
-                                     White on it is 8.3; as text on the page
-                                     floor it is 2.3, so it is never text.  */
-  --color-cta-hover:#5247D8;
-  --color-cta-ink:#FFFFFF;
-  --color-accent:#74A3FF;         /* Cornflower Blue, 7.7. Links, figures,
-                                     rules, every accent that is text.      */
-  --color-accent-ink:#0B0E20;     /* 7.7 on Cornflower, for a filled chip   */
-  --color-indigo:#3E3183;         /* Deep Indigo, surfaces and borders only;
-                                     1.8 as text, so never text.            */
-  --color-rating:#E8D7F8;         /* Lavender Mist, 14.1. Ratings, so the
-                                     figure never shares a colour with a
-                                     link. Replaces the off-brand amber.    */
-
-  --color-rule:rgba(116,163,255,.22);
-  --color-rule-2:rgba(255,255,255,.08);
-  --color-focus:#74A3FF;
-
+  /* measured: white 17.0 · text 13.9 · muted 9.5 · faint 7.0
+     Lavender 12.6 · Cornflower 6.8 · all against --color-paper */
 
   /* ---- type: two families, as instructed ------------------------------- */
   --font-display:"DM Sans",ui-sans-serif,system-ui,sans-serif;
