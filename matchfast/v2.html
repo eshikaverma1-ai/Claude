@@ -1,0 +1,1182 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MatchFast · Top Software &amp; App Development Companies</title>
+<meta name="description" content="A B2B technology discovery platform. Describe your project in your own words and we help you find technology companies that fit your requirements.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ===========================================================================
+   MatchFast — v2. Two themes, one structure.
+
+   This is a composition rebuild, not a reskin. What was wrong with v1, from
+   reading its own rendered output:
+
+     1. One section rhythm repeated nine times (title left, see-all right,
+        hairline, grid). One templated tell swapped for another.
+     2. No scale contrast. Nearly every heading sat at 22-28px.
+     3. One measure, 1320px, every section. No narrow passage, no bleed.
+     4. Every surface the same 14px rounded rectangle with a 1px border.
+     5. The card artwork decorated without informing.
+
+   What is different here:
+     - FOUR section opener types, cycled, never two the same in a row.
+     - Three measures: 680 tight, 1280 page, and full bleed.
+     - A display scale that actually runs to 104px against 16px body.
+     - Ring cards whose inner padding animates on hover.
+     - Gradient-clipped display type.
+
+   Techniques taken from ovo-redsun.webflow.io, read from its stylesheet
+   (cdn.prod.website-files.com/.../ovo-redsun.webflow.85f609341.css):
+     - .title            gradient-clipped heading, translucent at the top
+     - .home-grid-box    outer ring + inner box, PADDING transitions on hover
+     - .button-glow      radial glow anchored to the button's bottom edge
+     - staggered easings .325s / .375s / .425s / .45s, never one duration
+     - directional section-to-floor gradient fades
+   ======================================================================== */
+
+:root{
+  /* brand, fixed across both themes */
+  --royal:#4136C3;
+  --indigo:#3E3183;
+  --corn:#74A3FF;
+  --lav:#E8D7F8;
+
+  --f-display:"DM Sans",ui-sans-serif,system-ui,sans-serif;
+  --f-ui:"Inter",ui-sans-serif,system-ui,sans-serif;
+
+  /* scale contrast is the point: 104 down to 12 */
+  --t-mega:clamp(44px,8.2vw,104px);
+  --t-display:clamp(34px,5vw,68px);
+  --t-head:clamp(25px,2.8vw,38px);
+  --t-sub:clamp(19px,1.7vw,23px);
+  --t-lede:clamp(17px,1.35vw,20px);
+  --t-body:16px;
+  --t-sm:14px;
+  --t-xs:12.5px;
+  --t-cap:11px;
+
+  --m-tight:680px;     /* editorial passages                */
+  --m-page:1280px;     /* the default column                */
+  --gut:clamp(18px,4.2vw,56px);
+
+  /* non-uniform by design, per the reference */
+  --e1:cubic-bezier(.22,.61,.36,1);
+  --e2:cubic-bezier(.16,1,.3,1);
+  --d1:325ms; --d2:375ms; --d3:425ms; --d4:650ms;
+
+  --r-in:18px; --r-out:24px; --r-pill:999px;
+}
+
+/* ---------------- LIGHT (default) -------------------------------------
+   Cornflower measures 2.49:1 on white, so in this theme it is decoration
+   only and never carries text. Royal 8.3 and Deep Indigo 10.7 do that. */
+html[data-theme=light]{
+  --paper:#FFFFFF;
+  --tint:#F6F4FD;
+  --sunk:#EFEBFA;
+  --ink:#0D0A1F;        /* 19.4 */
+  --body:#46406B;       /*  9.5 */
+  --muted:#6A6391;      /*  5.5 */
+  --accent:#4136C3;     /*  8.3 — accent that is text  */
+  --accent-2:#3E3183;   /* 10.7 */
+  --line:rgba(13,10,31,.11);
+  --line-2:rgba(13,10,31,.07);
+  --ring:rgba(65,54,195,.16);
+  --inset:rgba(65,54,195,.09);
+  --chip:rgba(65,54,195,.06);
+  --cta:#4136C3; --cta-ink:#FFFFFF;
+  --g1:#5A4FE0; --g2:#3B2FB4;
+  --clip-a:rgba(13,10,31,.52); --clip-b:#0D0A1F;
+  --shadow:0 1px 2px rgba(13,10,31,.05), 0 12px 32px -14px rgba(65,54,195,.22);
+  --deep:#171150; --deep-ink:#FFFFFF;
+  color-scheme:light;
+}
+/* ---------------- INDIGO variant -------------------------------------- */
+html[data-theme=indigo]{
+  --paper:#171150;
+  --tint:#1E1868;
+  --sunk:#241D7E;
+  --ink:#FFFFFF;        /* 17.0 */
+  --body:#E9E6FB;       /* 13.9 */
+  --muted:#C3BCEC;      /*  9.5 */
+  --accent:#74A3FF;     /*  6.8 — Cornflower works as text here */
+  --accent-2:#E8D7F8;   /* 12.6 */
+  --line:rgba(255,255,255,.16);
+  --line-2:rgba(255,255,255,.09);
+  --ring:rgba(209,170,215,.17);
+  --inset:rgba(0,0,0,.34);
+  --chip:rgba(255,255,255,.07);
+  --cta:#E8D7F8; --cta-ink:#231E7E;
+  --g1:#6A5BF5; --g2:#3B2FB4;
+  --clip-a:rgba(255,255,255,.42); --clip-b:#FFFFFF;
+  --shadow:0 18px 44px -22px rgba(0,0,0,.6);
+  --deep:#0F0A3A; --deep-ink:#FFFFFF;
+  color-scheme:dark;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{overflow-x:clip}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+body{
+  background:var(--paper);color:var(--body);
+  font-family:var(--f-ui);font-size:var(--t-body);line-height:1.62;
+  -webkit-font-smoothing:antialiased;
+  transition:background-color var(--d4) var(--e1),color var(--d4) var(--e1);
+}
+button,input,textarea,select,svg{font-family:inherit}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+ul,ol{list-style:none}
+::selection{background:var(--accent);color:var(--paper)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
+
+.page{max-width:var(--m-page);margin-inline:auto;padding-inline:var(--gut)}
+.tight{max-width:var(--m-tight)}
+.sect{padding-block:clamp(56px,7vw,110px)}
+
+/* ======================= TYPE ==========================================
+   Display is gradient-clipped: letters sit translucent at the top and
+   resolve to solid. Taken from the reference's .title.                  */
+h1,h2,h3,.dsp{font-family:var(--f-display);font-style:normal;overflow-wrap:anywhere;min-width:0}
+.clip{
+  background-image:linear-gradient(348deg,var(--clip-a),var(--clip-b) 54%);
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;color:transparent;
+  -webkit-box-decoration-break:clone;box-decoration-break:clone;
+  padding-bottom:.04em;
+}
+.mega{font-size:var(--t-mega);font-weight:500;line-height:.98;letter-spacing:-.035em}
+.disp{font-size:var(--t-display);font-weight:500;line-height:1.04;letter-spacing:-.028em}
+.head{font-size:var(--t-head);font-weight:500;line-height:1.1;letter-spacing:-.022em;color:var(--ink)}
+.sub{font-size:var(--t-sub);font-weight:500;line-height:1.26;letter-spacing:-.015em;color:var(--ink);font-family:var(--f-display)}
+.lede{font-size:var(--t-lede);line-height:1.56;color:var(--body);max-width:58ch}
+.sm{font-size:var(--t-sm);color:var(--body)}
+.xs{font-size:var(--t-xs);color:var(--muted);line-height:1.5}
+.cap{font-family:var(--f-ui);font-size:var(--t-cap);font-weight:600;letter-spacing:.17em;text-transform:uppercase;color:var(--accent)}
+.num{font-family:var(--f-display);font-variant-numeric:tabular-nums}
+.ink{color:var(--ink)}
+
+/* ======================= FOUR SECTION OPENERS ==========================
+   v1 used one opener nine times. These four cycle, and no two adjacent
+   sections use the same one.                                            */
+
+/* A · STATEMENT — oversized type alone, nothing beside it */
+.op-a{max-width:17ch;margin-bottom:clamp(34px,4vw,60px)}
+
+/* B · INDEX — a set number and the title share one baseline over a rule */
+.op-b{
+  display:flex;align-items:baseline;gap:clamp(14px,2vw,28px);
+  padding-bottom:16px;border-bottom:1px solid var(--line);
+  margin-bottom:clamp(28px,3.4vw,48px)
+}
+.op-b .n{font-family:var(--f-display);font-size:var(--t-sm);color:var(--accent);
+  font-variant-numeric:tabular-nums;flex:none;padding-top:4px}
+.op-b .head{flex:1;min-width:0}
+.op-b .aside{font-size:var(--t-sm);color:var(--muted);flex:none;text-align:right;max-width:30ch}
+@media (max-width:720px){.op-b{flex-wrap:wrap}.op-b .aside{text-align:left;width:100%}}
+
+/* C · SPLIT — title left, a narrow passage of prose right */
+.op-c{
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.92fr);
+  gap:clamp(20px,3.4vw,64px);align-items:end;
+  margin-bottom:clamp(30px,3.6vw,52px)
+}
+@media (max-width:860px){.op-c{grid-template-columns:minmax(0,1fr);align-items:start}}
+
+/* D · INLINE — one baseline, no rule, action at the far edge */
+.op-d{
+  display:flex;flex-wrap:wrap;align-items:baseline;gap:12px 24px;
+  justify-content:space-between;margin-bottom:clamp(22px,2.6vw,34px)
+}
+
+/* ======================= LINKS & BUTTONS =============================== */
+.go{
+  display:inline-flex;align-items:center;gap:9px;white-space:nowrap;
+  font-size:var(--t-sm);font-weight:600;color:var(--accent);position:relative;
+  padding-block:3px;min-height:30px
+}
+.go::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;
+  background:currentColor;transform:scaleX(0);transform-origin:left;
+  transition:transform var(--d3) var(--e2)}
+.go:hover::after{transform:scaleX(1)}
+.go svg{width:13px;height:13px;stroke-width:2.2;transition:transform var(--d2) var(--e2)}
+.go:hover svg{transform:translateX(3px)}
+
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  font-family:var(--f-ui);font-size:var(--t-sm);font-weight:600;white-space:nowrap;
+  min-height:48px;padding-inline:24px;border-radius:var(--r-pill);
+  border:1px solid transparent;cursor:pointer;position:relative;overflow:hidden;
+  transition:box-shadow var(--d2) var(--e1),transform 140ms var(--e1),
+             background-color var(--d1) var(--e1),border-color var(--d1) var(--e1),color var(--d1) var(--e1);
+}
+.btn:active{transform:translateY(1px)}
+/* the glow rises from the bottom edge, per the reference's .button-glow */
+.btn-fill{background-color:var(--cta);color:var(--cta-ink);
+  background-image:radial-gradient(circle farthest-corner at 50% 118%,var(--g1),var(--g2) 79%)}
+html[data-theme=indigo] .btn-fill{background-image:none}
+.btn-fill:hover{box-shadow:0 10px 30px -10px rgba(65,54,195,.55)}
+.btn-line{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn-line:hover{border-color:var(--accent);background:var(--chip)}
+.btn[data-state=loading]{pointer-events:none}
+.btn[data-state=loading] .t{opacity:.55}
+
+/* ======================= RING CARD =====================================
+   The reference's strongest component. An outer ring with 6px of padding
+   wraps an inner box, and the PADDING animates on hover so the inner card
+   grows into its ring. The inner box carries a bottom inset glow.        */
+.ring{
+  border:1px solid var(--ring);border-radius:var(--r-out);padding:6px;
+  background:transparent;display:block;
+  transition:padding var(--d1) var(--e1),border-color var(--d3) var(--e1),
+             transform var(--d3) var(--e2)
+}
+.ring:hover{padding:3px;border-color:var(--accent);transform:translateY(-2px)}
+.core{
+  background:var(--tint);border-radius:calc(var(--r-out) - 6px);
+  box-shadow:inset 0 -9px 24px 0 var(--inset);
+  height:100%;overflow:hidden;
+  transition:border-radius var(--d1) var(--e1)
+}
+.ring:hover .core{border-radius:calc(var(--r-out) - 3px)}
+
+/* ======================= HEADER ======================================== */
+header{position:sticky;top:0;z-index:60;
+  background:color-mix(in srgb,var(--paper) 88%,transparent);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  transition:border-color var(--d2) var(--e1),background-color var(--d4) var(--e1);
+  border-bottom:1px solid transparent}
+header.on{border-bottom-color:var(--line-2)}
+.nav{display:flex;align-items:center;gap:clamp(14px,2.4vw,34px);min-height:66px}
+.brand{display:flex;align-items:center;gap:9px;flex:none;font-family:var(--f-display);
+  font-size:19px;font-weight:700;letter-spacing:-.02em;color:var(--ink)}
+.brand i{width:26px;height:26px;border-radius:7px;display:grid;place-items:center;
+  background:var(--royal);color:#fff;font-size:13px;font-weight:700;font-style:normal}
+.brand b{font-weight:500;color:var(--accent)}
+.menu{display:flex;align-items:center;gap:4px;margin-left:8px}
+.mi{position:relative}
+.mi>button,.mi>a{display:inline-flex;align-items:center;gap:6px;background:none;border:0;
+  cursor:pointer;font-family:var(--f-ui);font-size:var(--t-sm);font-weight:500;color:var(--body);
+  min-height:44px;padding-inline:12px;white-space:nowrap;transition:color var(--d1) var(--e1)}
+.mi>button:hover,.mi>a:hover,.mi[data-open]>button{color:var(--accent)}
+.mi>button i{width:6px;height:6px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;
+  transform:rotate(45deg) translate(-2px,-2px);transition:transform var(--d1) var(--e1)}
+.mi[data-open]>button i{transform:rotate(225deg) translate(-1px,-1px)}
+.drop{
+  position:absolute;top:calc(100% + 8px);left:0;z-index:70;display:none;
+  width:max-content;max-width:min(92vw,860px);
+  grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:22px 36px;
+  background:var(--paper);border:1px solid var(--line);border-radius:var(--r-out);
+  padding:24px;box-shadow:var(--shadow)
+}
+.mi[data-open] .drop{display:grid}
+.drop h4{font-family:var(--f-ui);font-size:var(--t-cap);font-weight:600;letter-spacing:.15em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.drop li a{display:block;font-size:var(--t-sm);color:var(--body);padding-block:6px;
+  white-space:nowrap;transition:color var(--d1) var(--e1)}
+.drop li a:hover{color:var(--accent)}
+.nav .sp{margin-left:auto}
+.acts{display:flex;align-items:center;gap:8px}
+
+/* theme switch */
+.sw{display:inline-flex;padding:3px;border:1px solid var(--line);border-radius:var(--r-pill);gap:2px;flex:none}
+.sw button{appearance:none;border:0;background:none;cursor:pointer;border-radius:var(--r-pill);
+  width:34px;height:34px;display:grid;place-items:center;color:var(--muted);
+  transition:background-color var(--d1) var(--e1),color var(--d1) var(--e1)}
+.sw button svg{width:15px;height:15px;stroke-width:2}
+.sw button[aria-pressed=true]{background:var(--chip);color:var(--accent)}
+.burger{display:none;background:none;border:0;cursor:pointer;color:var(--ink);
+  min-width:44px;min-height:44px;align-items:center;justify-content:center}
+.burger span,.burger span::before,.burger span::after{content:"";display:block;width:19px;height:1.6px;
+  background:currentColor;transition:transform var(--d2) var(--e1)}
+.burger span::before{transform:translateY(-6px)}
+.burger span::after{transform:translateY(4.4px)}
+.burger[aria-expanded=true] span{background:transparent}
+.burger[aria-expanded=true] span::before{transform:rotate(45deg)}
+.burger[aria-expanded=true] span::after{transform:rotate(-45deg) translateY(-1.6px)}
+@media (max-width:1120px){
+  .menu{display:none}.burger{display:inline-flex}
+  .menu.open{display:block;position:absolute;left:0;right:0;top:100%;margin:0;
+    background:var(--paper);border-top:1px solid var(--line);padding:12px var(--gut) 24px;
+    max-height:74vh;overflow-y:auto}
+  .menu.open .drop{position:static;display:grid;border:0;background:none;padding:4px 0 14px;
+    box-shadow:none;max-width:none}
+  .menu.open .mi{border-bottom:1px solid var(--line-2)}
+  .menu.open .mi>button{width:100%;justify-content:space-between}
+}
+@media (max-width:640px){.acts .btn-line{display:none}}
+
+/* ======================= HERO ==========================================
+   Measure 1: the mega statement on the tight column, so the line length
+   stays editorial even as the type runs to 104px.                       */
+.hero{padding-block:clamp(44px,6vw,92px) clamp(34px,4vw,56px);position:relative}
+.hero .flag{display:inline-flex;align-items:center;gap:10px;margin-bottom:clamp(22px,2.6vw,34px);
+  font-size:var(--t-xs);font-weight:500;color:var(--muted);
+  border:1px solid var(--line);border-radius:var(--r-pill);padding:6px 14px 6px 6px}
+.hero .flag b{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:#fff;background:var(--royal);border-radius:var(--r-pill);padding:4px 9px}
+.hero-g{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,.82fr);
+  gap:clamp(26px,4vw,72px);align-items:start}
+@media (max-width:1040px){.hero-g{grid-template-columns:minmax(0,1fr)}}
+.hero h1{max-width:12ch}
+.recent{padding-top:6px}
+.recent h2{font-size:var(--t-cap);font-family:var(--f-ui);font-weight:600;letter-spacing:.17em;
+  text-transform:uppercase;color:var(--muted);padding-bottom:12px;border-bottom:1px solid var(--line)}
+.rec{display:block;padding-block:15px;border-bottom:1px solid var(--line-2);
+  transition:padding-left var(--d2) var(--e1)}
+.rec:hover{padding-left:7px}
+.rec t{display:block;font-family:var(--f-display);font-size:var(--t-sm);font-weight:500;
+  color:var(--ink);line-height:1.35;letter-spacing:-.008em}
+.rec d{display:block;margin-top:4px;font-size:var(--t-xs);color:var(--muted)}
+.rec d em{font-style:normal;color:var(--accent)}
+.hero .lede{margin-top:clamp(18px,2vw,26px)}
+
+/* the finder: one object, deliberately the widest thing in the hero */
+.find{margin-top:clamp(26px,3.2vw,40px);max-width:760px}
+.find-bar{display:flex;align-items:stretch;gap:8px;padding:8px;
+  border:1px solid var(--line);border-radius:var(--r-in);background:var(--tint);
+  box-shadow:inset 0 -9px 24px 0 var(--inset);
+  transition:border-color var(--d2) var(--e1),box-shadow var(--d3) var(--e1)}
+.find-bar:focus-within{border-color:var(--accent);box-shadow:inset 0 -9px 24px 0 var(--inset),0 0 0 4px var(--chip)}
+.find.err .find-bar{border-color:#C2410C}
+.find-bar textarea{flex:1;min-width:0;border:0;background:none;resize:none;color:var(--ink);
+  font-size:var(--t-body);line-height:1.5;padding:12px 14px;min-height:48px;max-height:132px}
+.find-bar textarea::placeholder{color:var(--muted)}
+.find-bar textarea:focus{outline:none}
+.find-meta{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;margin-top:14px}
+.chips{display:flex;flex-wrap:wrap;gap:7px}
+.chip{font-family:var(--f-ui);font-size:var(--t-xs);color:var(--body);background:var(--chip);
+  border:1px solid var(--line-2);border-radius:var(--r-pill);padding:8px 14px;cursor:pointer;min-height:36px;
+  transition:border-color var(--d1) var(--e1),color var(--d1) var(--e1)}
+.chip:hover{border-color:var(--accent);color:var(--accent)}
+.msg{display:none;gap:9px;margin-top:14px;font-size:var(--t-sm)}
+.find.err .msg.e{display:flex;color:#B23A0B}
+.find.ok .msg.s{display:flex;color:var(--accent)}
+.find.ok .find-bar,.find.ok .find-meta{display:none}
+@media (max-width:600px){.find-bar{flex-direction:column}.find-bar .btn{width:100%}
+  .chips{display:none}}
+@media (max-width:640px){
+  .chip{min-height:44px;display:inline-flex;align-items:center}
+  /* WCAG AA: 44x44 minimum on a phone */
+  .go{min-height:44px}
+  .sw button{width:44px;height:44px}
+  .flinks a{min-height:44px}
+}
+
+/* ======================= FIGURE BAND ===================================
+   Full-bleed, sunk below the page, with the figures at display scale.
+   The directional fade into the floor is the reference's technique.     */
+.band{position:relative;background:var(--tint);border-block:1px solid var(--line-2);
+  padding-block:clamp(32px,4vw,56px)}
+.band::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(180deg,color-mix(in srgb,var(--paper) 70%,transparent) 0%,transparent 26%)}
+.figs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(14px,2vw,34px);position:relative}
+.fig v{display:block;font-family:var(--f-display);font-size:clamp(32px,4.6vw,60px);font-weight:500;
+  line-height:1;letter-spacing:-.035em;color:var(--ink);font-variant-numeric:tabular-nums}
+.fig k{display:block;margin-top:10px;font-size:var(--t-xs);color:var(--muted)}
+@media (max-width:720px){.figs{grid-template-columns:repeat(2,minmax(0,1fr));gap:26px 18px}}
+
+/* ======================= DISCOVERY RAIL ================================ */
+.rail{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x proximity;
+  padding-bottom:16px;padding-right:var(--gut);margin-right:calc(var(--gut)*-1);
+  scrollbar-width:thin;scrollbar-color:var(--line) transparent}
+.rail::-webkit-scrollbar{height:5px}
+.rail::-webkit-scrollbar-thumb{background:var(--line);border-radius:3px}
+.rail>*{flex:none;scroll-snap-align:start}
+.rcard{width:306px}
+.rcard.w{width:392px}
+.rcard.n{width:262px}
+.rcard .core{padding:22px;display:flex;flex-direction:column;gap:12px;min-height:186px}
+.rcard .top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.rcard .sub{margin-top:auto}
+@media (max-width:620px){.rcard,.rcard.w,.rcard.n{width:min(79vw,320px)}}
+
+/* ======================= DIRECTORY TABLE ===============================
+   v1 rendered this as 22 identical cells with nowhere for the eye to
+   land. Here the count is set at display scale and the rows are ranked
+   by it, so the column reads as a chart.                                */
+.dirs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 clamp(28px,4vw,72px)}
+@media (max-width:820px){.dirs{grid-template-columns:minmax(0,1fr)}}
+.dirrow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:baseline;
+  padding-block:13px;border-bottom:1px solid var(--line-2);position:relative;
+  transition:padding-left var(--d2) var(--e1)}
+.dirrow:hover{padding-left:8px}
+.dirrow .bar{position:absolute;left:0;bottom:-1px;height:2px;background:var(--accent);opacity:.32;
+  transition:opacity var(--d1) var(--e1),width var(--d4) var(--e1)}
+.dirrow:hover .bar{opacity:.85}
+.dirrow n{font-size:var(--t-sm);color:var(--ink);font-weight:500;min-width:0}
+.dirrow c{font-family:var(--f-display);font-size:var(--t-sm);color:var(--muted);
+  font-variant-numeric:tabular-nums;flex:none}
+.dirrow c{font-size:var(--t-sm)}
+
+/* ======================= SOFTWARE LEDGER =============================== */
+.ledger{border-top:1px solid var(--line)}
+.lrow{display:grid;grid-template-columns:auto minmax(0,1fr) minmax(0,1.9fr) auto auto;
+  gap:6px 22px;align-items:center;padding-block:17px;border-bottom:1px solid var(--line-2);
+  transition:background-color var(--d1) var(--e1)}
+.lrow:hover{background:var(--chip)}
+.mark{width:38px;height:38px;flex:none;border-radius:10px;display:grid;place-items:center;overflow:hidden;
+  background:var(--chip);border:1px solid var(--line-2);
+  transition:transform var(--d2) var(--e2),border-color var(--d1) var(--e1)}
+.mark img{width:24px;height:24px;object-fit:contain}
+.lrow:hover .mark{transform:scale(1.07);border-color:var(--accent)}
+.lrow .nm{font-family:var(--f-display);font-size:var(--t-sub);font-weight:500;color:var(--ink);letter-spacing:-.015em}
+.lrow .rv{font-size:var(--t-xs);color:var(--muted);font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+.lrow .rt{font-family:var(--f-display);font-size:var(--t-head);font-weight:500;letter-spacing:-.025em;
+  font-variant-numeric:tabular-nums;text-align:right;min-width:58px;color:var(--accent-2)}
+@media (max-width:860px){
+  .lrow{grid-template-columns:auto minmax(0,1fr) auto}
+  .mark{grid-row:1/span 3}.lrow .nm{grid-column:2}.lrow .rt{grid-row:1;grid-column:3}
+  .lrow .who,.lrow .rv{grid-column:2/-1;text-align:left}
+}
+
+/* ======================= MATCHER ======================================= */
+.mgrid{display:grid;grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);gap:clamp(20px,3vw,40px);align-items:start}
+@media (max-width:940px){.mgrid{grid-template-columns:minmax(0,1fr)}}
+.mpanel .core{padding:clamp(20px,2.4vw,28px);display:flex;flex-direction:column}
+.mrow{margin-top:24px}.mrow:first-child{margin-top:0}
+.mlab{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:8px}
+.mlab b{font-family:var(--f-display);font-size:var(--t-sub);font-weight:500;color:var(--accent)}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:26px;background:none;cursor:pointer}
+input[type=range]::-webkit-slider-runnable-track{height:2px;background:var(--line);border-radius:1px}
+input[type=range]::-moz-range-track{height:2px;background:var(--line);border-radius:1px}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:17px;height:17px;border-radius:50%;
+  background:var(--accent);margin-top:-7.5px;border:0;transition:transform var(--d1) var(--e2)}
+input[type=range]::-moz-range-thumb{width:17px;height:17px;border-radius:50%;background:var(--accent);border:0}
+input[type=range]:active::-webkit-slider-thumb{transform:scale(1.2)}
+.segs{display:flex;flex-wrap:wrap;gap:6px}
+.seg{font-family:var(--f-ui);font-size:var(--t-sm);font-weight:500;color:var(--body);background:transparent;
+  border:1px solid var(--line);border-radius:var(--r-pill);min-height:44px;padding-inline:15px;cursor:pointer;
+  white-space:nowrap;transition:all var(--d1) var(--e1)}
+.seg:hover{border-color:var(--accent);color:var(--accent)}
+.seg[aria-pressed=true]{background:var(--accent);border-color:var(--accent);color:var(--paper);font-weight:600}
+.mfit{margin-top:auto;padding-top:20px;border-top:1px solid var(--line-2);display:flex;align-items:baseline;gap:12px}
+.mfit v{font-family:var(--f-display);font-size:var(--t-head);font-weight:500;line-height:1;
+  letter-spacing:-.03em;color:var(--accent);font-variant-numeric:tabular-nums}
+.mout{border-top:1px solid var(--line)}
+.slot{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:3px 16px;align-items:center;
+  padding-block:15px;border-bottom:1px solid var(--line-2);
+  transition:opacity var(--d3) var(--e1),padding-left var(--d2) var(--e1)}
+.slot.hi{padding-left:14px;border-left:2px solid var(--accent)}
+.slot .nm{font-family:var(--f-display);font-size:var(--t-sub);font-weight:500;color:var(--ink);min-width:0}
+.slot .sb{display:block;grid-column:1;font-size:var(--t-xs);color:var(--muted)}
+.slot .sc{grid-row:1/span 2;grid-column:2;text-align:right;font-family:var(--f-display);
+  font-size:var(--t-head);font-weight:500;letter-spacing:-.025em;font-variant-numeric:tabular-nums;color:var(--ink)}
+.slot .sc u{display:block;text-decoration:none;font-family:var(--f-ui);font-size:10px;font-weight:600;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.slot.out{opacity:.36}
+.mnote{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px 24px;margin-top:14px}
+
+/* ======================= LEADERBOARD LADDER ============================
+   Ranked by the count, drawn as a column chart rather than five equal
+   boxes, so the shape itself carries the ranking.                       */
+.ladder{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:clamp(8px,1.4vw,18px);
+  align-items:end;min-height:230px}
+@media (max-width:860px){.ladder{grid-template-columns:repeat(2,minmax(0,1fr));align-items:stretch;min-height:0}}
+@media (max-width:520px){.ladder{grid-template-columns:minmax(0,1fr)}}
+.lb{display:flex;flex-direction:column;justify-content:flex-end;gap:10px}
+.lb .col{border-radius:14px 14px 4px 4px;background:linear-gradient(180deg,var(--accent),color-mix(in srgb,var(--accent) 42%,transparent));
+  transition:transform var(--d3) var(--e2),filter var(--d2) var(--e1);transform-origin:bottom}
+.lb:hover .col{filter:brightness(1.12);transform:scaleY(1.03)}
+.lb v{font-family:var(--f-display);font-size:var(--t-sub);font-weight:500;color:var(--ink);
+  font-variant-numeric:tabular-nums}
+.lb n{display:block;font-family:var(--f-display);font-size:var(--t-sm);font-weight:500;color:var(--ink);
+  margin-top:2px;line-height:1.3}
+.lb w{display:block;font-size:var(--t-xs);color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media (max-width:860px){.lb .col{display:none}}
+
+/* ======================= EDITORIAL ===================================== */
+.eds{border-top:1px solid var(--line)}
+.ed{display:grid;grid-template-columns:120px minmax(0,1fr) auto;gap:14px clamp(18px,3vw,44px);
+  align-items:start;padding-block:clamp(22px,2.8vw,34px);border-bottom:1px solid var(--line-2);
+  transition:padding-left var(--d2) var(--e1),background-color var(--d1) var(--e1)}
+.ed:hover{padding-left:10px;background:var(--chip)}
+.ed .meta{font-size:var(--t-xs);color:var(--muted);line-height:1.6;padding-top:4px}
+.ed .meta b{display:block;color:var(--accent);font-weight:600;font-size:10px;letter-spacing:.13em;
+  text-transform:uppercase;margin-bottom:3px}
+.ed .t{font-family:var(--f-display);font-size:clamp(19px,2vw,26px);font-weight:500;line-height:1.2;
+  letter-spacing:-.02em;color:var(--ink);text-wrap:balance;max-width:28ch;display:block}
+.ed p{margin-top:9px;max-width:58ch}
+.ed .arw{width:40px;height:40px;flex:none;border-radius:50%;display:grid;place-items:center;
+  border:1px solid var(--line);color:var(--ink);
+  transition:background-color var(--d1) var(--e1),color var(--d1) var(--e1),transform var(--d3) var(--e2)}
+.ed .arw svg{width:14px;height:14px;stroke-width:2}
+.ed:hover .arw{background:var(--accent);color:var(--paper);border-color:var(--accent);transform:translateX(3px)}
+@media (max-width:820px){.ed{grid-template-columns:minmax(0,1fr) auto}
+  .ed .meta{grid-row:3;grid-column:1/-1;padding-top:0}}
+
+/* ======================= CHECKS ======================================== */
+.checks{display:grid;grid-template-columns:repeat(auto-fit,minmax(238px,1fr));gap:14px}
+.ck .core{padding:24px;display:flex;flex-direction:column;gap:9px;height:100%}
+.ck .ic{width:32px;height:32px;border-radius:9px;display:grid;place-items:center;margin-bottom:6px;
+  background:var(--chip);border:1px solid var(--ring);color:var(--accent)}
+.ck .ic svg{width:16px;height:16px;stroke-width:2}
+
+/* ======================= TICKER ======================================== */
+.tick{overflow:hidden;border-block:1px solid var(--line-2);padding-block:15px;
+  mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent)}
+.tick-in{display:flex;gap:36px;width:max-content;animation:tk 58s linear infinite}
+.tick:hover .tick-in{animation-play-state:paused}
+@keyframes tk{to{transform:translateX(-50%)}}
+.tick a{display:flex;align-items:baseline;gap:12px;flex:none;font-size:var(--t-sm);white-space:nowrap;color:var(--ink)}
+.tick a d{color:var(--muted);font-size:var(--t-xs);font-variant-numeric:tabular-nums}
+.tick a s{text-decoration:none;color:var(--accent);font-size:var(--t-xs)}
+
+/* ======================= FAQ =========================================== */
+.qs{border-top:1px solid var(--line)}
+.q{border-bottom:1px solid var(--line-2)}
+.q summary{list-style:none;cursor:pointer;display:flex;align-items:flex-start;gap:18px;
+  justify-content:space-between;padding-block:18px;min-height:44px;
+  font-family:var(--f-display);font-size:var(--t-sub);font-weight:500;color:var(--ink);
+  transition:color var(--d1) var(--e1)}
+.q summary::-webkit-details-marker{display:none}
+.q summary:hover{color:var(--accent)}
+.q summary::after{content:"";flex:none;width:9px;height:9px;margin-top:8px;
+  border-right:1.6px solid currentColor;border-bottom:1.6px solid currentColor;
+  transform:rotate(45deg);transition:transform var(--d2) var(--e2)}
+.q[open] summary::after{transform:rotate(225deg)}
+.q .a{padding:0 48px 18px 0;max-width:74ch;font-size:var(--t-sm)}
+
+/* ======================= CLOSING ======================================= */
+.close{background:var(--deep);color:var(--deep-ink);border-radius:clamp(20px,3vw,34px);
+  padding:clamp(30px,5vw,76px);position:relative;overflow:hidden}
+.close::after{content:"";position:absolute;right:-12%;bottom:-62%;width:46%;aspect-ratio:1;border-radius:50%;
+  background:radial-gradient(circle,rgba(116,163,255,.30),transparent 68%);pointer-events:none}
+.close .clip{--clip-a:rgba(255,255,255,.46);--clip-b:#fff}
+.close-g{display:grid;grid-template-columns:minmax(0,1.18fr) minmax(0,.82fr);gap:clamp(24px,4vw,64px);
+  align-items:start;position:relative}
+@media (max-width:860px){.close-g{grid-template-columns:minmax(0,1fr)}}
+.close p{color:rgba(255,255,255,.8);margin-top:18px;max-width:42ch}
+.close .acts{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}
+.close .btn-fill{background:var(--lav);color:#231E7E;background-image:none}
+.close .btn-fill:hover{background:#fff}
+.close .btn-line{color:#fff;border-color:rgba(255,255,255,.34)}
+.close .btn-line:hover{background:rgba(255,255,255,.1);border-color:#fff}
+.nxt li{display:grid;grid-template-columns:auto minmax(0,1fr);gap:13px;align-items:start;
+  padding-block:14px;border-top:1px solid rgba(255,255,255,.17);font-size:var(--t-sm);color:rgba(255,255,255,.88)}
+.nxt li:last-child{border-bottom:1px solid rgba(255,255,255,.17)}
+.nxt li svg{width:15px;height:15px;stroke-width:2.3;color:var(--corn);margin-top:4px}
+
+/* ======================= FOOTER ======================================== */
+footer{border-top:1px solid var(--line);margin-top:clamp(50px,6vw,90px)}
+.fnews{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(20px,3vw,44px);
+  align-items:center;padding-block:clamp(28px,3.6vw,52px);border-bottom:1px solid var(--line-2)}
+@media (max-width:820px){.fnews{grid-template-columns:minmax(0,1fr)}}
+.nform{display:flex;gap:8px}
+@media (max-width:480px){.nform{flex-direction:column}.nform .btn{width:100%}}
+.nform input{flex:1;min-width:0;background:var(--tint);border:1px solid var(--line);
+  border-radius:var(--r-pill);color:var(--ink);font-size:var(--t-sm);min-height:48px;padding-inline:20px;
+  transition:border-color var(--d1) var(--e1)}
+.nform input::placeholder{color:var(--muted)}
+.nform input:focus{outline:none;border-color:var(--accent)}
+.flinks{display:flex;flex-wrap:wrap;gap:10px 26px;padding-block:22px;border-bottom:1px solid var(--line-2)}
+.flinks a{font-size:var(--t-sm);color:var(--body);white-space:nowrap;min-height:30px;
+  display:inline-flex;align-items:center;transition:color var(--d1) var(--e1)}
+.flinks a:hover{color:var(--accent)}
+@media (max-width:640px){.flinks a{min-height:44px}}
+.fbot{display:flex;flex-wrap:wrap;gap:10px 24px;align-items:center;justify-content:space-between;
+  padding-block:22px 34px}
+.fbot p,.fbot a{font-size:var(--t-xs);color:var(--muted);white-space:nowrap}
+.fbot nav{display:flex;flex-wrap:wrap;gap:18px}
+
+/* ======================= MOTION ======================================== */
+.rv{opacity:0;transform:translateY(20px);transition:opacity .72s var(--e1),transform .72s var(--e1)}
+.rv.in{opacity:1;transform:none}
+.stg>*{opacity:0;transform:translateY(16px);transition:opacity .62s var(--e1),transform .62s var(--e1)}
+.stg.in>*{opacity:1;transform:none}
+.stg.in>*:nth-child(1){transition-delay:.03s}.stg.in>*:nth-child(2){transition-delay:.09s}
+.stg.in>*:nth-child(3){transition-delay:.15s}.stg.in>*:nth-child(4){transition-delay:.21s}
+.stg.in>*:nth-child(5){transition-delay:.27s}.stg.in>*:nth-child(6){transition-delay:.33s}
+.ln{display:block;overflow:hidden;padding-bottom:.08em;margin-bottom:-.08em}
+.ln>span{display:block;transform:translateY(106%);transition:transform .95s var(--e2)}
+.lit .ln>span{transform:none}
+.lit .ln:nth-child(2)>span{transition-delay:.08s}
+.lit .ln:nth-child(3)>span{transition-delay:.16s}
+.prog{position:fixed;left:0;top:0;height:2px;width:100%;z-index:90;background:var(--accent);
+  transform:scaleX(0);transform-origin:left;will-change:transform}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;transition-duration:.001ms!important}
+  .rv,.stg>*{opacity:1;transform:none}
+  .ln>span{transform:none}
+  .tick-in{animation:none}.prog{display:none}
+  .ring:hover{transform:none;padding:6px}
+}
+</style>
+</head>
+<body>
+<div class="prog" id="prog" aria-hidden="true"></div>
+<a href="#main" class="sr">Skip to content</a>
+
+<header id="hdr">
+  <div class="page nav">
+    <a class="brand" href="/" aria-label="MatchFast home"><i>M</i>Match<b>Fast</b></a>
+    <nav class="menu" id="menu" aria-label="Browse">
+      <div class="mi">
+        <button type="button" aria-expanded="false" aria-controls="d1">Find services <i aria-hidden="true"></i></button>
+        <div class="drop" id="d1">
+          <div><h4>Service categories</h4><ul>
+            <li><a href="#">Mobile App Development</a></li><li><a href="#">Software Development</a></li>
+            <li><a href="#">AI Development</a></li><li><a href="#">UI/UX Design</a></li>
+            <li><a href="#">Digital Marketing</a></li><li><a href="#">SEO Services</a></li></ul></div>
+          <div><h4>Also popular</h4><ul>
+            <li><a href="#">SaaS</a></li><li><a href="#">Developer Tools</a></li><li><a href="#">Fintech</a></li>
+            <li><a href="#">Web Design</a></li><li><a href="#">PPC</a></li><li><a href="#">Link Building</a></li></ul></div>
+          <div><h4>By budget</h4><ul>
+            <li><a href="#">Under $5,000</a></li><li><a href="#">$5,000 to $25,000</a></li>
+            <li><a href="#">$25,000 to $100,000</a></li><li><a href="#">$100,000 and above</a></li></ul></div>
+        </div>
+      </div>
+      <div class="mi">
+        <button type="button" aria-expanded="false" aria-controls="d2">Directories <i aria-hidden="true"></i></button>
+        <div class="drop" id="d2">
+          <div><h4>Browse</h4><ul>
+            <li><a href="#">Apps</a></li><li><a href="#">Tools</a></li><li><a href="#">Software</a></li>
+            <li><a href="#">Companies</a></li><li><a href="#">Compare</a></li><li><a href="#">Top apps</a></li></ul></div>
+          <div><h4>Industries</h4><ul>
+            <li><a href="#">B2B</a></li><li><a href="#">Enterprise</a></li><li><a href="#">Startups</a></li>
+            <li><a href="#">Consumer</a></li><li><a href="#">Media</a></li><li><a href="#">Finance</a></li></ul></div>
+        </div>
+      </div>
+      <div class="mi">
+        <button type="button" aria-expanded="false" aria-controls="d3">Locations <i aria-hidden="true"></i></button>
+        <div class="drop" id="d3">
+          <div><h4>Countries</h4><ul>
+            <li><a href="#">United States</a></li><li><a href="#">India</a></li><li><a href="#">United Kingdom</a></li>
+            <li><a href="#">Poland</a></li><li><a href="#">Ukraine</a></li><li><a href="#">Canada</a></li></ul></div>
+          <div><h4>Also covered</h4><ul>
+            <li><a href="#">Germany</a></li><li><a href="#">Australia</a></li><li><a href="#">All countries</a></li></ul></div>
+        </div>
+      </div>
+      <div class="mi"><a href="#editorial">Blog</a></div>
+      <div class="mi"><a href="#method">Methodology</a></div>
+    </nav>
+    <div class="sp"></div>
+    <div class="acts">
+      <div class="sw" role="group" aria-label="Theme">
+        <button type="button" id="t-light" aria-pressed="true" aria-label="Light theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.6v2.2M12 19.2v2.2M4.2 4.2l1.6 1.6M18.2 18.2l1.6 1.6M2.6 12h2.2M19.2 12h2.2M4.2 19.8l1.6-1.6M18.2 5.8l1.6-1.6"/></svg>
+        </button>
+        <button type="button" id="t-indigo" aria-pressed="false" aria-label="Indigo theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.2A8.4 8.4 0 1 1 9.8 4a6.8 6.8 0 0 0 10.2 10.2Z"/></svg>
+        </button>
+      </div>
+      <a class="btn btn-line" href="#cta">List your company</a>
+      <a class="btn btn-fill" href="#main">Post a project</a>
+      <button class="burger" id="burger" type="button" aria-expanded="false" aria-controls="menu" aria-label="Open menu"><span></span></button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ===== HERO · opener A, the mega statement on the tight measure ===== -->
+<section class="hero">
+  <div class="page">
+   <div class="hero-g">
+    <div>
+    <p class="flag rv"><b>New</b> Top Software Development Companies in Poland</p>
+    <h1 class="mega clip" id="h1">
+      <span class="ln"><span>Tell us what</span></span>
+      <span class="ln"><span>you need.</span></span>
+    </h1>
+    <p class="lede rv" style="transition-delay:.12s">We will find the right match. Describe your project in
+      your own words and we help you find technology companies that fit your requirements.</p>
+
+    <form class="find rv" id="find" style="transition-delay:.2s" novalidate>
+      <label class="sr" for="fq">Search companies or describe your project</label>
+      <div class="find-bar">
+        <textarea id="fq" rows="1" placeholder="Describe your project..."></textarea>
+        <button class="btn btn-fill" type="submit" id="fgo"><span class="t">Find my match</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:15px;height:15px"><path d="M5 12h13M12 5l7 7-7 7"/></svg></button>
+      </div>
+      <div class="find-meta">
+        <div class="chips">
+          <button class="chip" type="button">Video editing agency, 20 videos a month</button>
+          <button class="chip" type="button">Mobile app MVP in India, under $25,000</button>
+          <button class="chip" type="button">SEO agency in London with SaaS clients</button>
+        </div>
+        <p class="xs">No company sees your brief until you ask us to send it.</p>
+      </div>
+      <p class="msg e" role="alert">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true" style="flex:none;margin-top:3px"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5M12 16.2h.01"/></svg>
+        <span id="ferr"></span></p>
+      <p class="msg s" role="status">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none;margin-top:3px"><path d="M20 6 9 17l-5-5"/></svg>
+        <span>Your project brief is in. We will use your requirements to help identify relevant technology providers.</span></p>
+    </form>
+    </div>
+
+    <aside class="recent rv" style="transition-delay:.28s">
+      <h2>Published this month</h2>
+      <a class="rec" href="#"><t>Top Software Development Companies in Poland</t><d><em>Verified 18 Sep 2026</em> · 42 firms assessed</d></a>
+      <a class="rec" href="#"><t>Top 10 Mobile App Development Companies in Ukraine</t><d><em>Verified 15 Sep 2026</em> · 31 firms assessed</d></a>
+      <a class="rec" href="#"><t>Top 10 Software Development Companies in India</t><d><em>Verified 14 Sep 2026</em> · 58 firms assessed</d></a>
+      <a class="go" href="#" style="margin-top:16px">All 10 rankings <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M12 5l7 7-7 7"/></svg></a>
+    </aside>
+   </div>
+  </div>
+</section>
+
+<!-- ===== FIGURE BAND · full bleed, figures at display scale ===== -->
+<section class="band" aria-label="Platform coverage">
+  <div class="page">
+    <div class="figs stg">
+      <div class="fig"><v>640</v><k>Company profiles</k></div>
+      <div class="fig"><v>25,778</v><k>Client reviews counted</k></div>
+      <div class="fig"><v>384</v><k>Apps and tools reviewed</k></div>
+      <div class="fig"><v>169</v><k>Categories covered</k></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TRENDING · opener D, inline ===== -->
+<section class="sect" id="trending">
+  <div class="page">
+    <div class="op-d rv">
+      <h2 class="head">Trending this week</h2>
+      <a class="go" href="#">All rankings <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M12 5l7 7-7 7"/></svg></a>
+    </div>
+  </div>
+  <div class="page">
+    <div class="rail rv">
+      <a class="ring rcard w" href="#"><span class="core"><span class="top"><span class="cap">Ranking</span><span class="xs">Updated 5 Sep</span></span><span class="sub">Top 10 Mobile App Development Companies in Warsaw (2026)</span></span></a>
+      <a class="ring rcard" href="#"><span class="core"><span class="top"><span class="cap">Ranking</span><span class="xs">Updated 22 Sep</span></span><span class="sub">Top 10 Software Development Companies in Australia (2026)</span></span></a>
+      <a class="ring rcard n" href="#"><span class="core"><span class="top"><span class="cap">Ranking</span><span class="xs">Updated 5 Sep</span></span><span class="sub">Top 10 Software Development Companies in UK (2026)</span></span></a>
+      <a class="ring rcard" href="#"><span class="core"><span class="top"><span class="cap">Ranking</span><span class="xs">Updated 14 Sep</span></span><span class="sub">Top 10 Software Development Companies in India (2026)</span></span></a>
+      <a class="ring rcard w" href="#"><span class="core"><span class="top"><span class="cap">Editors tested</span><span class="xs">Updated 29 Aug</span></span><span class="sub">Best AI Writing Tools in 2026, tested and ranked by MatchFast editors</span></span></a>
+      <a class="ring rcard n" href="#"><span class="core"><span class="top"><span class="cap">Ranking</span><span class="xs">Updated 15 Sep</span></span><span class="sub">Top 10 Mobile App Development Companies in Ukraine (2026)</span></span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CATALOGUE · opener B, index ===== -->
+<section class="sect" id="browse">
+  <div class="page">
+    <div class="op-b rv">
+      <span class="n">01</span>
+      <h2 class="head">The whole catalogue</h2>
+      <span class="aside">169 categories. 539 listings in B2B alone. Counts read 11 Oct 2026.</span>
+    </div>
+    <div class="dirs rv" id="dirs"></div>
+    <div style="margin-top:26px"><a class="go" href="#">All countries <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M12 5l7 7-7 7"/></svg></a></div>
+  </div>
+</section>
+
+<!-- ===== SOFTWARE · opener C, split ===== -->
+<section class="sect" id="software">
+  <div class="page">
+    <div class="op-c rv">
+      <h2 class="disp clip">Software with the strongest review record</h2>
+      <p class="lede">Ordered by rating weighted for review volume, so a 4.8 from forty reviewers
+        outranks a 5.0 from three. Minimum ten reviews to appear.</p>
+    </div>
+    <div class="ledger rv">
+      <a class="lrow" href="#"><span class="mark"><img src="img/logo-blender.png" alt="" width="96" height="96" loading="lazy" decoding="async"></span><span class="nm">Blender</span><span class="who sm">Artists and studios embracing professional 3D without licensing costs.</span><span class="rv">39 reviews</span><span class="rt">4.8</span></a>
+      <a class="lrow" href="#"><span class="mark"><img src="img/logo-ramp.png" alt="" width="96" height="96" loading="lazy" decoding="async"></span><span class="nm">Ramp</span><span class="who sm">Finance teams replacing expense reports with controls at the card.</span><span class="rv">32 reviews</span><span class="rt">4.8</span></a>
+      <a class="lrow" href="#"><span class="mark"><img src="img/logo-screamingfrog.png" alt="" width="96" height="96" loading="lazy" decoding="async"></span><span class="nm">Screaming Frog</span><span class="who sm">Technical SEOs auditing sites beyond what browser tools can see.</span><span class="rv">30 reviews</span><span class="rt">4.8</span></a>
+      <a class="lrow" href="#"><span class="mark"><img src="img/logo-docker.png" alt="" width="96" height="96" loading="lazy" decoding="async"></span><span class="nm">Docker</span><span class="who sm">Every developer who wants "works on my machine" to mean production too.</span><span class="rv">41 reviews</span><span class="rt">4.7</span></a>
+      <a class="lrow" href="#"><span class="mark"><img src="img/logo-obs.png" alt="" width="96" height="96" loading="lazy" decoding="async"></span><span class="nm">OBS Studio</span><span class="who sm">Streamers and educators broadcasting without spending a cent.</span><span class="rv">36 reviews</span><span class="rt">4.7</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== MATCHER · opener A, statement ===== -->
+<section class="sect" id="matcher">
+  <div class="page">
+    <h2 class="disp clip op-a rv">Set a budget. Watch the shortlist change.</h2>
+    <div class="mgrid">
+      <div class="ring mpanel rv"><div class="core">
+        <div class="mrow">
+          <div class="mlab"><span class="cap">Budget</span><b id="o-bud">$25,000</b></div>
+          <input id="i-bud" type="range" min="5000" max="150000" step="5000" value="25000" aria-label="Budget">
+        </div>
+        <div class="mrow">
+          <div class="mlab"><span class="cap">Reviews, minimum</span><b id="o-rev">40</b></div>
+          <input id="i-rev" type="range" min="0" max="140" step="10" value="40" aria-label="Minimum review count">
+        </div>
+        <div class="mrow">
+          <div class="mlab"><span class="cap">Work needed</span></div>
+          <div class="segs" id="segs" role="group" aria-label="Service">
+            <button class="seg" type="button" aria-pressed="true" data-s="software">Software</button>
+            <button class="seg" type="button" aria-pressed="false" data-s="mobile">Mobile apps</button>
+            <button class="seg" type="button" aria-pressed="false" data-s="seo">SEO</button>
+          </div>
+        </div>
+        <div class="mfit"><v id="o-fit">6</v><p class="xs">of 8 companies on this ranking still fit once your budget is applied</p></div>
+      </div></div>
+      <div class="rv" style="transition-delay:.1s">
+        <div class="mout" id="mout" aria-live="polite"></div>
+        <div class="mnote">
+          <p class="xs">Matched on the service mix Clutch records each firm billing for, not its homepage.</p>
+          <p class="xs">Placement cannot be bought. Firms above your budget drop out before anything is scored.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== LEADERBOARD · opener D ===== -->
+<section class="sect band" id="leaderboard">
+  <div class="page">
+    <div class="op-d rv">
+      <h2 class="head">Strongest review record</h2>
+      <span class="xs">495 profiles carry 20 or more client reviews</span>
+    </div>
+    <div class="ladder rv" id="ladder"></div>
+  </div>
+</section>
+
+<!-- ===== EDITORIAL · opener B ===== -->
+<section class="sect" id="editorial">
+  <div class="page">
+    <div class="op-b rv">
+      <span class="n">02</span>
+      <h2 class="head">Arguments worth having before you hire</h2>
+      <span class="aside">Fact-checked and expert-reviewed before publishing.</span>
+    </div>
+    <div class="eds rv">
+      <a class="ed" href="#">
+        <span class="meta"><b>Analysis</b>9 Oct 2026<br>4 min read</span>
+        <span><span class="t">Anthropic's Claude Startups Program: what founders get, and what changed</span>
+          <p class="sm">Claude Team seats, API credits, partner discounts and founder support. What the October expansion includes, and what changed after applications surged.</p></span>
+        <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M12 5l7 7-7 7"/></svg></span>
+      </a>
+      <a class="ed" href="#">
+        <span class="meta"><b>Budgeting</b>1 Oct 2026<br>4 min read</span>
+        <span><span class="t">How to compare AI tool pricing and limits before you budget LLM spend</span>
+          <p class="sm">The number on a vendor homepage is an entry price. The number that stops a rollout is usually a limit on another plan: seats, messages, context, or rate.</p></span>
+        <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M12 5l7 7-7 7"/></svg></span>
+      </a>
+      <a class="ed" href="#">
+        <span class="meta"><b>Operations</b>1 Oct 2026<br>4 min read</span>
+        <span><span class="t">More software can create less operating clarity</span>
+          <p class="sm">Companies rarely buy software because they want more software. They buy it because something is not working. Sales follow-up is inconsistent, so they add a CRM.</p></span>
+        <span class="arw"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M12 5l7 7-7 7"/></svg></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== VERIFICATION · opener C ===== -->
+<section class="sect" id="verification">
+  <div class="page">
+    <div class="op-c rv">
+      <h2 class="disp clip">Four checks on every listing</h2>
+      <p class="lede">Run before a company is published, and dated on the page so you can see how
+        fresh the figures are.</p>
+    </div>
+    <div class="checks stg">
+      <div class="ring ck"><div class="core">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg></span>
+        <h3 class="sub">Head office</h3><p class="sm">Checked against the company's own website, not a directory label. Firms that fail are named on the page, not hidden.</p></div></div>
+      <div class="ring ck"><div class="core">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19V5M4 19h16M8 19v-7M13 19V9M18 19v-4"/></svg></span>
+        <h3 class="sub">Review evidence</h3><p class="sm">Rating and review count read from live profiles, with the date we read them printed next to the figures.</p></div></div>
+      <div class="ring ck"><div class="core">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18M16.5 7.5A3.5 3.5 0 0 0 13 5h-2a3 3 0 0 0 0 6h2.5a3 3 0 0 1 0 6H11a3.5 3.5 0 0 1-3.5-2.5"/></svg></span>
+        <h3 class="sub">Published pricing</h3><p class="sm">Hourly band and minimum project size, so you can qualify a firm before you spend a call on it.</p></div></div>
+      <div class="ring ck"><div class="core">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M5.6 5.6l12.8 12.8"/></svg></span>
+        <h3 class="sub">No pay-to-play</h3><p class="sm">Placement cannot be bought. Companies can submit themselves for review, which does not change their position.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TICKER ===== -->
+<section style="padding-block:clamp(10px,2vw,26px)">
+  <div class="page"><p class="cap rv" style="margin-bottom:14px">Recently updated · 780 listings in the last 30 days</p></div>
+  <div class="tick rv" aria-label="Recently updated listings"><div class="tick-in" id="tick"></div></div>
+</section>
+
+<!-- ===== METHOD · opener C on the tight measure ===== -->
+<section class="sect" id="method">
+  <div class="page">
+    <div class="op-c rv">
+      <h2 class="disp clip">How MatchFast ranks</h2>
+      <p class="lede">Eight published criteria. The short version is here; the full methodology,
+        with every data source, is published.</p>
+    </div>
+    <div class="qs rv">
+      <details class="q"><summary>How are companies ranked?</summary><p class="a">On eight published criteria: verified review volume and rating, the share of work that matches the ranking, a checked head office, published pricing and minimum project size, client-reported project size, trading history, independent recognition and named client evidence.</p></details>
+      <details class="q"><summary>Can a company pay to rank higher?</summary><p class="a">No. Placement is editorial and cannot be bought. Companies can submit themselves for consideration, which does not affect their position.</p></details>
+      <details class="q"><summary>Where do the figures come from?</summary><p class="a">Ratings, review counts, hourly bands and minimum project sizes are read from live Clutch profiles and dated on every ranking. Head offices and contracting entities are read from each company's own website.</p></details>
+      <details class="q"><summary>Why can a 4.8 rank above a 5.0?</summary><p class="a">Because review volume counts. A 4.8 from 200 clients is stronger evidence than a 5.0 from ten, so ratings are weighted by the number of reviews behind them.</p></details>
+      <details class="q"><summary>How often are rankings updated?</summary><p class="a">Each ranking shows the date its figures were read. Review counts are re-checked before a page is updated, and any correction is stated on the page itself.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CLOSING ===== -->
+<section class="sect" id="cta" style="padding-top:0">
+  <div class="page">
+    <div class="close rv">
+      <div class="close-g">
+        <div>
+          <h2 class="disp clip">Start with your idea. We will take it from there.</h2>
+          <p>Let us do the hard work for you. We will find the right partner for your project.</p>
+          <div class="acts">
+            <a class="btn btn-fill" href="#main">Post a project</a>
+            <a class="btn btn-line" href="#">List your company</a>
+          </div>
+        </div>
+        <ul class="nxt">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Tell us about your needs, so we can find the right partner for the job.</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>The most suitable companies get your brief.</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>They contact you within three days and suggest how they can help.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="page">
+    <div class="fnews">
+      <h2 class="head">Weekly updates on the best service providers</h2>
+      <form class="nform" id="nform" novalidate>
+        <label class="sr" for="nemail">Email address</label>
+        <input id="nemail" type="email" placeholder="you@company.com" autocomplete="email">
+        <button class="btn btn-fill" type="submit"><span class="t">Subscribe</span></button>
+      </form>
+    </div>
+    <nav class="flinks" aria-label="Footer">
+      <a href="#">Listicles</a><a href="#browse">Categories</a><a href="#editorial">Blog</a>
+      <a href="#">About us</a><a href="#">Contact us</a><a href="#method">Methodology</a>
+      <a href="#cta">List your agency</a><a href="#">Write for us</a><a href="#">Advertise</a>
+      <a href="#">Submit a review</a><a href="#">LinkedIn</a><a href="#">X (Twitter)</a>
+    </nav>
+    <div class="fbot">
+      <p>MatchFast, 99 Wall St #3012, New York, NY 10005, USA</p>
+      <p>Copyright &copy; 2026 MatchFast</p>
+      <nav aria-label="Legal"><a href="#">Privacy policy</a><a href="#">Terms of use</a><a href="#">Sitemap</a></nav>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+"use strict";
+var rm=matchMedia("(prefers-reduced-motion:reduce)").matches;
+var root=document.documentElement;
+
+/* ---- theme switch. The page ships light; indigo is the variant. ---- */
+var bL=document.getElementById("t-light"), bI=document.getElementById("t-indigo");
+function theme(t){
+  root.setAttribute("data-theme",t);
+  bL.setAttribute("aria-pressed",String(t==="light"));
+  bI.setAttribute("aria-pressed",String(t==="indigo"));
+  try{localStorage.setItem("mf-theme",t)}catch(e){}
+}
+try{var sv=localStorage.getItem("mf-theme"); if(sv==="indigo"||sv==="light") theme(sv);}catch(e){}
+bL.addEventListener("click",function(){theme("light")});
+bI.addEventListener("click",function(){theme("indigo")});
+
+/* ---- mega menu ---- */
+var menu=document.getElementById("menu"), burger=document.getElementById("burger");
+var items=[].slice.call(menu.querySelectorAll(".mi"));
+function closeAll(except){
+  items.forEach(function(mi){
+    if(mi===except) return;
+    mi.removeAttribute("data-open");
+    var b=mi.querySelector("button"); if(b) b.setAttribute("aria-expanded","false");
+  });
+}
+items.forEach(function(mi){
+  var b=mi.querySelector(":scope > button"); if(!b) return;
+  b.addEventListener("click",function(e){
+    e.stopPropagation();
+    var open=mi.hasAttribute("data-open");
+    closeAll(mi);
+    if(open){mi.removeAttribute("data-open");b.setAttribute("aria-expanded","false");}
+    else{mi.setAttribute("data-open","");b.setAttribute("aria-expanded","true");}
+  });
+});
+document.addEventListener("click",function(){closeAll(null)});
+document.addEventListener("keydown",function(e){
+  if(e.key==="Escape"){closeAll(null);menu.classList.remove("open");burger.setAttribute("aria-expanded","false");}
+});
+burger.addEventListener("click",function(e){
+  e.stopPropagation();
+  burger.setAttribute("aria-expanded",String(menu.classList.toggle("open")));
+});
+menu.addEventListener("click",function(e){e.stopPropagation()});
+
+/* ---- reveals + figure count-up ---- */
+if(rm){
+  document.querySelectorAll(".rv,.stg").forEach(function(n){n.classList.add("in")});
+  document.getElementById("h1").classList.add("lit");
+}else{
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(!e.isIntersecting) return;
+      e.target.classList.add("in");
+      if(e.target.classList.contains("figs")) count();
+      io.unobserve(e.target);
+    });
+  },{rootMargin:"0px 0px -8% 0px",threshold:.12});
+  document.querySelectorAll(".rv,.stg").forEach(function(n){io.observe(n)});
+  requestAnimationFrame(function(){document.getElementById("h1").classList.add("lit")});
+}
+function count(){
+  document.querySelectorAll(".fig v").forEach(function(el){
+    var target=parseFloat(el.textContent.replace(/,/g,"")); if(!target) return;
+    var t0=null;
+    function step(ts){
+      if(!t0) t0=ts;
+      var k=Math.min((ts-t0)/1100,1), e=1-Math.pow(1-k,3);
+      el.textContent=Math.round(target*e).toLocaleString("en-US");
+      if(k<1) requestAnimationFrame(step);
+    }
+    el.textContent="0"; requestAnimationFrame(step);
+  });
+}
+
+/* ---- read position ---- */
+var prog=document.getElementById("prog"), pt=false;
+if(!rm) addEventListener("scroll",function(){
+  if(pt) return; pt=true;
+  requestAnimationFrame(function(){
+    var h=document.documentElement.scrollHeight-innerHeight;
+    prog.style.transform="scaleX("+(h>0?Math.min(scrollY/h,1):0)+")";
+    pt=false;
+  });
+},{passive:true});
+
+var hdr=document.getElementById("hdr"), ht=false;
+addEventListener("scroll",function(){
+  if(ht) return; ht=true;
+  requestAnimationFrame(function(){hdr.classList.toggle("on",scrollY>4);ht=false});
+},{passive:true});
+
+/* ---- the catalogue, drawn as a ranked column rather than equal cells ---- */
+var CATS=[["Mobile App Development",326],["Software Development",191],["AI Tools",128],["AI",113],
+ ["SaaS",86],["SEO Services",63],["Developer Tools",49],["Productivity",44],["AI Development",32],
+ ["Marketing",30],["PPC",30],["UI/UX Design",28],["Fintech",24],["Image Editing",23],["Design",21],
+ ["Social Media",19],["Security",19],["Video",16],["Local SEO",15],["Analytics",14],["Digital PR",13],
+ ["Web Design",11]];
+var top=CATS[0][1];
+document.getElementById("dirs").innerHTML=CATS.map(function(c,i){
+  return '<a class="dirrow" href="#"><n>'+c[0]+'</n><c>'+c[1]+'</c>'
+       + '<span class="bar" style="width:'+Math.max(4,Math.round(c[1]/top*100))+'%"></span></a>';
+}).join("");
+
+/* ---- leaderboard as a column chart ---- */
+var LB=[["Empat",148,"San Francisco, US"],["Trigma",137,"SAS Nagar, IN"],["WebSpero",122,"Mohali, IN"],
+ ["Helpful Insight",115,"New York, US"],["Outpace SEO",113,"Oklahoma City, US"]];
+var lbTop=LB[0][1];
+document.getElementById("ladder").innerHTML=LB.map(function(r){
+  var h=Math.round(r[1]/lbTop*128)+24;
+  return '<a class="lb" href="#"><span class="col" style="height:'+h+'px"></span>'
+       + '<v>'+r[1]+'</v><n>'+r[0]+'</n><w>'+r[2]+' · 5.0</w></a>';
+}).join("");
+
+/* ---- project-fit matcher ---- */
+var FIRMS=[
+ {n:"Empat",c:"San Francisco, US",min:25000,r:5.0,v:148,mix:{software:.9,mobile:.7,seo:.1}},
+ {n:"Trigma",c:"SAS Nagar, IN",min:10000,r:5.0,v:137,mix:{software:.8,mobile:.9,seo:.2}},
+ {n:"WebSpero",c:"Mohali, IN",min:5000,r:5.0,v:122,mix:{software:.3,mobile:.3,seo:1}},
+ {n:"Helpful Insight",c:"New York, US",min:10000,r:5.0,v:115,mix:{software:.6,mobile:.5,seo:.6}},
+ {n:"Outpace SEO",c:"Oklahoma City, US",min:25000,r:5.0,v:113,mix:{software:.1,mobile:.1,seo:1}},
+ {n:"Capital Numbers",c:"Kolkata, IN",min:25000,r:4.8,v:94,mix:{software:1,mobile:.8,seo:.2}},
+ {n:"Andersen Inc.",c:"Warsaw, PL",min:100000,r:4.9,v:61,mix:{software:1,mobile:.6,seo:0}},
+ {n:"Brainvire",c:"Austin, US",min:50000,r:4.7,v:88,mix:{software:.7,mobile:1,seo:.3}}
+];
+var PRIOR=4.55, PRIOR_W=25, service="software";
+var bud=document.getElementById("i-bud"), rev=document.getElementById("i-rev"),
+    oBud=document.getElementById("o-bud"), oRev=document.getElementById("o-rev"),
+    oFit=document.getElementById("o-fit"), out=document.getElementById("mout");
+function money(v){return "$"+Number(v).toLocaleString("en-US")}
+function render(){
+  var b=+bud.value, minv=+rev.value, fits=0;
+  oBud.textContent=money(b); oRev.textContent=minv===0?"any":minv;
+  var rows=FIRMS.map(function(f){
+    var w=(f.r*f.v+PRIOR*PRIOR_W)/(f.v+PRIOR_W);
+    var dropped=f.min>b||f.v<minv; if(!dropped) fits++;
+    return {f:f,score:w*14+f.mix[service]*26,dropped:dropped};
+  }).sort(function(a,z){
+    if(a.dropped!==z.dropped) return a.dropped?1:-1;
+    return z.score-a.score;
+  }).slice(0,5);
+  oFit.textContent=fits;
+  out.innerHTML=rows.map(function(row,i){
+    var f=row.f, cls="slot"+(row.dropped?" out":(i===0?" hi":""));
+    var why=row.dropped
+      ? (f.min>b ? "Minimum "+money(f.min)+", above your budget" : f.v+" reviews, below your threshold")
+      : f.c+" · minimum "+money(f.min)+" · "+f.v+" reviews";
+    return '<div class="'+cls+'"><span class="nm">'+f.n+'</span><span class="sb">'+why+'</span>'
+         + '<span class="sc">'+f.r.toFixed(1)+'<u>Rating</u></span></div>';
+  }).join("");
+}
+bud.addEventListener("input",render); rev.addEventListener("input",render);
+document.getElementById("segs").addEventListener("click",function(e){
+  var b=e.target.closest(".seg"); if(!b) return;
+  this.querySelectorAll(".seg").forEach(function(s){s.setAttribute("aria-pressed",String(s===b))});
+  service=b.dataset.s; render();
+});
+render();
+
+/* ---- ticker ---- */
+var FEED=[["9 Oct 2026","Anthropic's Claude Startups Program","Analysis"],
+ ["3 Oct 2026","Inworld AI","Tool"],["3 Oct 2026","Pixlr","Tool"],["3 Oct 2026","Remini","Tool"],
+ ["3 Oct 2026","Evoto","Tool"],["3 Oct 2026","Imagen AI","Tool"],
+ ["22 Sep 2026","Top Software Development Companies in Australia","Ranking"],
+ ["18 Sep 2026","Top Software Development Companies in Poland","Ranking"]];
+var strip=FEED.map(function(x){return '<a href="#"><d>'+x[0]+'</d><span>'+x[1]+'</span><s>'+x[2]+'</s></a>'}).join("");
+document.getElementById("tick").innerHTML=strip+strip;
+
+/* ---- the finder. Nothing a visitor types is written back into the DOM. ---- */
+var form=document.getElementById("find"), field=document.getElementById("fq"),
+    go=document.getElementById("fgo"), err=document.getElementById("ferr");
+field.addEventListener("input",function(){
+  form.classList.remove("err");
+  field.style.height="auto";
+  field.style.height=Math.min(field.scrollHeight,132)+"px";
+});
+document.querySelectorAll(".chip").forEach(function(c){
+  c.addEventListener("click",function(){
+    field.value=c.textContent.trim();
+    field.dispatchEvent(new Event("input"));
+    field.focus();
+  });
+});
+form.addEventListener("submit",function(e){
+  e.preventDefault();
+  if(field.value.trim().length<12){
+    form.classList.add("err");
+    err.textContent="Add a little more detail, around a dozen characters, so we can match it.";
+    field.focus(); return;
+  }
+  form.classList.remove("err");
+  go.setAttribute("data-state","loading"); go.querySelector(".t").textContent="Sending...";
+  setTimeout(function(){
+    go.removeAttribute("data-state"); go.querySelector(".t").textContent="Find my match";
+    form.classList.add("ok");
+  },900);
+});
+
+/* ---- newsletter ---- */
+var nf=document.getElementById("nform"), ne=document.getElementById("nemail");
+nf.addEventListener("submit",function(e){
+  e.preventDefault();
+  var btn=nf.querySelector(".btn"), t=btn.querySelector(".t");
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]{2,}$/.test(ne.value.trim())){
+    ne.style.borderColor="#C2410C"; ne.focus(); return;
+  }
+  ne.style.borderColor="";
+  btn.setAttribute("data-state","loading"); t.textContent="Sending...";
+  setTimeout(function(){btn.removeAttribute("data-state");t.textContent="Subscribed";btn.disabled=true},800);
+});
+})();
+</script>
+</body>
+</html>
