@@ -607,3 +607,73 @@ Its frontmatter also cites `license: Complete terms in LICENSE.txt`, but no
 `ui-ux-pro-max`, `taste-skill`, `motion-graphics`, `example-skills`). No hooks.
 No MCP servers approved — the `ui-ux-pro-max` plugin declares `playwright`,
 `chrome-devtools` and `shadcn` over `npx -y …@latest`, all left unapproved.
+
+---
+
+# claude-seo
+
+`AgriciDaniel/claude-seo` on 2026-10-13, at commit `4b99de2`, version 2.4.2.
+Requested as the `skills/` tree, installed as the marketplace the repo already
+ships — the same treatment every other multi-skill pack here gets, because 26
+loose symlinks would blow the skill listing's budget again for one domain.
+
+Vendored to `vendor/claude-seo/` and registered as marketplace
+`agricidaniel-claude-seo`. The plugin `claude-seo` is **enabled**; its 26 skills
+and 19 subagents are auto-discovered from the plugin root. The repo's 1.6 MB
+`screenshots/` directory is README imagery no skill references and was left out;
+everything else is verbatim upstream.
+
+## The 26 skills
+
+All are `user-invocable`, so each is also a slash command. `seo` is the hub and
+routes to the rest; the roster below is what `/seo <command>` dispatches to.
+
+| Group | Skills |
+| --- | --- |
+| Entry | `seo` (hub, routing table), `seo-audit` (full site, parallel agents), `seo-page` |
+| Technical | `seo-technical`, `seo-sitemap`, `seo-schema`, `seo-hreflang`, `seo-images` |
+| Content | `seo-content`, `seo-content-brief`, `seo-cluster`, `seo-programmatic`, `seo-competitor-pages` |
+| AI search | `seo-geo` (AI Overviews, ChatGPT, Perplexity), `seo-agentic` (Lighthouse Agentic Browsing, WebMCP, agent access) |
+| Local | `seo-local` (GBP, citations, reviews), `seo-maps` (geo-grid, competitor radius) |
+| Commerce | `seo-ecommerce`, `seo-sxo` |
+| Data / APIs | `seo-google` (GSC, PSI, CrUX, GA4), `seo-backlinks` (Moz, Bing, Common Crawl), `seo-dataforseo` |
+| Ops | `seo-drift` (baseline / compare / history), `seo-plan`, `seo-flow`, `seo-image-gen` |
+
+## Three things to know before using it
+
+**The Python runtime is self-installing, and has not been installed.** Bundled
+scripts run through `scripts/claude-seo run <script.py>`, a managed launcher that
+builds its own venv under the plugin's data directory on first use and installs
+`requirements.txt` into it — 20-odd pinned packages plus a Chromium download for
+Playwright. Nothing was installed here: `./scripts/claude-seo doctor` reports
+`Runtime: setup required`. The first skill that needs a script will trigger the
+build, or `./scripts/claude-seo setup` does it deliberately. Container disk is
+ephemeral, so expect the build to repeat in a fresh session.
+
+**Enabling the plugin registers the project's first hook.** `hooks/hooks.json`
+declares a `PostToolUse` hook on `Edit|Write` that runs
+`hooks/validate-schema.py` through a Node wrapper and validates JSON-LD after
+every edit. It self-filters — a file with no schema markup exits early — and uses
+only the standard library, so it does not depend on the venv above. It is still a
+hook that now runs on every file write in this project; the statement elsewhere
+in this file that no hooks are registered no longer holds.
+
+**`seo-cockpit` is registered but not enabled.** The marketplace declares a
+second plugin at `plugins/seo-cockpit`: a spend guard that holds paid SEO API
+calls against a budget, plus `/seo-spend` and `/seo-doctor`. It needs Claude Code
+2.1.287+ and registers mods and more hooks. Enable it with
+`/plugin` if the paid APIs come into play.
+
+Nine optional MCP extensions ship under `extensions/` — `ahrefs`, `banana`,
+`bing-webmaster`, `dataforseo`, `firecrawl`, `matomo`, `profound`, `seranking`,
+`unlighthouse`. Each is an install helper for a third-party MCP server, none is
+registered, and the two mirror skills (`seo-dataforseo`, `seo-image-gen`) are the
+only trace of them in the listing until one is installed. Several front paid
+APIs.
+
+## Current state
+
+**35 skills** in `.claude/skills/` and **15 marketplaces** holding **471
+plugins**, five enabled: `ui-ux-pro-max`, `taste-skill`, `motion-graphics`,
+`example-skills`, `claude-seo`. One hook, from `claude-seo`. No MCP servers
+approved.

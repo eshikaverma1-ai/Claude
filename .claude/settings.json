@@ -8,7 +8,8 @@
     "ui-ux-pro-max@ui-ux-pro-max-skill": true,
     "taste-skill@taste-skill": true,
     "motion-graphics@motion-graphics-skills": true,
-    "example-skills@anthropic-agent-skills": true
+    "example-skills@anthropic-agent-skills": true,
+    "claude-seo@agricidaniel-claude-seo": true
   },
   "extraKnownMarketplaces": {
     "claude-plugins-official": {
@@ -93,6 +94,12 @@
       "source": {
         "source": "directory",
         "path": "./vendor/motion-graphics-skills"
+      }
+    },
+    "agricidaniel-claude-seo": {
+      "source": {
+        "source": "directory",
+        "path": "./vendor/claude-seo"
       }
     }
   }
